@@ -1,4 +1,4 @@
-import logo200Image from 'assets/img/logo/logo_200.png';
+import logo200Image from 'assets/img/logo/icono.png';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
@@ -79,7 +79,7 @@ class AuthForm extends React.Component {
         <FormGroup check>
           <Label check>
             <Input type="checkbox" />{' '}
-            {this.isSignup ? 'Agree the terms and policy' : 'Remember me'}
+            {this.isSignup ? 'Acepto los terminos y políticas' : 'Recuerdame'}
           </Label>
         </FormGroup>
         <hr />
@@ -130,20 +130,20 @@ AuthForm.propTypes = {
 AuthForm.defaultProps = {
   authState: 'LOGIN',
   showLogo: true,
-  usernameLabel: 'Email',
+  usernameLabel: 'Usuario',
   usernameInputProps: {
-    type: 'email',
-    placeholder: 'your@email.com',
+    type: 'Usuario',
+    placeholder: 'youruser007',
   },
-  passwordLabel: 'Password',
+  passwordLabel: 'Contraseña',
   passwordInputProps: {
-    type: 'password',
-    placeholder: 'your password',
+    type: 'contraseña',
+    placeholder: 'contraseña',
   },
-  confirmPasswordLabel: 'Confirm Password',
+  confirmPasswordLabel: 'Confirmar contraseña',
   confirmPasswordInputProps: {
-    type: 'password',
-    placeholder: 'confirm your password',
+    type: 'contraseña',
+    placeholder: 'Confirmar contraseña',
   },
   onLogoClick: () => {},
 };

@@ -1,4 +1,7 @@
 import Avatar from 'components/Avatar';
+import logo200Image from 'assets/img/logo/icono.png';
+import sidebarBgImage from 'assets/img/sidebar/sidebar-4.jpg';
+import SourceLink from 'components/SourceLink';
 import { UserCard } from 'components/Card';
 import Notifications from 'components/Notifications';
 import SearchInput from 'components/SearchInput';
@@ -8,11 +11,7 @@ import React from 'react';
 import {
   MdClearAll,
   MdExitToApp,
-  MdHelp,
-  MdInsertChart,
-  MdMessage,
   MdNotificationsActive,
-  MdNotificationsNone,
   MdPersonPin,
   MdSettingsApplications,
 } from 'react-icons/md';
@@ -29,8 +28,27 @@ import {
   PopoverBody,
 } from 'reactstrap';
 import bn from 'utils/bemnames';
+import {
+  MdAccountCircle,
+  MdDashboard,
+  MdInsertChart,
+} from 'react-icons/md';
+import {
+  NavLink as BSNavLink,
+} from 'reactstrap';
+
+const navItems = [
+  { to: '/', name: 'dashboard', exact: true, Icon: MdDashboard },
+  { to: '/charts', name: 'charts', exact: false, Icon: MdInsertChart },
+  { to: '/login', name: 'login / signup', exact: false, Icon: MdAccountCircle }
+];
 
 const bem = bn.create('header');
+const sidebarBackground = {
+  backgroundImage: `url("${sidebarBgImage}")`,
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat',
+};
 
 const MdNotificationsActiveWithBadge = withBadge({
   size: 'md',
@@ -79,7 +97,22 @@ class Header extends React.Component {
     const { isNotificationConfirmed } = this.state;
 
     return (
+     
       <Navbar light expand className={bem.b('bg-white')}>
+        <Navbar>
+            <SourceLink className="navbar-brand d-flex">
+              <img
+                src={logo200Image}
+                width="40"
+                height="30"
+                className="pr-2"
+                alt=""
+              />
+              <span className="text-dark">
+                EnerHome
+              </span>
+            </SourceLink>
+            </Navbar>
         <Nav navbar className="mr-2">
           <Button outline onClick={this.handleSidebarControlButton}>
             <MdClearAll size={25} />
@@ -87,36 +120,10 @@ class Header extends React.Component {
         </Nav>
         <Nav navbar>
           <SearchInput />
+          
         </Nav>
 
-        <Nav navbar className={bem.e('nav-right')}>
-          <NavItem className="d-inline-flex">
-            <NavLink id="Popover1" className="position-relative">
-              {isNotificationConfirmed ? (
-                <MdNotificationsNone
-                  size={25}
-                  className="text-secondary can-click"
-                  onClick={this.toggleNotificationPopover}
-                />
-              ) : (
-                <MdNotificationsActiveWithBadge
-                  size={25}
-                  className="text-secondary can-click animated swing infinite"
-                  onClick={this.toggleNotificationPopover}
-                />
-              )}
-            </NavLink>
-            <Popover
-              placement="bottom"
-              isOpen={this.state.isOpenNotificationPopover}
-              toggle={this.toggleNotificationPopover}
-              target="Popover1"
-            >
-              <PopoverBody>
-                <Notifications notificationsData={notificationsData} />
-              </PopoverBody>
-            </Popover>
-          </NavItem>
+        <Nav navbar className={bem.e('nav-right')}>    
 
           <NavItem>
             <NavLink id="Popover2">
@@ -142,22 +149,13 @@ class Header extends React.Component {
                 >
                   <ListGroup flush>
                     <ListGroupItem tag="button" action className="border-light">
-                      <MdPersonPin /> Profile
+                      <MdPersonPin /> Perfil
                     </ListGroupItem>
                     <ListGroupItem tag="button" action className="border-light">
-                      <MdInsertChart /> Stats
+                      <MdSettingsApplications /> Configuración
                     </ListGroupItem>
                     <ListGroupItem tag="button" action className="border-light">
-                      <MdMessage /> Messages
-                    </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdSettingsApplications /> Settings
-                    </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdHelp /> Help
-                    </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdExitToApp /> Signout
+                      <MdExitToApp /> Cerrar Sesión
                     </ListGroupItem>
                   </ListGroup>
                 </UserCard>
