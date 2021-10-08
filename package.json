@@ -4,6 +4,7 @@
   "private": false,
   "homepage": "/",
   "dependencies": {
+    "axios": "^0.22.0",
     "bootstrap": "4.3.1",
     "chart.js": "2.7.2",
     "classnames": "^2.2.6",

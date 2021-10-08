@@ -7,7 +7,9 @@ import Notifications from 'components/Notifications';
 import SearchInput from 'components/SearchInput';
 import { notificationsData } from 'demos/header';
 import withBadge from 'hocs/withBadge';
-import React from 'react';
+import React,{useState,useEffect} from 'react';
+import httpClient from '../../httpClient'
+//import {User} from '../../components/User'
 import {
   MdClearAll,
   MdExitToApp,
@@ -36,6 +38,20 @@ import {
 import {
   NavLink as BSNavLink,
 } from 'reactstrap';
+
+/*const [user, setUser] =useState<User | null>(null)
+useEffect (() =>{
+  (async () =>{
+  try{
+    const resp = await httpClient.get("//localhost:5000/@me")
+
+    setUser(resp.data)
+  }catch(error){
+console.log("No hay autentificación")
+  }
+  })
+})*/
+
 
 const navItems = [
   { to: '/', name: 'dashboard', exact: true, Icon: MdDashboard },
@@ -97,22 +113,22 @@ class Header extends React.Component {
     const { isNotificationConfirmed } = this.state;
 
     return (
-     
+
       <Navbar light expand className={bem.b('bg-white')}>
         <Navbar>
-            <SourceLink className="navbar-brand d-flex">
-              <img
-                src={logo200Image}
-                width="40"
-                height="30"
-                className="pr-2"
-                alt=""
-              />
-              <span className="text-dark">
-                EnerHome
-              </span>
-            </SourceLink>
-            </Navbar>
+          <SourceLink className="navbar-brand d-flex">
+            <img
+              src={logo200Image}
+              width="40"
+              height="30"
+              className="pr-2"
+              alt=""
+            />
+            <span className="text-dark">
+              EnerHome
+            </span>
+          </SourceLink>
+        </Navbar>
         <Nav navbar className="mr-2">
           <Button outline onClick={this.handleSidebarControlButton}>
             <MdClearAll size={25} />
@@ -120,12 +136,27 @@ class Header extends React.Component {
         </Nav>
         <Nav navbar>
           <SearchInput />
-          
+
         </Nav>
 
-        <Nav navbar className={bem.e('nav-right')}>    
+        <Nav navbar className={bem.e('nav-right')}>
 
           <NavItem>
+           
+          <Button outline color="link" href="/login">
+                Iniciar Sesion
+              </Button>
+            
+          </NavItem>
+          <NavItem>
+       
+              <Button outline color="link" href="/signup">
+                Registrarte
+              </Button>
+            
+          </NavItem>
+          <NavItem>
+
             <NavLink id="Popover2">
               <Avatar
                 onClick={this.toggleUserCardPopover}
