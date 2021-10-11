@@ -2,7 +2,7 @@ import { AnnouncementCard, TodosCard } from 'components/Card';
 
 import Page from 'components/Page';
 import SupportTicket from 'components/SupportTicket';
-import { IconWidget, NumberWidget } from 'components/Widget';
+import { NumberWidget } from 'components/Widget';
 import { getStackLineChart, stackLineChartOptions } from 'demos/chartjs';
 import {
   chartjs,
@@ -31,18 +31,18 @@ import {
 } from 'reactstrap';
 import { getColor } from 'utils/colors';
 
-const today = new Date();
-const lastWeek = new Date(
+//const today = new Date();
+/*const lastWeek = new Date(
   today.getFullYear(),
   today.getMonth(),
   today.getDate() - 7,
-);
+);*/
 
 class DashboardPage extends React.Component {
 
   render() {
     const primaryColor = getColor('primary');
-    const secondaryColor = getColor('secondary');
+   // const secondaryColor = getColor('secondary');
 
     return (
       <Page

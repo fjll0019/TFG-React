@@ -5,24 +5,24 @@ import React from 'react';
 
 import {
   MdAccountCircle,
-  MdArrowDropDownCircle,
-  MdBorderAll,
-  MdBrush,
-  MdChromeReaderMode,
   MdDashboard,
-  MdGroupWork,
   MdInsertChart,
+  /*MdGroupWork,
   MdNotificationsActive,
   MdRadioButtonChecked,
   MdStar,
   MdTextFields,
   MdViewDay,
   MdViewList,
+  MdArrowDropDownCircle,
+  MdBorderAll,
+  MdBrush,
+  MdChromeReaderMode,*/
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import {
   // UncontrolledTooltip,
-  Collapse,
+  //Collapse,
   Nav,
   Navbar,
   NavItem,
@@ -36,7 +36,7 @@ const sidebarBackground = {
   backgroundRepeat: 'no-repeat',
 };
 
-const navComponents = [
+/*const navComponents = [
   { to: '/buttons', name: 'buttons', exact: false, Icon: MdRadioButtonChecked },
   {
     to: '/button-groups',
@@ -66,7 +66,7 @@ const navContents = [
 const pageContents = [
   { to: '/login', name: 'login / signup', exact: false, Icon: MdAccountCircle },
 
-];
+];*/
 
 const navItems = [
   { to: '/login', name: 'login / signup', exact: false, Icon: MdAccountCircle },

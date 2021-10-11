@@ -54,25 +54,55 @@ class AuthForm extends React.Component {
       onLogoClick,
     } = this.props;
 
-    const logInUser = async () => {
+    const LogSignUser = async () => {
 
-      email=document.getElementById('email').value
-      password=document.getElementById('password').value
-      //console.log("email: " + email + " , " + "password:" + password)
+      if (this.renderButtonText() === 'Iniciar Sesión') {
+        email = document.getElementById('email').value
+        password = document.getElementById('password').value
+        //console.log("email: " + email + " , " + "password:" + password)
 
-      try {
-        const resp = await httpClient.post("//localhost:5000/login", {
-          email,
-          password
-        })
+        try {
+          const resp = await httpClient.post("//localhost:5000/login", {
+            email,
+            password
+          })
+
+          sessionStorage.setItem("jwt", JSON.stringify(resp.data))
+          window.location.href = "/"
+        } catch (error) {
+          if (error === 401)
+            alert("Invalid Credentials")
+
+        }
+      } else {
+        email = document.getElementById('email').value
+        password = document.getElementById('password').value
+        var conPassword = document.getElementById('conPassword').value
+        try {
+          if (password !== conPassword) {
+            return alert("Las contraseñas no coinciden")
+          }
+          var isChecked =document.getElementById('checkbox').checked
+          if(isChecked===false){
+            return alert("No ha aceptado los terminos de uso")
+
+          }
         
-        sessionStorage.setItem("jwt", JSON.stringify(resp.data))
-        window.location.href = "/"
-      } catch (error) {
-        if(error === 401)
-          alert("Invalid Credentials")
+          const resp = await httpClient.post("//localhost:5000/register", {
+            email,
+            password
+          })
+          sessionStorage.setItem("jwt", JSON.stringify(resp.data))
+          window.location.href = "/"
+        } catch (error) {
+          if (error === 401)
+            alert("Invalid Credentials")
+
+        }
+
 
       }
+
 
     }
 
@@ -89,7 +119,7 @@ class AuthForm extends React.Component {
             />
           </div>
         )}
-        
+
         <FormGroup>
           <Label for={Emailabel}>{Emailabel}</Label>
           <Input id="email" {...EmailInputProps} />
@@ -106,7 +136,7 @@ class AuthForm extends React.Component {
         )}
         <FormGroup check>
           <Label check>
-            <Input type="checkbox" />{' '}
+            <Input id="checkbox" type="checkbox" />{' '}
             {this.isSignup ? 'Acepto los terminos y políticas' : 'Recuerdame'}
           </Label>
         </FormGroup>
@@ -115,7 +145,7 @@ class AuthForm extends React.Component {
           size="lg"
           className="bg-gradient-theme-left border-0"
           block
-          onClick={logInUser}>
+          onClick={LogSignUser}>
           {this.renderButtonText()}
         </Button>
 
@@ -148,11 +178,11 @@ AuthForm.propTypes = {
   authState: PropTypes.oneOf([STATE_LOGIN, STATE_SIGNUP]).isRequired,
   showLogo: PropTypes.bool,
   Emailabel: PropTypes.string,
-  EmailInputProps: PropTypes.string,
+  EmailInputProps: PropTypes.object,
   passwordLabel: PropTypes.string,
-  passwordInputProps: PropTypes.string,
+  passwordInputProps: PropTypes.object,
   confirmPasswordLabel: PropTypes.string,
-  confirmPasswordInputProps: PropTypes.string,
+  confirmPasswordInputProps: PropTypes.object,
   onLogoClick: PropTypes.func,
 };
 
@@ -171,7 +201,7 @@ AuthForm.defaultProps = {
   },
   confirmPasswordLabel: 'Confirmar contraseña',
   confirmPasswordInputProps: {
-    type: 'contraseña',
+    type: 'password',
     placeholder: 'Confirmar contraseña',
   },
   onLogoClick: () => { },

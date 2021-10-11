@@ -1,19 +1,21 @@
 import Avatar from 'components/Avatar';
 import logo200Image from 'assets/img/logo/icono.png';
-import sidebarBgImage from 'assets/img/sidebar/sidebar-4.jpg';
 import SourceLink from 'components/SourceLink';
 import { UserCard } from 'components/Card';
-import Notifications from 'components/Notifications';
+
 import SearchInput from 'components/SearchInput';
-import { notificationsData } from 'demos/header';
+/*import { notificationsData } from 'demos/header';
+import Notifications from 'components/Notifications';
+import sidebarBgImage from 'assets/img/sidebar/sidebar-4.jpg';
 import withBadge from 'hocs/withBadge';
-import React, { useState, useEffect } from 'react';
-import httpClient from '../../httpClient'
+
+*/
+import React from 'react';
 //import {User} from '../../components/User'
 import {
   MdClearAll,
   MdExitToApp,
-  MdNotificationsActive,
+ // MdNotificationsActive,
   MdPersonPin,
   MdSettingsApplications,
 } from 'react-icons/md';
@@ -30,6 +32,7 @@ import {
   PopoverBody,
 } from 'reactstrap';
 import bn from 'utils/bemnames';
+/*
 import {
   MdAccountCircle,
   MdDashboard,
@@ -37,23 +40,23 @@ import {
 } from 'react-icons/md';
 import {
   NavLink as BSNavLink,
-} from 'reactstrap';
+} from 'reactstrap';*/
 
 
-const navItems = [
+/*const navItems = [
   { to: '/', name: 'dashboard', exact: true, Icon: MdDashboard },
   { to: '/charts', name: 'charts', exact: false, Icon: MdInsertChart },
   { to: '/login', name: 'login / signup', exact: false, Icon: MdAccountCircle }
-];
+];*/
 
 const bem = bn.create('header');
-const sidebarBackground = {
+/*const sidebarBackground = {
   backgroundImage: `url("${sidebarBgImage}")`,
   backgroundSize: 'cover',
   backgroundRepeat: 'no-repeat',
-};
+};*/
 
-const MdNotificationsActiveWithBadge = withBadge({
+/*const MdNotificationsActiveWithBadge = withBadge({
   size: 'md',
   color: 'primary',
   style: {
@@ -65,7 +68,7 @@ const MdNotificationsActiveWithBadge = withBadge({
   },
   children: <small>5</small>,
 })(MdNotificationsActive);
-
+*/
 class Header extends React.Component {
   state = {
     isOpenNotificationPopover: false,
@@ -112,7 +115,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const { isNotificationConfirmed } = this.state;
+    //const { isNotificationConfirmed } = this.state;
 
     return (
 
@@ -203,7 +206,7 @@ class Header extends React.Component {
                         <MdSettingsApplications /> Configuración
                       </ListGroupItem>
                       <ListGroupItem tag="button" action onClick={this.CerrarSesion} className="border-light">
-                        <MdExitToApp /> <a >Cerrar Sesión</a>
+                        <MdExitToApp /> Cerrar Sesión
                       </ListGroupItem>
                     </ListGroup>
                   </UserCard>
