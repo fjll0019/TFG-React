@@ -58,15 +58,16 @@ class AuthForm extends React.Component {
 
       email=document.getElementById('email').value
       password=document.getElementById('password').value
-      console.log("email: " + email + " , " + "password:" + password)
+      //console.log("email: " + email + " , " + "password:" + password)
 
       try {
         const resp = await httpClient.post("//localhost:5000/login", {
           email,
           password
         })
-        console.log(resp.data)
-        //window.location.href = "/"
+        
+        sessionStorage.setItem("jwt", JSON.stringify(resp.data))
+        window.location.href = "/"
       } catch (error) {
         if(error === 401)
           alert("Invalid Credentials")
@@ -88,6 +89,7 @@ class AuthForm extends React.Component {
             />
           </div>
         )}
+        
         <FormGroup>
           <Label for={Emailabel}>{Emailabel}</Label>
           <Input id="email" {...EmailInputProps} />

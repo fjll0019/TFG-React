@@ -6,6 +6,7 @@ import AuthPage from 'pages/AuthPage';
 import React from 'react';
 import componentQueries from 'react-component-queries';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { UserContextProvider } from './context/UserContext';
 import './styles/reduction.scss';
 
 
@@ -33,6 +34,7 @@ const getBasename = () => {
 class App extends React.Component {
   render() {
     return (
+      <UserContextProvider>
       <BrowserRouter basename={getBasename()}>
         <GAListener>
           <Switch>
@@ -63,6 +65,7 @@ class App extends React.Component {
           </Switch>
         </GAListener>
       </BrowserRouter>
+      </UserContextProvider>
     );
   }
 }

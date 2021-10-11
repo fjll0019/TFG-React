@@ -7,7 +7,7 @@ import Notifications from 'components/Notifications';
 import SearchInput from 'components/SearchInput';
 import { notificationsData } from 'demos/header';
 import withBadge from 'hocs/withBadge';
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import httpClient from '../../httpClient'
 //import {User} from '../../components/User'
 import {
@@ -38,19 +38,6 @@ import {
 import {
   NavLink as BSNavLink,
 } from 'reactstrap';
-
-/*const [user, setUser] =useState<User | null>(null)
-useEffect (() =>{
-  (async () =>{
-  try{
-    const resp = await httpClient.get("//localhost:5000/@me")
-
-    setUser(resp.data)
-  }catch(error){
-console.log("No hay autentificación")
-  }
-  })
-})*/
 
 
 const navItems = [
@@ -108,6 +95,21 @@ class Header extends React.Component {
 
     document.querySelector('.cr-sidebar').classList.toggle('cr-sidebar--open');
   };
+  CerrarSesion = () => {
+    sessionStorage.removeItem("jwt")
+    console.log(sessionStorage.getItem("jwt"))
+    window.location.replace('/')
+  }
+
+  Configuracion = () => {
+
+    window.location.href = "/config"
+  }
+
+  Perfil = () => {
+
+    window.location.replace('/perfil')
+  }
 
   render() {
     const { isNotificationConfirmed } = this.state;
@@ -141,58 +143,74 @@ class Header extends React.Component {
 
         <Nav navbar className={bem.e('nav-right')}>
 
-          <NavItem>
-           
-          <Button outline color="link" href="/login">
+
+          {!sessionStorage.getItem("jwt") ? (
+            <NavItem>
+              <Button outline color="link" href="/login">
                 Iniciar Sesion
               </Button>
-            
+
+            </NavItem>
+          ) : (<NavItem id="Popover2">
+
+            <Button outline color="link" className="navbar-brand d-flex">
+
+              <span className="text-dark">  Bienvenido/a </span>
+            </Button>
           </NavItem>
-          <NavItem>
-       
+          )}
+
+          {sessionStorage.getItem("jwt") === null && (
+            <NavItem>
+
               <Button outline color="link" href="/signup">
                 Registrarte
               </Button>
-            
-          </NavItem>
-          <NavItem>
 
-            <NavLink id="Popover2">
-              <Avatar
-                onClick={this.toggleUserCardPopover}
-                className="can-click"
-              />
-            </NavLink>
-            <Popover
-              placement="bottom-end"
-              isOpen={this.state.isOpenUserCardPopover}
-              toggle={this.toggleUserCardPopover}
-              target="Popover2"
-              className="p-0 border-0"
-              style={{ minWidth: 250 }}
-            >
-              <PopoverBody className="p-0 border-light">
-                <UserCard
-                  title="Jane"
-                  subtitle="jane@jane.com"
-                  text="Last updated 3 mins ago"
-                  className="border-light"
-                >
-                  <ListGroup flush>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdPersonPin /> Perfil
-                    </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdSettingsApplications /> Configuración
-                    </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdExitToApp /> Cerrar Sesión
-                    </ListGroupItem>
-                  </ListGroup>
-                </UserCard>
-              </PopoverBody>
-            </Popover>
-          </NavItem>
+            </NavItem>
+          )}
+          {sessionStorage.getItem("jwt") != null && (
+
+            <NavItem>
+
+
+              <NavLink id="Popover2">
+                <Avatar
+                  onClick={this.toggleUserCardPopover}
+                  className="can-click"
+                />
+              </NavLink>
+              <Popover
+                placement="bottom-end"
+                isOpen={this.state.isOpenUserCardPopover}
+                toggle={this.toggleUserCardPopover}
+                target="Popover2"
+                className="p-0 border-0"
+                style={{ minWidth: 250 }}
+              >
+                <PopoverBody className="p-0 border-light">
+                  <UserCard
+                    title="Jane"
+                    subtitle="jane@jane.com"
+                    text="Last updated 3 mins ago"
+                    className="border-light"
+                  >
+                    <ListGroup flush>
+                      <ListGroupItem tag="button" action onClick={this.Perfil} className="border-light">
+                        <MdPersonPin /> Perfil
+                      </ListGroupItem>
+                      <ListGroupItem tag="button" action onClick={this.Configuracion} className="border-light">
+                        <MdSettingsApplications /> Configuración
+                      </ListGroupItem>
+                      <ListGroupItem tag="button" action onClick={this.CerrarSesion} className="border-light">
+                        <MdExitToApp /> <a >Cerrar Sesión</a>
+                      </ListGroupItem>
+                    </ListGroup>
+                  </UserCard>
+                </PopoverBody>
+              </Popover>
+            </NavItem>
+          )}
         </Nav>
       </Navbar>
     );
