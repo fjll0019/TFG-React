@@ -7,6 +7,8 @@ import React from 'react';
 import componentQueries from 'react-component-queries';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
+import Perfil from '../src/pages/PerfilPage'
+import Config from '../src/pages/ConfigPage'
 
 /*
 const AlertPage = React.lazy(() => import('pages/AlertPage'));
@@ -52,7 +54,22 @@ class App extends React.Component {
                 <AuthPage {...props} authState={STATE_SIGNUP} />
               )}
             />
-
+            <LayoutRoute
+              exact
+              path="/perfil"
+              layout={EmptyLayout}
+              component={props => (
+                <Perfil/>
+              )}
+            />
+            <LayoutRoute
+              exact
+              path="/config"
+              layout={EmptyLayout}
+              component={props => (
+                <Config />
+              )}
+            />
             <MainLayout breakpoint={this.props.breakpoint}>
               <React.Suspense fallback={<PageSpinner />}>
                 <Route exact path="/" component={DashboardPage} />

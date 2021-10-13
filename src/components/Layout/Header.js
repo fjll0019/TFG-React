@@ -167,7 +167,7 @@ class Header extends React.Component {
             <NavItem>
 
               <Button outline color="link" href="/signup">
-                Registrarte
+                Registrarse
               </Button>
 
             </NavItem>
