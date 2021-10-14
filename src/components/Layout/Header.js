@@ -2,8 +2,10 @@ import Avatar from 'components/Avatar';
 import logo200Image from 'assets/img/logo/icono.png';
 import SourceLink from 'components/SourceLink';
 import { UserCard } from 'components/Card';
-
+import httpClient from '../../httpClient';
 import SearchInput from 'components/SearchInput';
+import userImage from 'assets/img/users/mikey.jpg';
+
 /*import { notificationsData } from 'demos/header';
 import Notifications from 'components/Notifications';
 import sidebarBgImage from 'assets/img/sidebar/sidebar-4.jpg';
@@ -15,7 +17,7 @@ import React from 'react';
 import {
   MdClearAll,
   MdExitToApp,
- // MdNotificationsActive,
+  // MdNotificationsActive,
   MdPersonPin,
   MdSettingsApplications,
 } from 'react-icons/md';
@@ -50,6 +52,7 @@ import {
 ];*/
 
 const bem = bn.create('header');
+const logo= ""
 /*const sidebarBackground = {
   backgroundImage: `url("${sidebarBgImage}")`,
   backgroundSize: 'cover',
@@ -76,6 +79,25 @@ class Header extends React.Component {
     isOpenUserCardPopover: false,
   };
 
+  async checkLoginStatus() {
+    try {
+      const resp = await httpClient.get("//localhost:5000/@me")
+      sessionStorage.setItem("UserName", resp.data["nombre"])
+      sessionStorage.setItem("Email", resp.data["email"])
+      logo = require('assets/img/users/mikey.jpg').default
+      console.log(logo)
+
+    //  sessionStorage.setItem("Avatar",)
+
+    } catch (error) {
+
+    }
+  }
+  componentDidMount() {
+    this.checkLoginStatus();
+
+  }
+
   toggleNotificationPopover = () => {
     this.setState({
       isOpenNotificationPopover: !this.state.isOpenNotificationPopover,
@@ -100,7 +122,9 @@ class Header extends React.Component {
   };
   CerrarSesion = () => {
     sessionStorage.removeItem("jwt")
-    console.log(sessionStorage.getItem("jwt"))
+    sessionStorage.removeItem("UserName")
+    sessionStorage.removeItem("Email")
+    sessionStorage.removeItem("Avatar")
     window.location.replace('/')
   }
 
@@ -110,7 +134,6 @@ class Header extends React.Component {
   }
 
   Perfil = () => {
-
     window.location.replace('/perfil')
   }
 
@@ -158,7 +181,7 @@ class Header extends React.Component {
 
             <Button outline color="link" className="navbar-brand d-flex">
 
-              <span className="text-dark">  Bienvenido/a </span>
+              <span id="UserName" className="text-dark"> {sessionStorage.getItem("UserName")}  </span>
             </Button>
           </NavItem>
           )}
@@ -181,6 +204,7 @@ class Header extends React.Component {
                 <Avatar
                   onClick={this.toggleUserCardPopover}
                   className="can-click"
+                  src={userImage}
                 />
               </NavLink>
               <Popover
@@ -193,9 +217,10 @@ class Header extends React.Component {
               >
                 <PopoverBody className="p-0 border-light">
                   <UserCard
-                    title="Jane"
-                    subtitle="jane@jane.com"
-                    text="Last updated 3 mins ago"
+                    avatar='/static/media/mikey.54861c4f.jpg'
+                    title={sessionStorage.getItem("UserName")}
+                    subtitle={sessionStorage.getItem("Email")}
+                    text="Welcome"
                     className="border-light"
                   >
                     <ListGroup flush>

@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Avatar from '../components/Avatar';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
-
-import userImage from 'assets/img/users/mikey.jpg';
+import $ from 'jquery'
 import httpClient from '../httpClient';
+import userImage from 'assets/img/users/mikey.jpg';
+
 
 class Perfil extends React.Component {
 
@@ -13,46 +14,37 @@ class Perfil extends React.Component {
         event.preventDefault();
     };
 
-    renderButtonText() {
-        const { buttonText } = this.props;
 
-        if (!buttonText && this.isLogin) {
-            return 'Iniciar Sesión';
-        }
-
-        if (!buttonText && this.isSignup) {
-            return 'Registrarte';
-        }
-
-        return buttonText;
-    }
     async checkLoginStatus() {
 
 
         try {
             const resp = await httpClient.get("//localhost:5000/@me")
             console.log(resp.data)
-            
-            this.DefaultName=resp.data["nombre"]
-            this.DefaultEmail= resp.data["email"]
-            console.log("after json: Email: " +this.DefaultEmail + " nombre: "+ this.DefaultName)
+            console.log(resp.data["nombre"])
 
+            $('#nombre').attr("placeholder",resp.data["nombre"]);
+            $('#email').attr("placeholder",resp.data["email"]);
+            
 
             //window.location.href = "/"
         } catch (error) {
-            
-        
+
+
         }
-      }
-    
-      componentDidMount() {
+    }
+
+    componentDidMount() {
         this.checkLoginStatus();
-      }
+
+    }
+   
 
     render() {
+        
         var email = ""
         var nombre = ""
-        var jwt =""
+
         const {
             showLogo,
             Emailabel,
@@ -63,18 +55,17 @@ class Perfil extends React.Component {
             onLogoClick,
 
         } = this.props;
-        
+
         const Guardar = async () => {
             nombre = document.getElementById('nombre').value
             email = document.getElementById('email').value
-            jwt = sessionStorage.getItem("jwt")
             //console.log("email: " + email + " , " + "password:" + password)
 
             try {
                 const resp = await httpClient.post("//localhost:5000/perfil", {
                     nombre,
                     email,
-                    
+
                 })
                 console.log(resp.data)
                 window.location.href = "/"
@@ -83,7 +74,7 @@ class Perfil extends React.Component {
                     alert("Invalid Credentials")
             }
         }
-        
+
 
         return (
             <Form onSubmit={this.handleSubmit}>
@@ -111,7 +102,7 @@ class Perfil extends React.Component {
                 </FormGroup>
                 <FormGroup>
                     <Label for={Emailabel}>{Emailabel}</Label>
-                    <Input id="email" {...EmailInputProps} />
+                    <Input id="email" {...EmailInputProps}  />
                 </FormGroup>
 
                 <hr />
@@ -145,15 +136,17 @@ Perfil.defaultProps = {
     showLogo: true,
     Emailabel: 'Email',
     EmailInputProps: {
+        
         type: 'email',
-        placeholder: this.DefaultEmail,
+        
     },
     NombreLabel: 'Nombre',
     NombreInputProps: {
+       
         type: 'name',
-        placeholder: this.DefaultName,
+        
     },
-    onLogoClick: () => { },
+   
 };
 
 export default Perfil;

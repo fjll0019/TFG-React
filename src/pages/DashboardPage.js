@@ -3,6 +3,8 @@ import { AnnouncementCard, TodosCard } from 'components/Card';
 import Page from 'components/Page';
 import SupportTicket from 'components/SupportTicket';
 import { NumberWidget } from 'components/Widget';
+import $ from 'jquery'
+import httpClient from '../httpClient';
 import { getStackLineChart, stackLineChartOptions } from 'demos/chartjs';
 import {
   chartjs,
@@ -40,6 +42,25 @@ import { getColor } from 'utils/colors';
 
 class DashboardPage extends React.Component {
 
+  async checkLoginStatus() {
+    try {
+        const resp = await httpClient.get("//localhost:5000/@me")
+        console.log(resp.data)
+        $('#nombre').attr("placeholder",resp.data["nombre"]);
+        $('#email').attr("placeholder",resp.data["email"]);
+
+
+        //window.location.href = "/"
+    } catch (error) {
+
+
+    }
+}
+
+componentDidMount() {
+    this.checkLoginStatus();
+
+}
   render() {
     const primaryColor = getColor('primary');
    // const secondaryColor = getColor('secondary');
