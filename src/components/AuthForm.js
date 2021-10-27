@@ -71,8 +71,8 @@ class AuthForm extends React.Component {
           window.location.href = "/"
         } catch (error) {
           if (error === 401)
+            console.log("Invalid Credentials")
             alert("Invalid Credentials")
-
         }
       } else {
         email = document.getElementById('email').value
@@ -82,12 +82,12 @@ class AuthForm extends React.Component {
           if (password !== conPassword) {
             return alert("Las contraseñas no coinciden")
           }
-          var isChecked =document.getElementById('checkbox').checked
-          if(isChecked===false){
+          var isChecked = document.getElementById('checkbox').checked
+          if (isChecked === false) {
             return alert("No ha aceptado los terminos de uso")
 
           }
-        
+
           const resp = await httpClient.post("//localhost:5000/register", {
             email,
             password

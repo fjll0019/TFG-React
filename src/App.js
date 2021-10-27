@@ -9,6 +9,11 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
 import Perfil from '../src/pages/PerfilPage'
 import Config from '../src/pages/ConfigPage'
+import Delete from './components/Delete';
+import Password from './components/Password';
+import PerfilPage from '../src/pages/PerfilPage';
+import ConfigPage from '../src/pages/ConfigPage';
+import PasswordPage from './pages/PasswordPage';
 
 /*
 const AlertPage = React.lazy(() => import('pages/AlertPage'));
@@ -59,7 +64,7 @@ class App extends React.Component {
               path="/perfil"
               layout={EmptyLayout}
               component={props => (
-                <Perfil/>
+                <PerfilPage />
               )}
             />
             <LayoutRoute
@@ -67,13 +72,29 @@ class App extends React.Component {
               path="/config"
               layout={EmptyLayout}
               component={props => (
-                <Config />
+                <ConfigPage />
+              )}
+            />
+            <LayoutRoute
+              exact
+              path="/delete"
+              layout={EmptyLayout}
+              component={props => (
+                <Delete />
+              )}
+            />
+            <LayoutRoute
+              exact
+              path="/password"
+              layout={EmptyLayout}
+              component={props => (
+                <PasswordPage />
               )}
             />
             <MainLayout breakpoint={this.props.breakpoint}>
               <React.Suspense fallback={<PageSpinner />}>
                 <Route exact path="/" component={DashboardPage} />
-                
+
               </React.Suspense>
             </MainLayout>
             <Redirect to="/" />

@@ -83,6 +83,7 @@ class Header extends React.Component {
     try {
       const resp = await httpClient.get("//localhost:5000/@me")
       sessionStorage.setItem("UserName", resp.data["nombre"])
+      console.log(sessionStorage.getItem("UserName"))
       sessionStorage.setItem("Email", resp.data["email"])
       logo = require('assets/img/users/mikey.jpg').default
       console.log(logo)
