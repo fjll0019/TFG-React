@@ -13,6 +13,8 @@ class Delete extends React.Component {
             sessionStorage.removeItem("UserName")
             sessionStorage.removeItem("Email")
             sessionStorage.removeItem("Avatar")
+            sessionStorage.removeItem("nombre")
+
             window.location.href = "/"
         } catch (error) {
             console.log("No ha sido posible eliminar la cuenta")

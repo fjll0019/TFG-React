@@ -4,7 +4,6 @@ import SourceLink from 'components/SourceLink';
 import { UserCard } from 'components/Card';
 import httpClient from '../../httpClient';
 import SearchInput from 'components/SearchInput';
-import userImage from 'assets/img/users/mikey.jpg';
 
 /*import { notificationsData } from 'demos/header';
 import Notifications from 'components/Notifications';
@@ -85,7 +84,9 @@ class Header extends React.Component {
       sessionStorage.setItem("UserName", resp.data["nombre"])
       console.log(sessionStorage.getItem("UserName"))
       sessionStorage.setItem("Email", resp.data["email"])
-      logo = require('assets/img/users/mikey.jpg').default
+      console.log(sessionStorage.getItem("nombre"))
+
+      //logo = require('assets/img/users/mikey.jpg').default
       console.log(logo)
 
     //  sessionStorage.setItem("Avatar",)
@@ -126,6 +127,8 @@ class Header extends React.Component {
     sessionStorage.removeItem("UserName")
     sessionStorage.removeItem("Email")
     sessionStorage.removeItem("Avatar")
+    sessionStorage.removeItem("nombre")
+
     window.location.replace('/')
   }
 
@@ -205,7 +208,7 @@ class Header extends React.Component {
                 <Avatar
                   onClick={this.toggleUserCardPopover}
                   className="can-click"
-                  src={userImage}
+                  img={sessionStorage.getItem("nombre")}
                 />
               </NavLink>
               <Popover
@@ -218,7 +221,7 @@ class Header extends React.Component {
               >
                 <PopoverBody className="p-0 border-light">
                   <UserCard
-                    avatar='/static/media/mikey.54861c4f.jpg'
+                    avatar={sessionStorage.getItem("nombre")}
                     title={sessionStorage.getItem("UserName")}
                     subtitle={sessionStorage.getItem("Email")}
                     text="Welcome"

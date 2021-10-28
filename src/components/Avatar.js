@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import userImage from 'assets/img/users/100_4.jpg';
 
+
 const Avatar = ({
   rounded,
   circle,
@@ -13,12 +14,13 @@ const Avatar = ({
   tag: Tag,
   className,
   style,
+  img,
   ...restProps
 }) => {
   const classes = classNames({ 'rounded-circle': circle, rounded }, className);
   return (
     <Tag
-      src={src}
+      src={require('assets/img/users/'+img+'.jpg')}
       style={{ width: size, height: size, ...style }}
       className={classes}
       {...restProps}
@@ -33,6 +35,7 @@ Avatar.propTypes = {
   size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   src: PropTypes.string,
   style: PropTypes.object,
+  img: PropTypes.string
 };
 
 Avatar.defaultProps = {
@@ -42,6 +45,7 @@ Avatar.defaultProps = {
   size: 40,
   src: userImage,
   style: {},
+  img: "user1"
 };
 
 export default Avatar;

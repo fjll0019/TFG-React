@@ -5,7 +5,6 @@ import Avatar from './Avatar';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import $ from 'jquery'
 import httpClient from '../httpClient';
-import userImage from 'assets/img/users/mikey.jpg';
 
 
 class Perfil extends React.Component {
@@ -15,61 +14,67 @@ class Perfil extends React.Component {
     };
 
     async checkLoginStatus() {
-
-
         try {
             const resp = await httpClient.get("//localhost:5000/@me")
-            console.log(resp.data)
-            console.log(resp.data["nombre"])
-
-            $('#nombre').attr("placeholder",resp.data["nombre"]);
-            $('#email').attr("placeholder",resp.data["email"]);
-            
+            $('#pass').attr("placeholder", "Nueva contraseña");
+            $('#confPass').attr("placeholder", "Confirmar contraseña");
+            $('#lastPass').attr("placeholder", "Contraseña Actual");
 
             //window.location.href = "/"
         } catch (error) {
-
-
         }
     }
 
     componentDidMount() {
         this.checkLoginStatus();
-
     }
-   
 
     render() {
-        
+
         var password = ""
         var confPassword = ""
-
+        var lastPass = ""
         const {
             showLogo,
+            LastPassLabel,
+            LastPassInputProps,
             PassLabel,
             PassInputProps,
             ConfPassLabel,
             ConfPassInputProps,
             children,
             onLogoClick,
-
         } = this.props;
 
         const ChangePassword = async () => {
             password = document.getElementById('pass').value
             confPassword = document.getElementById('confPass').value
-            //console.log("email: " + email + " , " + "password:" + password)
-
-            try {
-                const resp = await httpClient.post("//localhost:5000/password", {
-                    password})
-                console.log(resp.data)
-                window.location.href = "/"
-            } catch (error) {
-                if (error === 401)
-                    alert("Invalid Credentials")
-                    if (error === 400)
-                    alert("La contraseña a la que se quiere cambiar es la misma que la anterior")
+            lastPass = document.getElementById('lastPass').value
+            if (password == confPassword) {
+                try {
+                    const resp = await httpClient.post("//localhost:5000/password", {
+                        password,
+                        lastPass
+                    })
+                    console.log(resp.data)
+                   // window.location.href = "/"
+                } catch (error) {
+                    console.log(error)
+                    if (error === 401) {
+                        console.log("Invalid Credentials")
+                        alert("Invalid Credentials")
+                    }
+                    if (error === 400) {
+                        console.log("Same Password")
+                        alert("La contraseña a la que se quiere cambiar es la misma que la anterior")
+                    }
+                    if (error === 403) {
+                        console.log("La contraseña actual no es correcta")
+                        alert("La contraseña actual no es correcta")
+                    }
+                }
+            } else {
+                alert("Las contraseñas no coinciden")
             }
         }
 
@@ -90,17 +95,21 @@ class Perfil extends React.Component {
                 <div className="text-center pb-4">
                     <Avatar
                         size="100px"
-                        src={userImage}
+                        img={sessionStorage.getItem("nombre")}
                         className="can-click"
                     />
                 </div>
+                <FormGroup>
+                    <Label for={LastPassLabel}>{LastPassLabel}</Label>
+                    <Input id="lastPass" {...LastPassInputProps} />
+                </FormGroup>
                 <FormGroup>
                     <Label for={PassLabel}>{PassLabel}</Label>
                     <Input id="pass" {...PassInputProps} />
                 </FormGroup>
                 <FormGroup>
                     <Label for={ConfPassLabel}>{ConfPassLabel}</Label>
-                    <Input id="confPass" {...ConfPassInputProps}  />
+                    <Input id="confPass" {...ConfPassInputProps} />
                 </FormGroup>
 
                 <hr />
@@ -121,6 +130,8 @@ class Perfil extends React.Component {
 
 Perfil.propTypes = {
     showLogo: PropTypes.bool,
+    LastPassLabel: PropTypes.string,
+    LastPassInputProps: PropTypes.object,
     PassLabel: PropTypes.string,
     PassInputProps: PropTypes.object,
     ConfPassLabel: PropTypes.string,
@@ -130,15 +141,19 @@ Perfil.propTypes = {
 
 Perfil.defaultProps = {
     showLogo: true,
-    PassLabel: 'Introduzca la nueva contraseña',
+    LastPassLabel: 'Contraseña Actual',
+    LastPassInputProps: {
+        type: 'password',
+    },
+    PassLabel: 'Nueva contraseña',
     PassInputProps: {
-        type: 'password',     
+        type: 'password',
     },
     ConfPassLabel: 'Confirmar contraseña',
     ConfPassInputProps: {
         type: 'password',
     },
-   
+
 };
 
 export default Perfil;

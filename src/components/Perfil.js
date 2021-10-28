@@ -5,7 +5,8 @@ import Avatar from '../components/Avatar';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import $ from 'jquery'
 import httpClient from '../httpClient';
-import userImage from 'assets/img/users/mikey.jpg';
+
+
 
 
 class Perfil extends React.Component {
@@ -16,20 +17,19 @@ class Perfil extends React.Component {
 
 
     async checkLoginStatus() {
-
-
         try {
             const resp = await httpClient.get("//localhost:5000/@me")
             console.log(resp.data)
             console.log(resp.data["nombre"])
+            if(resp.data["nombre"]!=null){
+                sessionStorage.setItem("nombre", resp.data["nombre"])
 
+            }
             $('#nombre').attr("placeholder",resp.data["nombre"]);
             $('#email').attr("placeholder",resp.data["email"]);
-            
-
+            console.log(sessionStorage.getItem("nombre"))
             //window.location.href = "/"
         } catch (error) {
-
 
         }
     }
@@ -67,7 +67,7 @@ class Perfil extends React.Component {
                     email,
 
                 })
-                console.log(resp.data)
+                
                 window.location.href = "/"
             } catch (error) {
                 if (error === 401)
@@ -92,7 +92,7 @@ class Perfil extends React.Component {
                 <div className="text-center pb-4">
                     <Avatar
                         size="100px"
-                        src={userImage}
+                        img={sessionStorage.getItem("nombre")}
                         className="can-click"
                     />
                 </div>

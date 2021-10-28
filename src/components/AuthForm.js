@@ -64,15 +64,16 @@ class AuthForm extends React.Component {
         try {
           const resp = await httpClient.post("//localhost:5000/login", {
             email,
-            password
+            password,
           })
 
           sessionStorage.setItem("jwt", JSON.stringify(resp.data))
+          sessionStorage.setItem("nombre", resp.data["nombre"])
           window.location.href = "/"
         } catch (error) {
           if (error === 401)
             console.log("Invalid Credentials")
-            alert("Invalid Credentials")
+          alert("Invalid Credentials")
         }
       } else {
         email = document.getElementById('email').value
@@ -93,6 +94,10 @@ class AuthForm extends React.Component {
             password
           })
           sessionStorage.setItem("jwt", JSON.stringify(resp.data))
+          console.log(sessionStorage.getItem("nombre"))
+
+          sessionStorage.setItem("nombre", resp.data["nombre"])
+
           window.location.href = "/"
         } catch (error) {
           if (error === 401)
