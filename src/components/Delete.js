@@ -1,6 +1,4 @@
 import React from 'react';
-import { Card, Col, Row } from 'reactstrap';
-import Perfil from '../components/Perfil';
 import httpClient from '../httpClient';
 
 class Delete extends React.Component {
@@ -8,12 +6,11 @@ class Delete extends React.Component {
     DeleteUser = async () => {
         try {
 
-            const resp = await httpClient.post("//localhost:5000/delete")
+            await httpClient.post("//localhost:5000/delete")
             sessionStorage.removeItem("jwt")
             sessionStorage.removeItem("UserName")
             sessionStorage.removeItem("Email")
-            sessionStorage.removeItem("Avatar")
-            sessionStorage.removeItem("nombre")
+            sessionStorage.removeItem("avatar")
 
             window.location.href = "/"
         } catch (error) {
@@ -22,7 +19,7 @@ class Delete extends React.Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.DeleteUser();
 
     }

@@ -68,7 +68,7 @@ class AuthForm extends React.Component {
           })
 
           sessionStorage.setItem("jwt", JSON.stringify(resp.data))
-          sessionStorage.setItem("nombre", resp.data["nombre"])
+          sessionStorage.setItem("avatar", resp.data["avatar"])
           window.location.href = "/"
         } catch (error) {
           if (error === 401)
@@ -94,9 +94,9 @@ class AuthForm extends React.Component {
             password
           })
           sessionStorage.setItem("jwt", JSON.stringify(resp.data))
-          console.log(sessionStorage.getItem("nombre"))
+          console.log(sessionStorage.getItem("avatar"))
 
-          sessionStorage.setItem("nombre", resp.data["nombre"])
+          sessionStorage.setItem("nombre", resp.data["avatar"])
 
           window.location.href = "/"
         } catch (error) {

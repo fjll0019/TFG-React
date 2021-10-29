@@ -15,7 +15,6 @@ class Perfil extends React.Component {
 
     async checkLoginStatus() {
         try {
-            const resp = await httpClient.get("//localhost:5000/@me")
             $('#pass').attr("placeholder", "Nueva contraseña");
             $('#confPass').attr("placeholder", "Confirmar contraseña");
             $('#lastPass').attr("placeholder", "Contraseña Actual");
@@ -25,7 +24,7 @@ class Perfil extends React.Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.checkLoginStatus();
     }
 
@@ -50,7 +49,7 @@ class Perfil extends React.Component {
             password = document.getElementById('pass').value
             confPassword = document.getElementById('confPass').value
             lastPass = document.getElementById('lastPass').value
-            if (password == confPassword) {
+            if (password === confPassword) {
                 try {
                     const resp = await httpClient.post("//localhost:5000/password", {
                         password,
@@ -95,7 +94,7 @@ class Perfil extends React.Component {
                 <div className="text-center pb-4">
                     <Avatar
                         size="100px"
-                        img={sessionStorage.getItem("nombre")}
+                        img={sessionStorage.getItem("avatar")}
                         className="can-click"
                     />
                 </div>

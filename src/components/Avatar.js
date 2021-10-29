@@ -20,7 +20,7 @@ const Avatar = ({
   const classes = classNames({ 'rounded-circle': circle, rounded }, className);
   return (
     <Tag
-      src={require('assets/img/users/'+img+'.jpg')}
+      src={require('assets/img/users/'+img)}
       style={{ width: size, height: size, ...style }}
       className={classes}
       {...restProps}
@@ -45,7 +45,7 @@ Avatar.defaultProps = {
   size: 40,
   src: userImage,
   style: {},
-  img: "user1"
+  img: "avatar.jpg"
 };
 
 export default Avatar;

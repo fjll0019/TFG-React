@@ -5,18 +5,11 @@ import { UserCard } from 'components/Card';
 import httpClient from '../../httpClient';
 import SearchInput from 'components/SearchInput';
 
-/*import { notificationsData } from 'demos/header';
-import Notifications from 'components/Notifications';
-import sidebarBgImage from 'assets/img/sidebar/sidebar-4.jpg';
-import withBadge from 'hocs/withBadge';
-
-*/
 import React from 'react';
-//import {User} from '../../components/User'
+
 import {
   MdClearAll,
   MdExitToApp,
-  // MdNotificationsActive,
   MdPersonPin,
   MdSettingsApplications,
 } from 'react-icons/md';
@@ -24,7 +17,6 @@ import {
   Button,
   ListGroup,
   ListGroupItem,
-  // NavbarToggler,
   Nav,
   Navbar,
   NavItem,
@@ -33,44 +25,9 @@ import {
   PopoverBody,
 } from 'reactstrap';
 import bn from 'utils/bemnames';
-/*
-import {
-  MdAccountCircle,
-  MdDashboard,
-  MdInsertChart,
-} from 'react-icons/md';
-import {
-  NavLink as BSNavLink,
-} from 'reactstrap';*/
-
-
-/*const navItems = [
-  { to: '/', name: 'dashboard', exact: true, Icon: MdDashboard },
-  { to: '/charts', name: 'charts', exact: false, Icon: MdInsertChart },
-  { to: '/login', name: 'login / signup', exact: false, Icon: MdAccountCircle }
-];*/
 
 const bem = bn.create('header');
-const logo= ""
-/*const sidebarBackground = {
-  backgroundImage: `url("${sidebarBgImage}")`,
-  backgroundSize: 'cover',
-  backgroundRepeat: 'no-repeat',
-};*/
 
-/*const MdNotificationsActiveWithBadge = withBadge({
-  size: 'md',
-  color: 'primary',
-  style: {
-    top: -10,
-    right: -10,
-    display: 'inline-flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  children: <small>5</small>,
-})(MdNotificationsActive);
-*/
 class Header extends React.Component {
   state = {
     isOpenNotificationPopover: false,
@@ -82,20 +39,19 @@ class Header extends React.Component {
     try {
       const resp = await httpClient.get("//localhost:5000/@me")
       sessionStorage.setItem("UserName", resp.data["nombre"])
+      sessionStorage.setItem("avatar", resp.data["avatar"])
       console.log(sessionStorage.getItem("UserName"))
+      console.log(sessionStorage.getItem("avatar"))
+      console.log(resp)
       sessionStorage.setItem("Email", resp.data["email"])
-      console.log(sessionStorage.getItem("nombre"))
-
-      //logo = require('assets/img/users/mikey.jpg').default
-      console.log(logo)
-
-    //  sessionStorage.setItem("Avatar",)
 
     } catch (error) {
-
+      if(error===401){
+        console.log("Error: 401")
+      }
     }
   }
-  componentDidMount() {
+  componentWillMount() {
     this.checkLoginStatus();
 
   }
@@ -123,12 +79,17 @@ class Header extends React.Component {
     document.querySelector('.cr-sidebar').classList.toggle('cr-sidebar--open');
   };
   CerrarSesion = () => {
-    sessionStorage.removeItem("jwt")
-    sessionStorage.removeItem("UserName")
-    sessionStorage.removeItem("Email")
-    sessionStorage.removeItem("Avatar")
-    sessionStorage.removeItem("nombre")
+    try{
+      httpClient.get("//localhost:5000/@logout")
+      sessionStorage.removeItem("jwt")
+      sessionStorage.removeItem("UserName")
+      sessionStorage.removeItem("Email")
+      sessionStorage.removeItem("avatar")
+  
+    }catch(error){
 
+    }
+   
     window.location.replace('/')
   }
 
@@ -142,7 +103,6 @@ class Header extends React.Component {
   }
 
   render() {
-    //const { isNotificationConfirmed } = this.state;
 
     return (
 
@@ -208,7 +168,7 @@ class Header extends React.Component {
                 <Avatar
                   onClick={this.toggleUserCardPopover}
                   className="can-click"
-                  img={sessionStorage.getItem("nombre")}
+                  img={sessionStorage.getItem("avatar")}
                 />
               </NavLink>
               <Popover
@@ -221,7 +181,7 @@ class Header extends React.Component {
               >
                 <PopoverBody className="p-0 border-light">
                   <UserCard
-                    avatar={sessionStorage.getItem("nombre")}
+                    avatar={sessionStorage.getItem("avatar")}
                     title={sessionStorage.getItem("UserName")}
                     subtitle={sessionStorage.getItem("Email")}
                     text="Welcome"

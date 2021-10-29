@@ -5,15 +5,13 @@ import PageSpinner from 'components/PageSpinner';
 import AuthPage from 'pages/AuthPage';
 import React from 'react';
 import componentQueries from 'react-component-queries';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
-import Perfil from '../src/pages/PerfilPage'
-import Config from '../src/pages/ConfigPage'
 import Delete from './components/Delete';
-import Password from './components/Password';
 import PerfilPage from '../src/pages/PerfilPage';
 import ConfigPage from '../src/pages/ConfigPage';
 import PasswordPage from './pages/PasswordPage';
+
 
 /*
 const AlertPage = React.lazy(() => import('pages/AlertPage'));
@@ -37,8 +35,11 @@ const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
 };
 
+
 class App extends React.Component {
+
   render() {
+
     return (
       <BrowserRouter basename={getBasename()}>
         <GAListener>
@@ -93,11 +94,10 @@ class App extends React.Component {
             />
             <MainLayout breakpoint={this.props.breakpoint}>
               <React.Suspense fallback={<PageSpinner />}>
-                <Route exact path="/" component={DashboardPage} />
+                {<Route exact path="/" component={DashboardPage} />}
 
               </React.Suspense>
             </MainLayout>
-            <Redirect to="/" />
           </Switch>
         </GAListener>
       </BrowserRouter>

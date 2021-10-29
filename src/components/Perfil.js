@@ -4,6 +4,7 @@ import React from 'react';
 import Avatar from '../components/Avatar';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import $ from 'jquery'
+import { Card,Col, Row } from 'reactstrap';
 import httpClient from '../httpClient';
 
 
@@ -19,15 +20,13 @@ class Perfil extends React.Component {
     async checkLoginStatus() {
         try {
             const resp = await httpClient.get("//localhost:5000/@me")
-            console.log(resp.data)
             console.log(resp.data["nombre"])
-            if(resp.data["nombre"]!=null){
-                sessionStorage.setItem("nombre", resp.data["nombre"])
-
-            }
-            $('#nombre').attr("placeholder",resp.data["nombre"]);
-            $('#email').attr("placeholder",resp.data["email"]);
-            console.log(sessionStorage.getItem("nombre"))
+            
+            console.log(resp.data["avatar"]);
+            sessionStorage.setItem("avatar", resp.data["avatar"])
+            $('#nombre').attr("placeholder", resp.data["nombre"]);
+            $('#email').attr("placeholder", resp.data["email"]);
+            
             //window.location.href = "/"
         } catch (error) {
 
@@ -36,12 +35,24 @@ class Perfil extends React.Component {
 
     componentDidMount() {
         this.checkLoginStatus();
-
     }
-   
+
+    state = {
+
+        // Initially, no file is selected
+        selectedFile: null
+    };
+
+    // On file select (from the pop up)
+    onFileChange = event => {
+
+        // Update the state
+        this.setState({ selectedFile: event.target.files[0] });
+
+    };
 
     render() {
-        
+
         var email = ""
         var nombre = ""
 
@@ -56,23 +67,40 @@ class Perfil extends React.Component {
 
         } = this.props;
 
+
+        const onFileUpload = () => {
+
+            const formData = new FormData();
+
+            formData.append(
+                "file",
+                this.state.selectedFile,
+                this.state.selectedFile.name
+            );
+
+            httpClient.post("//localhost:5000/uploadfile", formData);
+            window.location.reload(true);
+            window.location.href = "/"
+
+        };
+
         const Guardar = async () => {
             nombre = document.getElementById('nombre').value
             email = document.getElementById('email').value
             //console.log("email: " + email + " , " + "password:" + password)
 
             try {
-                const resp = await httpClient.post("//localhost:5000/perfil", {
+                await httpClient.post("//localhost:5000/perfil", {
                     nombre,
                     email,
-
                 })
-                
+
                 window.location.href = "/"
             } catch (error) {
                 if (error === 401)
                     alert("Invalid Credentials")
             }
+
         }
 
 
@@ -90,19 +118,50 @@ class Perfil extends React.Component {
                     </div>
                 )}
                 <div className="text-center pb-4">
-                    <Avatar
-                        size="100px"
-                        img={sessionStorage.getItem("nombre")}
-                        className="can-click"
-                    />
+                    {
+                        sessionStorage.getItem("avatar") != null && (
+                            <Avatar
+                                size="100px"
+                                img={sessionStorage.getItem("avatar")}
+                                className="can-click"
+                            />
+                        )
+
+                    }
                 </div>
+                <Row
+                    style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}>
+
+                    <Col>
+                        <Card>
+                            <input className="form-control form-control-sm" id="inputFile" type="file" onChange={this.onFileChange} />
+
+                        </Card>
+                    </Col>
+                    <Col>
+                        <Card>
+                            <Button
+                                size="sm"
+                                className="bg-gradient-theme-left border-0"
+                                block
+                                onClick={onFileUpload}>
+                                Subir
+                            </Button>
+                        </Card>
+                    </Col>
+
+
+                </Row>
                 <FormGroup>
                     <Label for={NombreLabel}>{NombreLabel}</Label>
                     <Input id="nombre" {...NombreInputProps} />
                 </FormGroup>
                 <FormGroup>
                     <Label for={Emailabel}>{Emailabel}</Label>
-                    <Input id="email" {...EmailInputProps}  />
+                    <Input id="email" {...EmailInputProps} />
                 </FormGroup>
 
                 <hr />
@@ -136,17 +195,17 @@ Perfil.defaultProps = {
     showLogo: true,
     Emailabel: 'Email',
     EmailInputProps: {
-        
+
         type: 'email',
-        
+
     },
     NombreLabel: 'Nombre',
     NombreInputProps: {
-       
+
         type: 'name',
-        
+
     },
-   
+
 };
 
 export default Perfil;

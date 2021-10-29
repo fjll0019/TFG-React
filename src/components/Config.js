@@ -4,11 +4,9 @@ import React from 'react';
 import httpClient from '../httpClient';
 import $ from 'jquery'
 import bn from 'utils/bemnames';
-import sidebarBgImage from 'assets/img/sidebar/sidebar-4.jpg';
-import SourceLink from 'components/SourceLink';
+
 import {
   Nav,
-  Navbar,
   NavItem,
   NavLink as BSNavLink,
 } from 'reactstrap';
@@ -51,57 +49,17 @@ class Config extends React.Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.checkLoginStatus();
-
   }
 
 
   render() {
-    var session_id = ""
+
     const {
       onLogoClick,
     } = this.props;
-    var email = ""
-    var nombre = ""
 
-    const DeleteUser = async () => {
-      try {
-        session_id = sessionStorage.getItem("user_id")
-        const resp = await httpClient.post("//localhost:5000/delete", {
-          session_id
-        })
-        sessionStorage.removeItem("jwt")
-        sessionStorage.removeItem("UserName")
-        sessionStorage.removeItem("Email")
-        sessionStorage.removeItem("Avatar")
-        sessionStorage.removeItem("nombre")
-
-        window.location.href = "/"
-      } catch (error) {
-        console.log("No ha sido posible eliminar la cuenta")
-        alert("No ha sido posible eliminar la cuenta")
-      }
-    }
-
-    const Guardar = async () => {
-      nombre = document.getElementById('nombre').value
-      email = document.getElementById('email').value
-      //console.log("email: " + email + " , " + "password:" + password)
-
-      try {
-        const resp = await httpClient.post("//localhost:5000/config", {
-          nombre,
-          email,
-
-        })
-        console.log(resp.data)
-        window.location.href = "/"
-      } catch (error) {
-        if (error === 401)
-          alert("Invalid Credentials")
-      }
-    }
 
     const bem = bn.create('sidebar');
     return (
