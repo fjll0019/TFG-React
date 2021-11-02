@@ -24,7 +24,7 @@ class Perfil extends React.Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.checkLoginStatus();
     }
 

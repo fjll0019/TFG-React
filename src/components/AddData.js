@@ -1,16 +1,14 @@
-import logo200Image from 'assets/img/logo/icono.png';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Avatar from '../components/Avatar';
+import logo200Image from 'assets/img/logo/icono.png';
+import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import $ from 'jquery'
-import { Card, Col, Row } from 'reactstrap';
 import httpClient from '../httpClient';
 
+const tableTypes = ['striped'];
 
-
-
-class Perfil extends React.Component {
+class AddData extends React.Component {
 
     handleSubmit = event => {
         event.preventDefault();
@@ -72,42 +70,19 @@ class Perfil extends React.Component {
 
             const formData = new FormData();
             if (this.state.selectedFile === null) {
-                alert("No se ha seleccionado ningun avatar")
+                alert("No se ha seleccionado ningun fichero de datos")
             } else {
                 formData.append(
                     "file",
                     this.state.selectedFile,
                     this.state.selectedFile.name
                 );
-                httpClient.post("//localhost:5000/uploadfile", formData);
-                sessionStorage.setItem("avatar", this.state.selectedFile.name)
+                httpClient.post("//localhost:5000/uploadData", formData);
                 window.location.reload(true)
                 //window.location.href = "/"
-
             }
-    
 
         };
-
-        const Guardar = async () => {
-            nombre = document.getElementById('nombre').value
-            email = document.getElementById('email').value
-            //console.log("email: " + email + " , " + "password:" + password)
-
-            try {
-                await httpClient.post("//localhost:5000/perfil", {
-                    nombre,
-                    email,
-                })
-
-                window.location.href = "/"
-            } catch (error) {
-                if (error === 401)
-                    alert("Invalid Credentials")
-            }
-
-        }
-
 
         return (
             <Form onSubmit={this.handleSubmit}>
@@ -122,18 +97,6 @@ class Perfil extends React.Component {
                         />
                     </div>
                 )}
-                <div className="text-center pb-4">
-                    {
-                        sessionStorage.getItem("avatar") != null && (
-                            <Avatar
-                                size="100px"
-                                img={sessionStorage.getItem("avatar")}
-                                className="can-click"
-                            />
-                        )
-
-                    }
-                </div>
                 <Row
                     style={{
                         justifyContent: 'center',
@@ -153,30 +116,62 @@ class Perfil extends React.Component {
                                 className="bg-gradient-theme-left border-0"
                                 block
                                 onClick={onFileUpload}>
-                                Actualizar imagen
+                                Subir fichero
                             </Button>
                         </Card>
                     </Col>
 
 
                 </Row>
-                <FormGroup>
-                    <Label for={NombreLabel}>{NombreLabel}</Label>
-                    <Input id="nombre" {...NombreInputProps} />
-                </FormGroup>
-                <FormGroup>
-                    <Label for={Emailabel}>{Emailabel}</Label>
-                    <Input id="email" {...EmailInputProps} />
-                </FormGroup>
+                {tableTypes.map((tableType, index) => (
+        <Row key={index}>
+          <Col>
+            <Card className="mb-3">
+              <CardHeader>Datos</CardHeader>
+              <CardBody>
+                <Row>
+                  <Col>
+                    <Card body>
+                      <Table {...{ [tableType || 'default']: true }}>
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Username</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">3</th>
+                            <td>Larry</td>
+                            <td>the Bird</td>
+                            <td>@twitter</td>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </Card>
+                  </Col>
 
-                <hr />
-                <Button
-                    size="lg"
-                    className="bg-gradient-theme-left border-0"
-                    block
-                    onClick={Guardar}>
-                    Guardar
-                </Button>
+                 
+                </Row>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      ))}
 
                 {children}
             </Form>
@@ -185,7 +180,7 @@ class Perfil extends React.Component {
 }
 
 
-Perfil.propTypes = {
+AddData.propTypes = {
     showLogo: PropTypes.bool,
     Emailabel: PropTypes.string,
     EmailInputProps: PropTypes.object,
@@ -196,7 +191,7 @@ Perfil.propTypes = {
     onLogoClick: PropTypes.func,
 };
 
-Perfil.defaultProps = {
+AddData.defaultProps = {
     showLogo: true,
     Emailabel: 'Email',
     EmailInputProps: {
@@ -213,4 +208,4 @@ Perfil.defaultProps = {
 
 };
 
-export default Perfil;
+export default AddData;

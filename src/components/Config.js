@@ -14,12 +14,14 @@ import {
   MdAccountCircle,
   MdPeople,
   MdDelete,
+  MdAdd
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 const navItems = [
   { to: '/perfil', name: 'Información de la cuenta', exact: false, Icon: MdAccountCircle },
   { to: '/password', name: 'Cambiar Contraseña', exact: true, Icon: MdPeople },
-  { to: '/delete', name: 'Eliminar Cuenta', exact: false, Icon: MdDelete },
+  { to: '/addData', name: 'Añadir datos', exact: false, Icon: MdAdd },
+  { to: '/delete', name: 'Eliminar Cuenta', exact: false, Icon: MdDelete }
 ];
 class Config extends React.Component {
 
@@ -49,7 +51,7 @@ class Config extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.checkLoginStatus();
   }
 

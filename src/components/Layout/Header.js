@@ -4,6 +4,7 @@ import SourceLink from 'components/SourceLink';
 import { UserCard } from 'components/Card';
 import httpClient from '../../httpClient';
 import SearchInput from 'components/SearchInput';
+import $ from 'jquery'
 
 import React from 'react';
 
@@ -42,16 +43,16 @@ class Header extends React.Component {
       sessionStorage.setItem("avatar", resp.data["avatar"])
       console.log(sessionStorage.getItem("UserName"))
       console.log(sessionStorage.getItem("avatar"))
-      console.log(resp)
       sessionStorage.setItem("Email", resp.data["email"])
+      $('#UserName').text(resp.data["nombre"]);
 
     } catch (error) {
-      if(error===401){
+      if (error === 401) {
         console.log("Error: 401")
       }
     }
   }
-  componentWillMount() {
+  componentDidMount() {
     this.checkLoginStatus();
 
   }
@@ -79,17 +80,17 @@ class Header extends React.Component {
     document.querySelector('.cr-sidebar').classList.toggle('cr-sidebar--open');
   };
   CerrarSesion = () => {
-    try{
+    try {
       httpClient.get("//localhost:5000/@logout")
       sessionStorage.removeItem("jwt")
       sessionStorage.removeItem("UserName")
       sessionStorage.removeItem("Email")
       sessionStorage.removeItem("avatar")
-  
-    }catch(error){
+
+    } catch (error) {
 
     }
-   
+
     window.location.replace('/')
   }
 
@@ -101,6 +102,7 @@ class Header extends React.Component {
   Perfil = () => {
     window.location.replace('/perfil')
   }
+
 
   render() {
 
@@ -181,6 +183,7 @@ class Header extends React.Component {
               >
                 <PopoverBody className="p-0 border-light">
                   <UserCard
+                    id="userCard"
                     avatar={sessionStorage.getItem("avatar")}
                     title={sessionStorage.getItem("UserName")}
                     subtitle={sessionStorage.getItem("Email")}

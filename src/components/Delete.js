@@ -19,7 +19,7 @@ class Delete extends React.Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.DeleteUser();
 
     }

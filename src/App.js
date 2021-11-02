@@ -11,6 +11,8 @@ import Delete from './components/Delete';
 import PerfilPage from '../src/pages/PerfilPage';
 import ConfigPage from '../src/pages/ConfigPage';
 import PasswordPage from './pages/PasswordPage';
+import AddData from './components/AddData';
+import AddDataPage from './pages/AddDataPage';
 
 
 /*
@@ -90,6 +92,14 @@ class App extends React.Component {
               layout={EmptyLayout}
               component={props => (
                 <PasswordPage />
+              )}
+            />
+              <LayoutRoute
+              exact
+              path="/addData"
+              layout={EmptyLayout}
+              component={props => (
+                <AddDataPage />
               )}
             />
             <MainLayout breakpoint={this.props.breakpoint}>
