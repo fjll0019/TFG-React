@@ -23,6 +23,9 @@ class Perfil extends React.Component {
             console.log(resp.data["nombre"])
 
             console.log(resp.data["avatar"]);
+            console.log(resp.data["data"]);
+            console.log(resp.data);
+
             sessionStorage.setItem("avatar", resp.data["avatar"])
             $('#nombre').attr("placeholder", resp.data["nombre"]);
             $('#email').attr("placeholder", resp.data["email"]);
@@ -102,7 +105,7 @@ class Perfil extends React.Component {
 
                 window.location.href = "/"
             } catch (error) {
-                if (error === 401)
+                if (error.response.status === 401)
                     alert("Invalid Credentials")
             }
 

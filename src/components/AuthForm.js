@@ -71,9 +71,11 @@ class AuthForm extends React.Component {
           sessionStorage.setItem("avatar", resp.data["avatar"])
           window.location.href = "/"
         } catch (error) {
-          if (error === 401)
+          if (error.response.status === 401) {
             console.log("Invalid Credentials")
-          alert("Invalid Credentials")
+            alert("Invalid Credentials")
+          }
+
         }
       } else {
         email = document.getElementById('email').value
@@ -100,7 +102,7 @@ class AuthForm extends React.Component {
 
           window.location.href = "/"
         } catch (error) {
-          if (error === 401)
+          if (error.response.status === 401)
             alert("Invalid Credentials")
 
         }

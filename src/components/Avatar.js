@@ -19,6 +19,7 @@ const Avatar = ({
 }) => {
   const classes = classNames({ 'rounded-circle': circle, rounded }, className);
   return (
+    
     <Tag
       src={require('assets/img/users/'+img)}
       style={{ width: size, height: size, ...style }}

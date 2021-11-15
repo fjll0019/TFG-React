@@ -47,12 +47,12 @@ class Header extends React.Component {
       $('#UserName').text(resp.data["nombre"]);
 
     } catch (error) {
-      if (error === 401) {
+      if (error.response.status === 401) {
         console.log("Error: 401")
       }
     }
   }
-  componentDidMount() {
+  componentWillMount() {
     this.checkLoginStatus();
 
   }
@@ -167,11 +167,16 @@ class Header extends React.Component {
 
 
               <NavLink id="Popover2">
-                <Avatar
-                  onClick={this.toggleUserCardPopover}
-                  className="can-click"
-                  img={sessionStorage.getItem("avatar")}
-                />
+                {
+                   sessionStorage.getItem("avatar") !== null  && (
+                    <Avatar
+                    onClick={this.toggleUserCardPopover}
+                    className="can-click"
+                    img={sessionStorage.getItem("avatar")}
+                  />
+                   ) 
+             }
+              
               </NavLink>
               <Popover
                 placement="bottom-end"

@@ -11,7 +11,8 @@ import Delete from './components/Delete';
 import PerfilPage from '../src/pages/PerfilPage';
 import ConfigPage from '../src/pages/ConfigPage';
 import PasswordPage from './pages/PasswordPage';
-import AddData from './components/AddData';
+import httpClient from './httpClient';
+import $ from 'jquery'
 import AddDataPage from './pages/AddDataPage';
 
 
@@ -39,7 +40,25 @@ const getBasename = () => {
 
 
 class App extends React.Component {
+  async checkLoginStatus() {
+    try {
+      const resp = await httpClient.get("//localhost:5000/@me")
+      console.log(resp.data["nombre"])
 
+      console.log(resp.data["avatar"]);
+      sessionStorage.setItem("avatar", resp.data["avatar"])
+      $('#nombre').attr("placeholder", resp.data["nombre"]);
+      $('#email').attr("placeholder", resp.data["email"]);
+
+      //window.location.href = "/"
+    } catch (error) {
+
+    }
+  }
+
+  componentWillMount() {
+    this.checkLoginStatus();
+  }
   render() {
 
     return (

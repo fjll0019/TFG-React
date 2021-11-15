@@ -59,15 +59,15 @@ class Perfil extends React.Component {
                    // window.location.href = "/"
                 } catch (error) {
                     console.log(error)
-                    if (error === 401) {
+                    if (error.response.status === 401) {
                         console.log("Invalid Credentials")
                         alert("Invalid Credentials")
                     }
-                    if (error === 400) {
+                    if (error.response.status === 400) {
                         console.log("Same Password")
                         alert("La contraseña a la que se quiere cambiar es la misma que la anterior")
                     }
-                    if (error === 403) {
+                    if (error.response.status === 403) {
                         console.log("La contraseña actual no es correcta")
                         alert("La contraseña actual no es correcta")
                     }

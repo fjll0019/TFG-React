@@ -1,9 +1,8 @@
 import { AnnouncementCard, TodosCard } from 'components/Card';
-
+import $ from 'jquery'
 import Page from 'components/Page';
 import SupportTicket from 'components/SupportTicket';
 import { NumberWidget } from 'components/Widget';
-
 import { getStackLineChart, stackLineChartOptions } from 'demos/chartjs';
 import {
   chartjs,
@@ -31,6 +30,7 @@ import {
   Row,
 } from 'reactstrap';
 import { getColor } from 'utils/colors';
+import httpClient from '../httpClient';
 
 //const today = new Date();
 /*const lastWeek = new Date(
@@ -41,9 +41,29 @@ import { getColor } from 'utils/colors';
 
 class DashboardPage extends React.Component {
 
+  async checkLoginStatus() {
+    try {
+      const resp = await httpClient.get("//localhost:5000/@me")
+      console.log(resp.data["nombre"])
+
+      console.log(resp.data["avatar"]);
+      sessionStorage.setItem("avatar", resp.data["avatar"])
+      $('#nombre').attr("placeholder", resp.data["nombre"]);
+      $('#email').attr("placeholder", resp.data["email"]);
+
+      //window.location.href = "/"
+    } catch (error) {
+
+    }
+  }
+
+  componentWillMount() {
+    this.checkLoginStatus();
+  }
   render() {
+    
     const primaryColor = getColor('primary');
-   // const secondaryColor = getColor('secondary');
+    // const secondaryColor = getColor('secondary');
 
     return (
       <Page

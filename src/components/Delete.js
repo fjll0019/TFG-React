@@ -11,6 +11,8 @@ class Delete extends React.Component {
             sessionStorage.removeItem("UserName")
             sessionStorage.removeItem("Email")
             sessionStorage.removeItem("avatar")
+            sessionStorage.removeItem("data")
+
 
             window.location.href = "/"
         } catch (error) {
