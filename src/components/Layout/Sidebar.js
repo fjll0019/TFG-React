@@ -69,8 +69,8 @@ const pageContents = [
 ];*/
 
 const navItems = [
-  { to: '/login', name: 'login / signup', exact: false, Icon: MdAccountCircle },
-  { to: '/', name: 'dashboard', exact: true, Icon: MdDashboard },
+  { to: '/signup', name: 'Nuevo Usuario', exact: false, Icon: MdAccountCircle },
+  { to: '/home', name: 'dashboard', exact: true, Icon: MdDashboard },
   { to: '/charts', name: 'charts', exact: false, Icon: MdInsertChart },
 ];
 

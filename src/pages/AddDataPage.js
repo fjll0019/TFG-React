@@ -5,7 +5,7 @@ import AddData from '../components/AddData';
 class AddDataPage extends React.Component {
 
     handleLogoClick = () => {
-        window.location.href = "/"
+        window.location.href = "/home"
     };
     render() {
         return (

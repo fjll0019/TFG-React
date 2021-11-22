@@ -5,7 +5,7 @@ import Password from '../components/Password';
 class PasswordPage extends React.Component {
 
     handleLogoClick = () => {
-        window.location.href = "/"
+        window.location.href = "/home"
     };
     render() {
         return (

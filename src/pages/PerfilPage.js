@@ -5,7 +5,7 @@ import Perfil from '../components/Perfil';
 class PerfilPage extends React.Component {
 
     handleLogoClick = () => {
-        window.location.href = "/"
+        window.location.href = "/home"
     };
     render() {
         return (

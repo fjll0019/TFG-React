@@ -69,7 +69,7 @@ class AuthForm extends React.Component {
 
           sessionStorage.setItem("jwt", JSON.stringify(resp.data))
           sessionStorage.setItem("avatar", resp.data["avatar"])
-          window.location.href = "/"
+          window.location.href = "/home"
         } catch (error) {
           if (error.response.status === 401) {
             console.log("Invalid Credentials")
@@ -100,7 +100,7 @@ class AuthForm extends React.Component {
 
           sessionStorage.setItem("nombre", resp.data["avatar"])
 
-          window.location.href = "/"
+          window.location.href = "/home"
         } catch (error) {
           if (error.response.status === 401)
             alert("Invalid Credentials")
@@ -112,20 +112,39 @@ class AuthForm extends React.Component {
 
 
     }
+    const goHome = () => {
+      window.location.href = "/home"
+    };
+  
+
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        {showLogo && (
+        {showLogo && this.isSignup ? (
           <div className="text-center pb-4">
             <img
               src={logo200Image}
               className="rounded"
               style={{ width: 60, height: 60, cursor: 'pointer' }}
               alt="logo"
+
+              onClick={goHome}
+            />
+          </div>
+        ) : (
+          <div className="text-center pb-4">
+            <img
+              src={logo200Image}
+              className="rounded"
+              style={{ width: 60, height: 60, cursor: 'pointer' }}
+              alt="logo"
+
               onClick={onLogoClick}
             />
           </div>
-        )}
+        )
+        }
+
 
         <FormGroup>
           <Label for={Emailabel}>{Emailabel}</Label>
@@ -155,22 +174,6 @@ class AuthForm extends React.Component {
           onClick={LogSignUser}>
           {this.renderButtonText()}
         </Button>
-
-        <div className="text-center pt-1">
-          <h6>o</h6>
-          <h6>
-            {this.isSignup ? (
-              <a href="#login" onClick={this.changeAuthState(STATE_LOGIN)}>
-                Iniciar Sesión
-              </a>
-            ) : (
-              <a href="#signup" onClick={this.changeAuthState(STATE_SIGNUP)}>
-                Registarte
-              </a>
-            )}
-          </h6>
-        </div>
-
         {children}
       </Form>
     );

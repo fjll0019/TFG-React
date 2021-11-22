@@ -13,12 +13,6 @@ import {
 
 import bn from 'utils/bemnames';
 
-import {
-  Nav,
-  NavItem,
-  NavLink as BSNavLink,
-} from 'reactstrap';
-import { NavLink } from 'react-router-dom';
 
 const navItems = [
   { to: '/deleteData', name: '', exact: false, Icon: MdDelete }

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Card, Col, Row } from 'reactstrap';
-import Config from '../components/Config';
 import { Content } from 'components/Layout';
+import  UsersLists from '../components/UsersLists'
 
-class ConfigPage extends React.Component {
+class UsersListPage extends React.Component {
     handleLogoClick = () => {
         window.location.href = "/home"
     };
@@ -12,6 +12,7 @@ class ConfigPage extends React.Component {
         return (
             <Row
                 style={{
+                    weight:'125h',
                     height: '125vh',
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -19,7 +20,7 @@ class ConfigPage extends React.Component {
                 <Col md={1} lg={3}>
                     <Card body>
                         <main className="cr-app bg-light">
-                            <Config onLogoClick={this.handleLogoClick} />
+                            <UsersLists />
                             <Content />
                         </main>
                     </Card>
@@ -29,4 +30,4 @@ class ConfigPage extends React.Component {
     }
 }
 
-export default ConfigPage;
+export default UsersListPage;

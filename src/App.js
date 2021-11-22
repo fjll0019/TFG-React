@@ -14,6 +14,8 @@ import PasswordPage from './pages/PasswordPage';
 import httpClient from './httpClient';
 import $ from 'jquery'
 import AddDataPage from './pages/AddDataPage';
+import UsersListPage from './pages/UsersListPage';
+
 
 
 /*
@@ -67,7 +69,7 @@ class App extends React.Component {
           <Switch>
             <LayoutRoute
               exact
-              path="/login"
+              path="/"
               layout={EmptyLayout}
               component={props => (
                 <AuthPage {...props} authState={STATE_LOGIN} />
@@ -121,9 +123,17 @@ class App extends React.Component {
                 <AddDataPage />
               )}
             />
+             <LayoutRoute
+              exact
+              path="/userList"
+              layout={EmptyLayout}
+              component={props => (
+                <UsersListPage />
+              )}
+            />
             <MainLayout breakpoint={this.props.breakpoint}>
               <React.Suspense fallback={<PageSpinner />}>
-                {<Route exact path="/" component={DashboardPage} />}
+                {<Route exact path="/home" component={DashboardPage} />}
 
               </React.Suspense>
             </MainLayout>
