@@ -17,12 +17,12 @@ class UsersListPage extends React.Component {
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
-                <Col md={1} lg={3}>
+                <Col md={3} lg={6}>
                     <Card body>
-                        <main className="cr-app bg-light">
-                            <UsersLists />
+                     
+                            <UsersLists      onLogoClick={this.handleLogoClick} />
                             <Content />
-                        </main>
+                       
                     </Card>
                 </Col>
             </Row>
