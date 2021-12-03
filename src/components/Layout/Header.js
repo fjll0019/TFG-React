@@ -41,9 +41,9 @@ class Header extends React.Component {
       const resp = await httpClient.get("//localhost:5000/@me")
       sessionStorage.setItem("UserName", resp.data["nombre"])
       sessionStorage.setItem("avatar", resp.data["avatar"])
+      sessionStorage.setItem("rol", resp.data["rol"])
       console.log(sessionStorage.getItem("UserName"))
       console.log(sessionStorage.getItem("rol"))
-      sessionStorage.setItem("rol", resp.data["rol"])
       sessionStorage.setItem("Email", resp.data["email"])
       $('#UserName').text(resp.data["nombre"]);
 
@@ -87,6 +87,9 @@ class Header extends React.Component {
       sessionStorage.removeItem("UserName")
       sessionStorage.removeItem("Email")
       sessionStorage.removeItem("avatar")
+      sessionStorage.removeItem("data")
+      sessionStorage.removeItem("rol")
+
 
     } catch (error) {
 

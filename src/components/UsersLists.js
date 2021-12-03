@@ -2,9 +2,8 @@ import React from "react"
 import ListOfUsers from '../components/ListOfUsers'
 import { useUsers } from '../hooks/useUsers'
 import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
-import { Button, Form, } from 'reactstrap';
+import { Button, Modal, ModalFooter, ModalBody,ModalHeader, Form, } from 'reactstrap';
 import logo200Image from 'assets/img/logo/icono.png';
-
 import {
 
   MdDelete,
@@ -12,6 +11,7 @@ import {
 } from 'react-icons/md';
 
 import bn from 'utils/bemnames';
+import UserData from "./UserData";
 
 
 const navItems = [
@@ -22,9 +22,25 @@ const tableTypes = ['striped'];
 class UserLists extends React.Component {
 
   state = {
+    options: [
+      { text: 'doNothing', value: 'doNothing' },
+      { text: 'openModal', value: 'openModal' }
+    ],
+    open: true,
     lista: [],
   }
-  existe=false;
+
+  toggle = modalType => () => {
+    if (!modalType) {
+      return this.setState({
+        modal: !this.state.modal,
+      });
+    }
+
+    this.setState({
+      [`modal_${modalType}`]: !this.state[`modal_${modalType}`],
+    });
+  };
 
   async getUsuarios() {
 
@@ -34,7 +50,7 @@ class UserLists extends React.Component {
     var usuarios = { datos, name, email }
     await useUsers().then(users => {
       usuarios = users
-      this.existe=true
+      this.existe = true
     })
 
     //console.log(usuarios)
@@ -48,12 +64,16 @@ class UserLists extends React.Component {
         this.setState({ lista });
       }
     );
+    /*  this.modalOnClick().then(modal =>{
+        this.setState({modal})
+      })
+  */
   }
 
   render() {
     const {
       showLogo,
-      
+
       onLogoClick,
 
     } = this.props;
@@ -65,18 +85,18 @@ class UserLists extends React.Component {
       return (
         <>
           {showLogo && (
-          <div className="text-center pb-4">
-            <img
-              src={logo200Image}
-              className="rounded"
-              style={{ width: 60, height: 60, cursor: 'pointer' }}
-              alt="logo"
-              onClick={onLogoClick}
-            />
-          </div>
-        )}
+            <div className="text-center pb-4">
+              <img
+                src={logo200Image}
+                className="rounded"
+                style={{ width: 60, height: 60, cursor: 'pointer' }}
+                alt="logo"
+                onClick={onLogoClick}
+              />
+            </div>
+          )}
           <div>
-           
+
 
             <>
               {tableTypes.map((tableType, index) => (
@@ -105,7 +125,22 @@ class UserLists extends React.Component {
                                         <th scope="row">{i}</th>
                                         <td>{user.name}</td>
                                         <td>{user.email}</td>
-                                        <td>{user.datos}</td>
+                                        <td>
+                                          <div>
+
+                                            <button onClick={this.toggle()}> <i class="fas fa-eye"></i> </button>
+                                            <Modal
+                                              isOpen={this.state.modal}
+                                              toggle={this.toggle()}
+                                              className={this.props.className}>
+                                              <ModalHeader toggle={this.toggle()}><h3 class="text-center"> Lista de Ficheros</h3></ModalHeader>
+                                              <ModalBody>
+                                            <UserData/>
+                                              </ModalBody>
+                                           
+                                            </Modal>
+                                          </div>
+                                        </td>
                                         <td><a href='home' ><i class="fas fa-trash-alt"></i></a></td>
 
                                       </tr>
@@ -120,6 +155,7 @@ class UserLists extends React.Component {
 
                         </Row>
                       </CardBody>
+
                     </Card>
                   </Col>
                 </Row>

@@ -12,6 +12,7 @@ class Delete extends React.Component {
             sessionStorage.removeItem("Email")
             sessionStorage.removeItem("avatar")
             sessionStorage.removeItem("data")
+            sessionStorage.removeItem("rol")
 
 
             window.location.href = "/"
