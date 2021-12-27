@@ -39,16 +39,20 @@ const DashboardPage = React.lazy(() => import('pages/DashboardPage'));
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
 };
-
+console.warn = () => {}
 
 class App extends React.Component {
+  
   async checkLoginStatus() {
     try {
-      const resp = await httpClient.get("//localhost:5000/@me")
-      console.log(resp.data["nombre"])
 
-      console.log(resp.data["avatar"]);
+      const resp = await httpClient.get("//localhost:5000/@me")
+      sessionStorage.setItem("UserName", resp.data["nombre"])
       sessionStorage.setItem("avatar", resp.data["avatar"])
+      sessionStorage.setItem("rol", resp.data["rol"])
+      console.log(sessionStorage.getItem("rol"))
+      sessionStorage.setItem("Email", resp.data["email"])
+      $('#UserName').text(resp.data["nombre"]);
       $('#nombre').attr("placeholder", resp.data["nombre"]);
       $('#email').attr("placeholder", resp.data["email"]);
 
@@ -58,7 +62,7 @@ class App extends React.Component {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.checkLoginStatus();
   }
   render() {
@@ -115,7 +119,7 @@ class App extends React.Component {
                 <PasswordPage />
               )}
             />
-              <LayoutRoute
+            <LayoutRoute
               exact
               path="/addData"
               layout={EmptyLayout}
@@ -123,7 +127,7 @@ class App extends React.Component {
                 <AddDataPage />
               )}
             />
-             <LayoutRoute
+            <LayoutRoute
               exact
               path="/userList"
               layout={EmptyLayout}
@@ -133,7 +137,8 @@ class App extends React.Component {
             />
             <MainLayout breakpoint={this.props.breakpoint}>
               <React.Suspense fallback={<PageSpinner />}>
-                {<Route exact path="/home" component={DashboardPage} />}
+                {<Route
+                  path="/home" component={props => <DashboardPage {...props} />} />}
 
               </React.Suspense>
             </MainLayout>

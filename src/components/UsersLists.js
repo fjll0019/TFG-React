@@ -1,16 +1,16 @@
 import React from "react"
-import ListOfUsers from '../components/ListOfUsers'
 import { useUsers } from '../hooks/useUsers'
 import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
-import { Button, Modal, ModalFooter, ModalBody,ModalHeader, Form, } from 'reactstrap';
+import { Modal, ModalBody, ModalHeader, } from 'reactstrap';
 import logo200Image from 'assets/img/logo/icono.png';
+import httpClient from '../httpClient';
+
 import {
 
   MdDelete,
 
 } from 'react-icons/md';
 
-import bn from 'utils/bemnames';
 import UserData from "./UserData";
 
 
@@ -22,6 +22,11 @@ const tableTypes = ['striped'];
 class UserLists extends React.Component {
 
   state = {
+    modal: false,
+    modal_backdrop: false,
+    modal_nested_parent: false,
+    modal_nested: false,
+    backdrop: true,
     options: [
       { text: 'doNothing', value: 'doNothing' },
       { text: 'openModal', value: 'openModal' }
@@ -42,6 +47,22 @@ class UserLists extends React.Component {
     });
   };
 
+  deleteUser(email) {
+    console.log(email)
+    try {
+      httpClient.post("//localhost:5000/deleteUser", {
+        email
+      })
+      alert("Se ha eliminado la cuenta")
+      window.location.reload();
+    } catch (error) {
+      console.log("No ha sido posible eliminar la cuenta")
+      alert("No ha sido posible eliminar la cuenta")
+    }
+
+
+  }
+
   async getUsuarios() {
 
     const datos = []
@@ -56,6 +77,7 @@ class UserLists extends React.Component {
     //console.log(usuarios)
     return usuarios
   }
+
 
   componentDidMount() {
     this._asyncRequest = this.getUsuarios().then(
@@ -103,7 +125,7 @@ class UserLists extends React.Component {
                 <Row key={index}>
                   <Col>
                     <Card className="mb-3">
-                      <CardHeader> <h3 class="text-center"> Lista de usuarios</h3></CardHeader>
+                      <CardHeader> <h3 className="text-center"> Lista de usuarios</h3></CardHeader>
                       <CardBody>
                         <Row>
                           <Col>
@@ -121,28 +143,28 @@ class UserLists extends React.Component {
                                 <tbody>
                                   {
                                     users && users.map((user, i) =>
-                                      <tr>
+                                      <tr key={user.email}>
                                         <th scope="row">{i}</th>
                                         <td>{user.name}</td>
                                         <td>{user.email}</td>
                                         <td>
                                           <div>
 
-                                            <button onClick={this.toggle()}> <i class="fas fa-eye"></i> </button>
+                                            <button onClick={this.toggle()}> <i className="fas fa-eye"></i> </button>
                                             <Modal
                                               isOpen={this.state.modal}
                                               toggle={this.toggle()}
                                               className={this.props.className}>
-                                              <ModalHeader toggle={this.toggle()}><h3 class="text-center"> Lista de Ficheros</h3></ModalHeader>
+                                              <ModalHeader toggle={this.toggle()}> Lista de Ficheros</ModalHeader>
                                               <ModalBody>
-                                            <UserData/>
+                                                <UserData datos={user.datos}  />
                                               </ModalBody>
-                                           
                                             </Modal>
                                           </div>
                                         </td>
-                                        <td><a href='home' ><i class="fas fa-trash-alt"></i></a></td>
 
+                                        <td>
+                                          <button onClick={() => this.deleteUser(user.email)}> <i className="fas fa-trash-alt"></i> </button></td>
                                       </tr>
 
                                     )
@@ -160,9 +182,6 @@ class UserLists extends React.Component {
                   </Col>
                 </Row>
               ))}
-
-
-
             </>
 
           </div>

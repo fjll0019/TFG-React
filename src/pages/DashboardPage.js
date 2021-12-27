@@ -44,10 +44,7 @@ class DashboardPage extends React.Component {
   async checkLoginStatus() {
     try {
       const resp = await httpClient.get("//localhost:5000/@me")
-      console.log(resp.data["nombre"])
 
-      console.log(resp.data["avatar"]);
-      sessionStorage.setItem("avatar", resp.data["avatar"])
       $('#nombre').attr("placeholder", resp.data["nombre"]);
       $('#email').attr("placeholder", resp.data["email"]);
 
@@ -57,7 +54,7 @@ class DashboardPage extends React.Component {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.checkLoginStatus();
   }
   render() {

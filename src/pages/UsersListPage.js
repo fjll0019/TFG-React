@@ -13,16 +13,14 @@ class UsersListPage extends React.Component {
             <Row
                 style={{
                     weight:'125h',
-                    height: '125vh',
+                    height: '55vh',
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
                 <Col md={3} lg={6}>
-                    <Card body>
-                     
-                            <UsersLists      onLogoClick={this.handleLogoClick} />
-                            <Content />
-                       
+                    <Card>
+                            <UsersLists onLogoClick={this.handleLogoClick} />
+                            
                     </Card>
                 </Col>
             </Row>

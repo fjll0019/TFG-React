@@ -95,10 +95,6 @@ class AuthForm extends React.Component {
             email,
             password
           })
-          sessionStorage.setItem("jwt", JSON.stringify(resp.data))
-          console.log(sessionStorage.getItem("avatar"))
-
-          sessionStorage.setItem("nombre", resp.data["avatar"])
 
           window.location.href = "/home"
         } catch (error) {
