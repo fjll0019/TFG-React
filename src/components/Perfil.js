@@ -114,6 +114,8 @@ class Perfil extends React.Component {
 
         return (
             <Form onSubmit={this.handleSubmit}>
+                  
+                <a href="/config"> <i className="fas fa-arrow-left"></i></a>
                 {showLogo && (
                     <div className="text-center pb-4">
                         <img
@@ -125,6 +127,7 @@ class Perfil extends React.Component {
                         />
                     </div>
                 )}
+                {/*
                 <div className="text-center pb-4">
                     {
                         sessionStorage.getItem("avatar") != null && (
@@ -162,7 +165,7 @@ class Perfil extends React.Component {
                     </Col>
 
 
-                </Row>
+                </Row> */}
                 <FormGroup>
                     <Label for={NombreLabel}>{NombreLabel}</Label>
                     <Input id="nombre" {...NombreInputProps} />

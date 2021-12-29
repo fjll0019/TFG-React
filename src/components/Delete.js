@@ -1,34 +1,39 @@
 import React from 'react';
 import httpClient from '../httpClient';
+import Swal from "sweetalert2"
 
 class Delete extends React.Component {
+    mostrarMensaje = () => {
+        alert("Hola");
+      };
+    
+      modalBotones = () => {
+        Swal.fire({
+          title: "Mostar mensaje",
+          showDenyButton: true,
+          denyButtonText: "Salir",
+          denyButtonColor: "grey",
+          confirmButtonText: "Mostrar",
+          confirmButtonColor: "#4c4",
+        }).then((res) => {
+          if (res.isConfirmed) {
+            Swal.fire("Mostrar", this.mostrarMensaje(), "success");
+          }
+          if (res.isDenied) {
+            Swal.fire("Saliendo", "");
+          }
+        });
+      };
 
-    DeleteUser = async () => {
-        try {
 
-            await httpClient.post("//localhost:5000/delete")
-            sessionStorage.removeItem("jwt")
-            sessionStorage.removeItem("UserName")
-            sessionStorage.removeItem("Email")
-            sessionStorage.removeItem("avatar")
-            sessionStorage.removeItem("data")
-            sessionStorage.removeItem("rol")
-
-
-            window.location.href = "/"
-        } catch (error) {
-            console.log("No ha sido posible eliminar la cuenta")
-            alert("No ha sido posible eliminar la cuenta")
-        }
-    }
 
     componentDidMount() {
-        this.DeleteUser();
+        //this.DeleteUser();
 
     }
     render() {
         return (
-            <div> Se ha eliminado correctamente la cuenta</div>
+            <button onClick={this.modalBotones}>Modal basico</button>
         )
     }
 }

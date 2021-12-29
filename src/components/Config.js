@@ -4,6 +4,8 @@ import React from 'react';
 import httpClient from '../httpClient';
 import $ from 'jquery'
 import bn from 'utils/bemnames';
+import Swal from "sweetalert2"
+import { Card } from 'reactstrap';
 
 import {
   Nav,
@@ -17,29 +19,56 @@ import {
   MdAdd
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
+import CardBody from 'reactstrap/lib/CardBody';
 const navItems = [
   { to: '/perfil', name: 'Información de la cuenta', exact: false, Icon: MdAccountCircle },
   { to: '/password', name: 'Cambiar Contraseña', exact: true, Icon: MdPeople },
   { to: '/addData', name: 'Añadir datos', exact: false, Icon: MdAdd },
-  { to: '/delete', name: 'Eliminar Cuenta', exact: false, Icon: MdDelete }
+
 ];
 class Config extends React.Component {
 
-
-
+  modalBorrar = () => {
+    Swal.fire({
+      title: "Vas a eliminar tu cuenta ¿Estás seguro?",
+      showDenyButton: true,
+      denyButtonText: "Cancelar",
+      denyButtonColor: "grey",
+      confirmButtonText: "Eliminar",
+      confirmButtonColor: "red",
+    }).then((res) => {
+      if (res.isConfirmed) {
+        this.DeleteUser();
+      }
+    });
+  };
   handleSubmit = event => {
     event.preventDefault();
   };
+  DeleteUser = async () => {
+    try {
 
+        await httpClient.post("//localhost:5000/delete")
+        sessionStorage.removeItem("jwt")
+        sessionStorage.removeItem("UserName")
+        sessionStorage.removeItem("Email")
+        sessionStorage.removeItem("avatar")
+        sessionStorage.removeItem("data")
+        sessionStorage.removeItem("rol")
+
+
+        window.location.href = "/"
+    } catch (error) {
+        console.log("No ha sido posible eliminar la cuenta")
+        alert("No ha sido posible eliminar la cuenta")
+    }
+}
 
   async checkLoginStatus() {
 
 
     try {
       const resp = await httpClient.get("//localhost:5000/@me")
-      console.log(resp.data)
-      console.log(resp.data["nombre"])
-
       $('#nombre').attr("placeholder", resp.data["nombre"]);
       $('#email').attr("placeholder", resp.data["email"]);
 
@@ -66,7 +95,8 @@ class Config extends React.Component {
     const bem = bn.create('sidebar');
     return (
 
-      <div className={bem.e('background')} >
+      <Card >
+         <CardBody>
         <div className="text-center pb-4">
           <img
             src={logo200Image}
@@ -76,6 +106,7 @@ class Config extends React.Component {
             onClick={onLogoClick}
           />
         </div>
+       
         <Nav className="text-center" vertical>
           {navItems.map(({ to, name, exact, Icon }, index) => (
             <NavItem key={index} className={bem.e('nav-item')}>
@@ -90,10 +121,16 @@ class Config extends React.Component {
                 <Icon className={bem.e('nav-item-icon')} />
                 <span className="">{name}</span>
               </BSNavLink>
+              
             </NavItem>
+            
           ))}
+           <button className="btn btn-primary active" onClick={this.modalBorrar}><i className="fas fa-trash-alt"></i> Eliminar cuenta</button>
         </Nav>
-      </div>
+
+
+        </CardBody>
+      </Card>
     );
   }
 }

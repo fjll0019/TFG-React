@@ -118,8 +118,6 @@ class UserLists extends React.Component {
             </div>
           )}
           <div>
-
-
             <>
               {tableTypes.map((tableType, index) => (
                 <Row key={index}>
@@ -130,47 +128,53 @@ class UserLists extends React.Component {
                         <Row>
                           <Col>
                             <Card body>
-                              <Table {...{ [tableType || 'default']: true }}>
-                                <thead>
-                                  <tr>
-                                    <th>#</th>
-                                    <th>Nombre</th>
-                                    <th>Email</th>
-                                    <th>Datos</th>
-                                    <th>Eliminar</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {
-                                    users && users.map((user, i) =>
-                                      <tr key={user.email}>
-                                        <th scope="row">{i}</th>
-                                        <td>{user.name}</td>
-                                        <td>{user.email}</td>
-                                        <td>
-                                          <div>
+                              <div className="table-responsive">
+                                <Table {...{ [tableType || 'default']: true }}>
+                                  <thead>
+                                    <tr>
+                                      <th>#</th>
+                                      <th>Nombre</th>
+                                      <th>Email</th>
+                                      <th>Datos</th>
+                                      <th>Eliminar</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {
+                                      users && users.map((user, i) =>
+                                        <tr key={user.email}>
+                                          <th scope="row">{i}</th>
+                                          <td>{user.name}</td>
+                                          <td>{user.email}</td>
+                                          <td>
+                                            <div>
+                                            {user.datos}
+                                            {
+                                            /*
+                                              <button onClick={this.toggle()} className="btn btn-primary active"> <i className="fas fa-eye"></i> </button>
+                                              <Modal
+                                                isOpen={this.state.modal}
+                                                toggle={this.toggle()}
+                                                className={this.props.className}>
+                                                <ModalHeader toggle={this.toggle()}> Lista de Ficheros</ModalHeader>
+                                                <ModalBody>
+                                                  <UserData datos={user.datos} />
+                                                </ModalBody>
+                                              </Modal>
+                                              */
+                                            }
+                                            </div>
+                                          </td>
 
-                                            <button onClick={this.toggle()}> <i className="fas fa-eye"></i> </button>
-                                            <Modal
-                                              isOpen={this.state.modal}
-                                              toggle={this.toggle()}
-                                              className={this.props.className}>
-                                              <ModalHeader toggle={this.toggle()}> Lista de Ficheros</ModalHeader>
-                                              <ModalBody>
-                                                <UserData datos={user.datos}  />
-                                              </ModalBody>
-                                            </Modal>
-                                          </div>
-                                        </td>
+                                          <td>
+                                            <button className="btn btn-primary active" onClick={() => this.deleteUser(user.email)}> <i className="fas fa-trash-alt"></i> </button></td>
+                                        </tr>
 
-                                        <td>
-                                          <button onClick={() => this.deleteUser(user.email)}> <i className="fas fa-trash-alt"></i> </button></td>
-                                      </tr>
-
-                                    )
-                                  }
-                                </tbody>
-                              </Table>
+                                      )
+                                    }
+                                  </tbody>
+                                </Table>
+                              </div>
                             </Card>
                           </Col>
 

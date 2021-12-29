@@ -24,10 +24,20 @@ class AddData extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
   };
+  state = {
+    selectedFile: null,
+    options: [
+        { text: 'doNothing', value: 'doNothing' },
+        { text: 'openModal', value: 'openModal' }
+    ],
+    open: true,
+    lista: [],
 
+};
 
   async checkLoginStatus() {
     try {
+      var data = []
       const resp = await httpClient.get("//localhost:5000/@me")
       console.log(resp.data["nombre"])
       console.log(resp.data["avatar"]);
@@ -36,6 +46,8 @@ class AddData extends React.Component {
       $('#email').attr("placeholder", resp.data["email"]);
       console.log(resp.data["data"]);
       sessionStorage.setItem("data", resp.data["data"])
+      data= resp.data["data"]
+      return data
       //window.location.href = "/"
     } catch (error) {
 
@@ -43,14 +55,13 @@ class AddData extends React.Component {
   }
 
   componentDidMount() {
-    this.checkLoginStatus();
+    this._asyncRequest = this.checkLoginStatus().then(
+      lista => {
+        this._asyncRequest = null;
+        this.setState({ lista });
+      }
+    );
   }
-
-  state = {
-
-    // Initially, no file is selected
-    selectedFile: null
-  };
 
   // On file select (from the pop up)
   onFileChange = event => {
@@ -59,6 +70,18 @@ class AddData extends React.Component {
     this.setState({ selectedFile: event.target.files[0] });
 
   };
+  async DeleteData(filename){
+    try {
+      await httpClient.post("//localhost:5000/deleteData", {
+        filename,
+      })
+      window.location.reload(true)
+
+    } catch (error) {
+
+      alert("No ha sido posible eliminar el fichero")
+    }
+  }
 
   render() {
 
@@ -109,22 +132,17 @@ class AddData extends React.Component {
 
 
     };
-    const DeleteData= async ({filename}) => {
-      try {
-          await httpClient.post("//localhost:5000/deleteData", {
-          filename,
-        })
-        window.location.reload(true)
 
-      } catch (error) {
-          
-          alert("No ha sido posible eliminar el fichero")
-      }
-  };
+  
 
-
+    if (this.state.lista) {
+      let datos = []
+      datos = this.state.lista;
+      console.log(datos)
     return (
+      
       <Form onSubmit={this.handleSubmit}>
+        <a href="/config"> <i className="fas fa-arrow-left"></i></a>
         {showLogo && (
           <div className="text-center pb-4">
             <img
@@ -143,21 +161,16 @@ class AddData extends React.Component {
           }}>
 
           <Col>
-            <Card>
-              <input className="form-control form-control-sm" id="inputFile" type="file" onChange={this.onFileChange} />
-
-            </Card>
+            <input className="form-control form-control-sm" id="inputFile" type="file" onChange={this.onFileChange} />
           </Col>
           <Col>
-            <Card>
-              <Button
-                size="sm"
-                className="bg-gradient-theme-left border-0"
-                block
-                onClick={onFileUpload}>
-                Subir fichero
-              </Button>
-            </Card>
+            <Button
+              size="sm"
+              className="bg-gradient-theme-left border-0"
+              block
+              onClick={onFileUpload}>
+              Subir fichero
+            </Button>
           </Col>
 
 
@@ -171,44 +184,35 @@ class AddData extends React.Component {
                   <Row>
                     <Col>
                       <Card body>
+                      <div className="table-responsive">
                         <Table {...{ [tableType || 'default']: true }}>
                           <thead>
                             <tr>
                               <th>#</th>
                               <th>Nombre</th>
-
+                              <th>Eliminar</th>
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>{lista}</td>
-                              <td>
-                                <Button
-                                  size="sm"
-                                  className="bg-gradient-theme-left border-0"
-                                  block
-                                  onClick={DeleteData}>
-                                  Borrar
-                                </Button>
-                              </td>
+                            {
+                              datos && datos.map((fichero, i) =>
+                                <tr key={fichero}>
+                                  <th scope="row">{i}</th>
+                                  <td>{fichero}</td>
+                                  <td>
+                                  {console.log(fichero)}
 
-                            </tr>
+                                  <a onClick={() => this.DeleteData(fichero)} className="btn btn-primary active" ><i className="fas fa-trash-alt"></i></a>
 
-                            <tr>
-                              <th scope="row">2</th>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Larry</td>
-                              <td>the Bird</td>
-                              <td>@twitter</td>
-                            </tr>
+                                  </td>
+                                </tr>
+
+                              )
+                            }
+
                           </tbody>
                         </Table>
+                        </div>
                       </Card>
                     </Col>
 
@@ -223,7 +227,13 @@ class AddData extends React.Component {
         {children}
       </Form>
     );
+  }else{
+    return(
+    <div>No hay datos</div>
+    )
   }
+
+}
 }
 
 

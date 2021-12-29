@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import httpClient from '../httpClient';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
+import Swal from "sweetalert2"
 
 class AuthForm extends React.Component {
 
@@ -14,6 +15,8 @@ class AuthForm extends React.Component {
   get isSignup() {
     return this.props.authState === STATE_SIGNUP;
   }
+
+
 
   changeAuthState = authState => event => {
     event.preventDefault();
@@ -38,6 +41,58 @@ class AuthForm extends React.Component {
 
     return buttonText;
   }
+  modalLogin = () => {
+    Swal.fire({
+      title: "Error",
+      text: 'Email o contraseña incorrectos',
+      showDenyButton: false,
+      icon: 'error',
+      confirmButtonText: "volver",
+      confirmButtonColor: "grey",
+    })
+  };
+
+
+  modalPassNotEqual = () => {
+    Swal.fire({
+      title: "Error",
+      text: 'Las contraseñas no coinciden',
+      showDenyButton: false,
+      icon: 'error',
+      confirmButtonText: "volver",
+      confirmButtonColor: "grey",
+    })
+  };
+  modalSignUp = () => {
+    Swal.fire({
+      title: "Error",
+      text: 'Ha ocurrido un error al registrarse',
+      showDenyButton: false,
+      icon: 'error',
+      confirmButtonText: "volver",
+      confirmButtonColor: "grey",
+    })
+  };
+  modalEmailVacio = () => {
+    Swal.fire({
+      title: "Error",
+      text: 'Introduzca un email válido',
+      showDenyButton: false,
+      icon: 'error',
+      confirmButtonText: "volver",
+      confirmButtonColor: "grey",
+    })
+  };
+  modalEmailRegistrado = () => {
+    Swal.fire({
+      title: "Error",
+      text: 'El email introducido ya está en uso',
+      showDenyButton: false,
+      icon: 'error',
+      confirmButtonText: "volver",
+      confirmButtonColor: "grey",
+    })
+  };
 
   render() {
     var email = ""
@@ -53,6 +108,8 @@ class AuthForm extends React.Component {
       children,
       onLogoClick,
     } = this.props;
+
+
 
     const LogSignUser = async () => {
 
@@ -72,8 +129,7 @@ class AuthForm extends React.Component {
           window.location.href = "/home"
         } catch (error) {
           if (error.response.status === 401) {
-            console.log("Invalid Credentials")
-            alert("Invalid Credentials")
+            this.modalLogin();
           }
 
         }
@@ -81,37 +137,43 @@ class AuthForm extends React.Component {
         email = document.getElementById('email').value
         password = document.getElementById('password').value
         var conPassword = document.getElementById('conPassword').value
+        var fallo = false
         try {
+          if (email == "") {
+            this.modalEmailVacio();
+            fallo = true
+          }
           if (password !== conPassword) {
-            return alert("Las contraseñas no coinciden")
-          }
-          var isChecked = document.getElementById('checkbox').checked
-          if (isChecked === false) {
-            return alert("No ha aceptado los terminos de uso")
+            this.modalPassNotEqual();
+            fallo = true
 
           }
 
-          const resp = await httpClient.post("//localhost:5000/register", {
-            email,
-            password
-          })
+          if (fallo === false) {
+            const resp = await httpClient.post("//localhost:5000/register", {
+              email,
+              password
+            })
 
-          window.location.href = "/home"
+            window.location.href = "/home"
+          }
+
         } catch (error) {
-          if (error.response.status === 401)
-            alert("Invalid Credentials")
+          if (error.response.status === 401) {
+            this.modalSignUp()
+          }
 
+          if (error.response.status === 409) {
+            this.modalEmailRegistrado()
+
+          }
         }
-
-
       }
-
-
     }
     const goHome = () => {
       window.location.href = "/home"
     };
-  
+
 
 
     return (
@@ -156,12 +218,6 @@ class AuthForm extends React.Component {
             <Input id="conPassword" {...confirmPasswordInputProps} />
           </FormGroup>
         )}
-        <FormGroup check>
-          <Label check>
-            <Input id="checkbox" type="checkbox" />{' '}
-            {this.isSignup ? 'Acepto los terminos y políticas' : 'Recuerdame'}
-          </Label>
-        </FormGroup>
         <hr />
         <Button
           size="lg"

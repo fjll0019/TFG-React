@@ -89,7 +89,6 @@ class Header extends React.Component {
       sessionStorage.removeItem("data")
       sessionStorage.removeItem("rol")
 
-
     } catch (error) {
 
     }
@@ -172,14 +171,14 @@ class Header extends React.Component {
 
 
               <NavLink id="Popover2">
-                {
+                {/*
                   sessionStorage.getItem("avatar") !== null && (
                     <Avatar
                       onClick={this.toggleUserCardPopover}
                       className="can-click"
                       img={sessionStorage.getItem("avatar")}
                     />
-                  )
+                  )*/
                 }
 
               </NavLink>

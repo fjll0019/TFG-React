@@ -33,10 +33,7 @@ class UserData extends React.Component {
     };
 
     async getDataUser() {
-        const {
-            datos,
-
-        } = this.props;
+        const datos = this.props.datos;
         var ficheros = []
         ficheros = datos
 
@@ -51,7 +48,18 @@ class UserData extends React.Component {
             }
         );
     }
+    async DeleteData(filename) {
+        try {
+            await httpClient.post("//localhost:5000/deleteData", {
+                filename,
+            })
+            window.location.reload(true)
 
+        } catch (error) {
+
+            alert("No ha sido posible eliminar el fichero")
+        }
+    }
 
 
     render() {
@@ -82,10 +90,9 @@ class UserData extends React.Component {
 
                 <Row
                     style={{
-                        height: '15vh',
+                        height: '45vh',
                         weight: '50vh',
-                        justifyContent: 'center',
-                        alignItems: 'center',
+
                     }}>
                     <Col md={3} lg={12}>
 
@@ -95,7 +102,7 @@ class UserData extends React.Component {
 
                                     <Row>
                                         <Col>
-
+                                        <div className="table-responsive">
                                             <Table {...{ [tableType || 'default']: true }}>
                                                 <thead>
                                                     <tr>
@@ -111,7 +118,7 @@ class UserData extends React.Component {
                                                                 <th scope="row">{i}</th>
                                                                 <td>{fichero}</td>
 
-                                                                <td><a href='home' ><i className="fas fa-trash-alt"></i></a></td>
+                                                                <td><a onClick={() => this.DeleteData(fichero)} className="btn btn-primary active"><i className="fas fa-trash-alt"></i></a></td>
 
                                                             </tr>
 
@@ -119,7 +126,7 @@ class UserData extends React.Component {
                                                     }
                                                 </tbody>
                                             </Table>
-
+                                            </div>
                                         </Col>
 
 

@@ -80,6 +80,7 @@ class Perfil extends React.Component {
 
         return (
             <Form onSubmit={this.handleSubmit}>
+                  <a href="/config"> <i className="fas fa-arrow-left"></i></a>
                 {showLogo && (
                     <div className="text-center pb-4">
                         <img
@@ -91,6 +92,9 @@ class Perfil extends React.Component {
                         />
                     </div>
                 )}
+               
+                {
+                /*
                 <div className="text-center pb-4">
                     <Avatar
                         size="100px"
@@ -98,6 +102,8 @@ class Perfil extends React.Component {
                         className="can-click"
                     />
                 </div>
+                */
+                }
                 <FormGroup>
                     <Label for={LastPassLabel}>{LastPassLabel}</Label>
                     <Input id="lastPass" {...LastPassInputProps} />
