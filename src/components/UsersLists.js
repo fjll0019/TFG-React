@@ -4,6 +4,7 @@ import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
 import { Modal, ModalBody, ModalHeader, } from 'reactstrap';
 import logo200Image from 'assets/img/logo/icono.png';
 import httpClient from '../httpClient';
+import Swal from "sweetalert2"
 
 import {
 
@@ -21,6 +22,8 @@ const tableTypes = ['striped'];
 
 class UserLists extends React.Component {
 
+  modalList =[]
+
   state = {
     modal: false,
     modal_backdrop: false,
@@ -34,6 +37,18 @@ class UserLists extends React.Component {
     open: true,
     lista: [],
   }
+  modalDelete = () => {
+    Swal.fire({
+      title: "Eliminado",
+      text: 'El usuario se ha eliminado correctamente',
+      showDenyButton: false,
+      icon: 'success',
+      confirmButtonText: "volver",
+      confirmButtonColor: "green",
+    }).then(function(){
+      window.location.reload();
+    })
+  };
 
   toggle = modalType => () => {
     if (!modalType) {
@@ -53,14 +68,24 @@ class UserLists extends React.Component {
       httpClient.post("//localhost:5000/deleteUser", {
         email
       })
-      alert("Se ha eliminado la cuenta")
-      window.location.reload();
+      this.modalDelete();
     } catch (error) {
       console.log("No ha sido posible eliminar la cuenta")
       alert("No ha sido posible eliminar la cuenta")
     }
 
 
+  }
+  cargaModalList(users){
+    if(users!== undefined){
+      var cont=0
+      for(let user of users){
+       this.modalList.push(cont);
+        cont++;
+      }
+     // console.log(this.modalList.length)
+    }
+   
   }
 
   async getUsuarios() {
@@ -101,9 +126,11 @@ class UserLists extends React.Component {
     } = this.props;
 
     if (this.state.lista) {
-      let users = []
+      var users= [];
       users = this.state.lista.usuarios;
       console.log(users)
+      this.cargaModalList(users);
+     // console.log(this.modalList[0])
       return (
         <>
           {showLogo && (
@@ -148,21 +175,20 @@ class UserLists extends React.Component {
                                           <td>{user.email}</td>
                                           <td>
                                             <div>
-                                            {user.datos}
-                                            {
-                                            /*
-                                              <button onClick={this.toggle()} className="btn btn-primary active"> <i className="fas fa-eye"></i> </button>
+                                            {user.datos
+                                            }
+                                            
+                                              <button onClick={this.toggle(user.name)} className="btn btn-primary active"> <i className="fas fa-eye"></i> </button>
                                               <Modal
                                                 isOpen={this.state.modal}
-                                                toggle={this.toggle()}
+                                                toggle={this.toggle(user.name)}
                                                 className={this.props.className}>
-                                                <ModalHeader toggle={this.toggle()}> Lista de Ficheros</ModalHeader>
+                                                <ModalHeader toggle={this.toggle(user.name)}> Lista de Ficheros</ModalHeader>
                                                 <ModalBody>
                                                   <UserData datos={user.datos} />
                                                 </ModalBody>
                                               </Modal>
-                                              */
-                                            }
+                                              
                                             </div>
                                           </td>
 
