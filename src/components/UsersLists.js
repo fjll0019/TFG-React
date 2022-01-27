@@ -13,14 +13,11 @@ const tableTypes = ['striped'];
 
 class UserLists extends React.Component {
 
-  modalList =[]
 
   state = {
+    modalList: [],
+    booleanList: [],
     modal: false,
-    modal_backdrop: false,
-    modal_nested_parent: false,
-    modal_nested: false,
-    backdrop: true,
     options: [
       { text: 'doNothing', value: 'doNothing' },
       { text: 'openModal', value: 'openModal' }
@@ -36,21 +33,22 @@ class UserLists extends React.Component {
       icon: 'success',
       confirmButtonText: "volver",
       confirmButtonColor: "green",
-    }).then(function(){
+    }).then(function () {
       window.location.reload();
     })
   };
 
   toggle = modalType => () => {
-    if (!modalType) {
+    if (modalType != null) {
+      console.log(`${this.state.modalList[modalType]}` + " " + this.state.booleanList[modalType])
       return this.setState({
-        modal: !this.state.modal,
+        modal: !this.state.booleanList[modalType],
       });
     }
-
-    this.setState({
-      [`modal_${modalType}`]: !this.state[`modal_${modalType}`],
-    });
+    
+  this.setState({
+    [`${this.state.modalList[modalType]}`] : !this.state.booleanList[modalType]
+  });
   };
 
   deleteUser(email) {
@@ -67,17 +65,19 @@ class UserLists extends React.Component {
 
 
   }
-  cargaModalList(users){
-    if(users!== undefined){
-      var cont=0
+  cargaModalList(users) {
+    this.state.modalList = []
+    this.state.booleanList = []
+    if (users !== undefined) {
+      var cont = 0
       // eslint-disable-next-line
-      for(let user of users){
-       this.modalList.push(cont);
+      for (let user of users) {
+        this.state.modalList.push(cont);
         cont++;
+        this.state.booleanList.push(false);
       }
-     // console.log(this.modalList.length)
     }
-   
+
   }
 
   async getUsuarios() {
@@ -118,11 +118,13 @@ class UserLists extends React.Component {
     } = this.props;
 
     if (this.state.lista) {
-      var users= [];
+      var users = [];
       users = this.state.lista.usuarios;
-      console.log(users)
+      // console.log(users)
       this.cargaModalList(users);
-     // console.log(this.modalList[0])
+      console.log(this.state.modalList)
+      console.log(this.state.booleanList)
+
       return (
         <>
           {showLogo && (
@@ -167,20 +169,21 @@ class UserLists extends React.Component {
                                           <td>{user.email}</td>
                                           <td>
                                             <div>
-                                            {user.datos
-                                            }
-                                            
-                                              <button onClick={this.toggle(user.name)} className="btn btn-primary active"> <i className="fas fa-eye"></i> </button>
+
+                                              {user.datos}
+                                              <p>{user.name} Modal state: {`${this.state.booleanList[i]}`}</p>
+
+                                              <button onClick={this.toggle(this.state.modalList[i])} className="btn btn-primary active"> <i className="fas fa-eye"></i> </button>
                                               <Modal
-                                                isOpen={this.state.modal}
-                                                toggle={this.toggle(user.name)}
-                                                className={this.props.className}>
-                                                <ModalHeader toggle={this.toggle(user.name)}> Lista de Ficheros</ModalHeader>
+                                                isOpen={this.state.booleanList[i]}
+                                                toggle={this.toggle(this.state.modalList[i])}
+                                              >
+                                                <ModalHeader toggle={this.toggle(this.state.modalList[i])}> Lista de Ficheros</ModalHeader>
                                                 <ModalBody>
                                                   <UserData datos={user.datos} />
                                                 </ModalBody>
                                               </Modal>
-                                              
+
                                             </div>
                                           </td>
 
