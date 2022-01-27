@@ -6,18 +6,9 @@ import logo200Image from 'assets/img/logo/icono.png';
 import httpClient from '../httpClient';
 import Swal from "sweetalert2"
 
-import {
-
-  MdDelete,
-
-} from 'react-icons/md';
-
 import UserData from "./UserData";
 
 
-const navItems = [
-  { to: '/deleteData', name: '', exact: false, Icon: MdDelete }
-];
 const tableTypes = ['striped'];
 
 class UserLists extends React.Component {
@@ -79,6 +70,7 @@ class UserLists extends React.Component {
   cargaModalList(users){
     if(users!== undefined){
       var cont=0
+      // eslint-disable-next-line
       for(let user of users){
        this.modalList.push(cont);
         cont++;

@@ -1,13 +1,9 @@
-import { AnnouncementCard, TodosCard } from 'components/Card';
 import $ from 'jquery'
 import Page from 'components/Page';
-import SupportTicket from 'components/SupportTicket';
 import { NumberWidget } from 'components/Widget';
 import { getStackLineChart, stackLineChartOptions } from 'demos/chartjs';
 import {
   chartjs,
-  supportTicketsData,
-  todosData,
 } from 'demos/dashboardPage';
 import React from 'react';
 import { Bar, Line } from 'react-chartjs-2';
@@ -19,7 +15,6 @@ import {
 } from 'react-icons/md';
 import {
   Badge,
-  Button,
   Card,
   CardBody,
   CardHeader,
@@ -32,12 +27,6 @@ import {
 import { getColor } from 'utils/colors';
 import httpClient from '../httpClient';
 
-//const today = new Date();
-/*const lastWeek = new Date(
-  today.getFullYear(),
-  today.getMonth(),
-  today.getDate() - 7,
-);*/
 
 class DashboardPage extends React.Component {
 
@@ -48,7 +37,6 @@ class DashboardPage extends React.Component {
       $('#nombre').attr("placeholder", resp.data["nombre"]);
       $('#email').attr("placeholder", resp.data["email"]);
 
-      //window.location.href = "/"
     } catch (error) {
 
     }
@@ -245,47 +233,6 @@ class DashboardPage extends React.Component {
                 </CardTitle>
               </CardBody>
             </Card>
-          </Col>
-        </Row>
-
-
-
-        <Row>
-          <Col lg="4" md="12" sm="12" xs="12">
-            <AnnouncementCard
-              color="gradient-secondary"
-              header="Announcement"
-              avatarSize={60}
-              name="Jamy"
-              date="1 hour ago"
-              text="Lorem ipsum dolor sit amet,consectetuer edipiscing elit,sed diam nonummy euismod tinciduntut laoreet doloremagna"
-              buttonProps={{
-                children: 'show',
-              }}
-              style={{ height: 500 }}
-            />
-          </Col>
-
-          <Col lg="4" md="12" sm="12" xs="12">
-            <Card>
-              <CardHeader>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span>Support Tickets</span>
-                  <Button>
-                    <small>View All</small>
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardBody>
-                {supportTicketsData.map(supportTicket => (
-                  <SupportTicket key={supportTicket.id} {...supportTicket} />
-                ))}
-              </CardBody>
-            </Card>
-          </Col>
-
-          <Col lg="4" md="12" sm="12" xs="12">
-            <TodosCard todos={todosData} />
           </Col>
         </Row>
       </Page>

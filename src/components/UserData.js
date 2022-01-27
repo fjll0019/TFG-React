@@ -3,18 +3,6 @@ import React from 'react';
 import { Col, Row, Table } from 'reactstrap';
 import httpClient from '../httpClient';
 
-import {
-
-    MdDelete,
-
-} from 'react-icons/md';
-
-import bn from 'utils/bemnames';
-
-
-const navItems = [
-    { to: '/deleteData', name: '', exact: false, Icon: MdDelete }
-];
 const tableTypes = ['striped'];
 
 class UserData extends React.Component {
@@ -50,8 +38,10 @@ class UserData extends React.Component {
     }
     async DeleteData(filename) {
         try {
+            let email = sessionStorage.getItem("email")
             await httpClient.post("//localhost:5000/deleteData", {
                 filename,
+                email
             })
             window.location.reload(true)
 
@@ -65,29 +55,10 @@ class UserData extends React.Component {
     render() {
         console.log(this.state.lista)
         if (this.state.lista) {
-            const bem = bn.create();
             let ficheros = []
             ficheros = this.state.lista;
 
-
-            const DeleteData = async ({ filename }) => {
-                try {
-                    let email = sessionStorage.getItem("email")
-                    await httpClient.post("//localhost:5000/deleteData", {
-                        filename,
-                        email
-                    })
-                    window.location.reload(true)
-
-                } catch (error) {
-
-                    alert("No ha sido posible eliminar el fichero")
-                }
-            };
-
-
             return (
-
                 <Row
                     style={{
                         height: '45vh',
@@ -118,7 +89,7 @@ class UserData extends React.Component {
                                                                 <th scope="row">{i}</th>
                                                                 <td>{fichero}</td>
 
-                                                                <td><a onClick={() => this.DeleteData(fichero)} className="btn btn-primary active"><i className="fas fa-trash-alt"></i></a></td>
+                                                                <td><button onClick={() => this.DeleteData(fichero)} className="btn btn-primary active"><i className="fas fa-trash-alt"></i></button></td>
 
                                                             </tr>
 

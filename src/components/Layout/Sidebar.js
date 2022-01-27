@@ -7,22 +7,9 @@ import {
   MdAccountCircle,
   MdDashboard,
   MdInsertChart,
-  /*MdGroupWork,
-  MdNotificationsActive,
-  MdRadioButtonChecked,
-  MdStar,
-  MdTextFields,
-  MdViewDay,
-  MdViewList,
-  MdArrowDropDownCircle,
-  MdBorderAll,
-  MdBrush,
-  MdChromeReaderMode,*/
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import {
-  // UncontrolledTooltip,
-  //Collapse,
   Nav,
   Navbar,
   NavItem,
@@ -36,40 +23,8 @@ const sidebarBackground = {
   backgroundRepeat: 'no-repeat',
 };
 
-/*const navComponents = [
-  { to: '/buttons', name: 'buttons', exact: false, Icon: MdRadioButtonChecked },
-  {
-    to: '/button-groups',
-    name: 'button groups',
-    exact: false,
-    Icon: MdGroupWork,
-  },
-  { to: '/forms', name: 'forms', exact: false, Icon: MdChromeReaderMode },
-  { to: '/input-groups', name: 'input groups', exact: false, Icon: MdViewList },
-  {
-    to: '/dropdowns',
-    name: 'dropdowns',
-    exact: false,
-    Icon: MdArrowDropDownCircle,
-  },
-  { to: '/badges', name: 'badges', exact: false, Icon: MdStar },
-  { to: '/alerts', name: 'alerts', exact: false, Icon: MdNotificationsActive },
-  { to: '/progress', name: 'progress', exact: false, Icon: MdBrush },
-  { to: '/modals', name: 'modals', exact: false, Icon: MdViewDay },
-];
-
-const navContents = [
-  { to: '/typography', name: 'typography', exact: false, Icon: MdTextFields },
-  { to: '/tables', name: 'tables', exact: false, Icon: MdBorderAll },
-];
-
-const pageContents = [
-  { to: '/login', name: 'login / signup', exact: false, Icon: MdAccountCircle },
-
-];*/
 
 const navItems = [
-  { to: '/signup', name: 'Nuevo Usuario', exact: false, Icon: MdAccountCircle },
   { to: '/home', name: 'dashboard', exact: true, Icon: MdDashboard },
   { to: '/charts', name: 'charts', exact: false, Icon: MdInsertChart },
 ];
@@ -108,11 +63,28 @@ class Sidebar extends React.Component {
                 alt=""
               />
               <span className="text-white">
-                EnerHome 
+                EnerHome
               </span>
             </SourceLink>
           </Navbar>
+
           <Nav vertical>
+            {
+              sessionStorage.getItem("rol") === "ADMIN" && (
+                <NavItem key="Register" className={bem.e('nav-item')}>
+                  <BSNavLink
+                    id={`navItem-Register}`}
+                    className="text-uppercase"
+                    tag={NavLink}
+                    to='/signup'
+                    activeClassName="active"
+                    exact={false}
+                  >
+                    <MdAccountCircle className={bem.e('nav-item-icon')} />
+                    <span className="">Nuevo Usuario</span>
+                  </BSNavLink>
+                </NavItem >
+              )}
             {navItems.map(({ to, name, exact, Icon }, index) => (
               <NavItem key={index} className={bem.e('nav-item')}>
                 <BSNavLink

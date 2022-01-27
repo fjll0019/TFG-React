@@ -1,10 +1,5 @@
-import { Content, Footer, Header, Sidebar } from 'components/Layout';
+import { Content, Header, Sidebar } from 'components/Layout';
 import React from 'react';
-/*import {
-  MdImportantDevices,
-  // MdCardGiftcard,
-  MdLoyalty,
-} from 'react-icons/md';*/
 import NotificationSystem from 'react-notification-system';
 import { NOTIFICATION_SYSTEM_STYLE } from 'utils/constants';
 
@@ -28,25 +23,12 @@ class MainLayout extends React.Component {
       if (!this.notificationSystem) {
         return;
       }
-/*
-      this.notificationSystem.addNotification({
-        title: <MdImportantDevices />,
-        message: 'Welome to Reduction Admin!',
-        level: 'info',
-      });*/
     }, 1500);
 
     setTimeout(() => {
       if (!this.notificationSystem) {
         return;
       }
-/*
-      this.notificationSystem.addNotification({
-        title: <MdLoyalty />,
-        message:
-          'Reduction is carefully designed template powered by React and Bootstrap4!',
-        level: 'info',
-      }); */ 
     }, 2500);
   }
 
@@ -68,7 +50,7 @@ class MainLayout extends React.Component {
       case 'xs':
       case 'sm':
       case 'md':
-        return this.openSidebar('close');
+        return this.openSidebar('open');
 
       case 'lg':
       case 'xl':
@@ -94,7 +76,6 @@ class MainLayout extends React.Component {
         <Content fluid onClick={this.handleContentClick}>
           <Header />
           {children}
-          <Footer />
         </Content>
 
         <NotificationSystem

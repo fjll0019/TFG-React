@@ -1,10 +1,8 @@
 import logo200Image from 'assets/img/logo/icono.png';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Avatar from '../components/Avatar';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import $ from 'jquery'
-import { Card, Col, Row } from 'reactstrap';
 import httpClient from '../httpClient';
 
 
@@ -22,11 +20,9 @@ class Perfil extends React.Component {
             const resp = await httpClient.get("//localhost:5000/@me")
             console.log(resp.data["nombre"])
 
-            console.log(resp.data["avatar"]);
             console.log(resp.data["data"]);
             console.log(resp.data);
 
-            sessionStorage.setItem("avatar", resp.data["avatar"])
             $('#nombre').attr("placeholder", resp.data["nombre"]);
             $('#email').attr("placeholder", resp.data["email"]);
 
@@ -71,47 +67,22 @@ class Perfil extends React.Component {
         } = this.props;
 
 
-        const onFileUpload = () => {
-
-            const formData = new FormData();
-            if (this.state.selectedFile === null) {
-                alert("No se ha seleccionado ningun avatar")
-            } else {
-                formData.append(
-                    "file",
-                    this.state.selectedFile,
-                    this.state.selectedFile.name
-                );
-                httpClient.post("//localhost:5000/uploadfile", formData);
-                sessionStorage.setItem("avatar", this.state.selectedFile.name)
-                window.location.reload(true)
-                //window.location.href = "/"
-
-            }
-    
-
-        };
-
         const Guardar = async () => {
             nombre = document.getElementById('nombre').value
             email = document.getElementById('email').value
-            //console.log("email: " + email + " , " + "password:" + password)
-
             try {
                 await httpClient.post("//localhost:5000/perfil", {
                     nombre,
                     email,
                 })
 
-                window.location.href = "/"
+                window.location.href = "/home"
             } catch (error) {
                 if (error.response.status === 401)
                     alert("Invalid Credentials")
             }
-
         }
-
-
+        
         return (
             <Form onSubmit={this.handleSubmit}>
                   
@@ -127,45 +98,6 @@ class Perfil extends React.Component {
                         />
                     </div>
                 )}
-                {/*
-                <div className="text-center pb-4">
-                    {
-                        sessionStorage.getItem("avatar") != null && (
-                            <Avatar
-                                size="100px"
-                                img={sessionStorage.getItem("avatar")}
-                                className="can-click"
-                            />
-                        )
-
-                    }
-                </div>
-                <Row
-                    style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}>
-
-                    <Col>
-                        <Card>
-                            <input className="form-control form-control-sm" id="inputFile" type="file" onChange={this.onFileChange} />
-
-                        </Card>
-                    </Col>
-                    <Col>
-                        <Card>
-                            <Button
-                                size="sm"
-                                className="bg-gradient-theme-left border-0"
-                                block
-                                onClick={onFileUpload}>
-                                Actualizar imagen
-                            </Button>
-                        </Card>
-                    </Col>
-
-
-                </Row> */}
                 <FormGroup>
                     <Label for={NombreLabel}>{NombreLabel}</Label>
                     <Input id="nombre" {...NombreInputProps} />

@@ -1,7 +1,6 @@
 import logo200Image from 'assets/img/logo/icono.png';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Avatar from './Avatar';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import $ from 'jquery'
 import httpClient from '../httpClient';

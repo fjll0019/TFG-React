@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, Col, Row } from 'reactstrap';
-import { Content } from 'components/Layout';
 import  UsersLists from '../components/UsersLists'
 
 class UsersListPage extends React.Component {

@@ -5,18 +5,7 @@ import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
 import { Button, Form, } from 'reactstrap';
 import $ from 'jquery'
 import httpClient from '../httpClient';
-import {
 
-  MdDelete,
-
-} from 'react-icons/md';
-
-import bn from 'utils/bemnames';
-
-
-const navItems = [
-  { to: '/deleteData', name: '', exact: false, Icon: MdDelete }
-];
 const tableTypes = ['striped'];
 
 class AddData extends React.Component {
@@ -40,8 +29,7 @@ class AddData extends React.Component {
       var data = []
       const resp = await httpClient.get("//localhost:5000/@me")
       console.log(resp.data["nombre"])
-      console.log(resp.data["avatar"]);
-      sessionStorage.setItem("avatar", resp.data["avatar"])
+
       $('#nombre').attr("placeholder", resp.data["nombre"]);
       $('#email').attr("placeholder", resp.data["email"]);
       console.log(resp.data["data"]);
@@ -85,9 +73,6 @@ class AddData extends React.Component {
 
   render() {
 
-    const bem = bn.create();
-
-    var lista = sessionStorage.getItem("data")
     const {
       showLogo,
       children,
@@ -202,7 +187,7 @@ class AddData extends React.Component {
                                   <td>
                                   {console.log(fichero)}
 
-                                  <a onClick={() => this.DeleteData(fichero)} className="btn btn-primary active" ><i className="fas fa-trash-alt"></i></a>
+                                  <button onClick={() => this.DeleteData(fichero)} className="btn btn-primary active" ><i className="fas fa-trash-alt"></i></button>
 
                                   </td>
                                 </tr>
@@ -215,8 +200,6 @@ class AddData extends React.Component {
                         </div>
                       </Card>
                     </Col>
-
-
                   </Row>
                 </CardBody>
               </Card>

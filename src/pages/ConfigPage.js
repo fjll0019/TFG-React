@@ -1,8 +1,6 @@
 import React from 'react';
-import { Card, Col, Row } from 'reactstrap';
+import {Col, Row } from 'reactstrap';
 import Config from '../components/Config';
-import { Content } from 'components/Layout';
-import CardBody from 'reactstrap/lib/CardBody';
 
 class ConfigPage extends React.Component {
     handleLogoClick = () => {

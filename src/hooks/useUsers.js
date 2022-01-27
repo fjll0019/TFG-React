@@ -15,7 +15,7 @@ const getUsers = async () => {
 
   } catch (error) {
     console.log(error)
-    if(error="Network Error"){
+    if(error==="Network Error"){
       console.log("Error: 500")
     }else if (error.response.status === 401) {
       console.log("Error: 401")

@@ -21,7 +21,7 @@ const Avatar = ({
   return (
     
     <Tag
-      src={require('assets/img/users/'+img)}
+      src={require('assets/img/users/avatar.jpg')}
       style={{ width: size, height: size, ...style }}
       className={classes}
       {...restProps}

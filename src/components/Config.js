@@ -15,7 +15,6 @@ import {
 import {
   MdAccountCircle,
   MdPeople,
-  MdDelete,
   MdAdd
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
@@ -24,6 +23,7 @@ const navItems = [
   { to: '/perfil', name: 'Información de la cuenta', exact: false, Icon: MdAccountCircle },
   { to: '/password', name: 'Cambiar Contraseña', exact: true, Icon: MdPeople },
   { to: '/addData', name: 'Añadir datos', exact: false, Icon: MdAdd },
+  { to: '/signup', name: 'Crear Nuevo Usuario', exact: false, Icon: MdAccountCircle }
 
 ];
 class Config extends React.Component {
@@ -48,21 +48,20 @@ class Config extends React.Component {
   DeleteUser = async () => {
     try {
 
-        await httpClient.post("//localhost:5000/delete")
-        sessionStorage.removeItem("jwt")
-        sessionStorage.removeItem("UserName")
-        sessionStorage.removeItem("Email")
-        sessionStorage.removeItem("avatar")
-        sessionStorage.removeItem("data")
-        sessionStorage.removeItem("rol")
+      await httpClient.post("//localhost:5000/delete")
+      sessionStorage.removeItem("jwt")
+      sessionStorage.removeItem("UserName")
+      sessionStorage.removeItem("Email")
+      sessionStorage.removeItem("data")
+      sessionStorage.removeItem("rol")
 
 
-        window.location.href = "/"
+      window.location.href = "/"
     } catch (error) {
-        console.log("No ha sido posible eliminar la cuenta")
-        alert("No ha sido posible eliminar la cuenta")
+      console.log("No ha sido posible eliminar la cuenta")
+      alert("No ha sido posible eliminar la cuenta")
     }
-}
+  }
 
   async checkLoginStatus() {
 
@@ -96,39 +95,37 @@ class Config extends React.Component {
     return (
 
       <Card >
-         <CardBody>
-        <div className="text-center pb-4">
-          <img
-            src={logo200Image}
-            className="rounded"
-            style={{ width: 60, height: 60, cursor: 'pointer' }}
-            alt="logo"
-            onClick={onLogoClick}
-          />
-        </div>
-       
-        <Nav className="text-center" vertical>
-          {navItems.map(({ to, name, exact, Icon }, index) => (
-            <NavItem key={index} className={bem.e('nav-item')}>
-              <BSNavLink
-                id={`navItem-${name}-${index}`}
-                className="text-uppercase"
-                tag={NavLink}
-                to={to}
-                activeClassName="active"
-                exact={exact}
-              >
-                <Icon className={bem.e('nav-item-icon')} />
-                <span className="">{name}</span>
-              </BSNavLink>
-              
-            </NavItem>
-            
-          ))}
-           <button className="btn btn-primary active" onClick={this.modalBorrar}><i className="fas fa-trash-alt"></i> Eliminar cuenta</button>
-        </Nav>
+        <CardBody>
+          <div className="text-center pb-4">
+            <img
+              src={logo200Image}
+              className="rounded"
+              style={{ width: 60, height: 60, cursor: 'pointer' }}
+              alt="logo"
+              onClick={onLogoClick}
+            />
+          </div>
 
+          <Nav className="text-center" vertical>
+            {navItems.map(({ to, name, exact, Icon }, index) => (
+              <NavItem key={index} className={bem.e('nav-item')}>
+                <BSNavLink
+                  id={`navItem-${name}-${index}`}
+                  className="text-uppercase"
+                  tag={NavLink}
+                  to={to}
+                  activeClassName="active"
+                  exact={exact}
+                >
+                  <Icon className={bem.e('nav-item-icon')} />
+                  <span className="">{name}</span>
+                </BSNavLink>
 
+              </NavItem>
+
+            ))}
+            <button className="btn btn-primary active" onClick={this.modalBorrar}><i className="fas fa-trash-alt"></i> Eliminar cuenta</button>
+          </Nav>
         </CardBody>
       </Card>
     );

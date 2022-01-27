@@ -125,7 +125,6 @@ class AuthForm extends React.Component {
           })
 
           sessionStorage.setItem("jwt", JSON.stringify(resp.data))
-          sessionStorage.setItem("avatar", resp.data["avatar"])
           window.location.href = "/home"
         } catch (error) {
           if (error.response.status === 401) {
@@ -139,7 +138,7 @@ class AuthForm extends React.Component {
         var conPassword = document.getElementById('conPassword').value
         var fallo = false
         try {
-          if (email == "") {
+          if (email === "") {
             this.modalEmailVacio();
             fallo = true
           }
@@ -150,7 +149,7 @@ class AuthForm extends React.Component {
           }
 
           if (fallo === false) {
-            const resp = await httpClient.post("//localhost:5000/register", {
+            await httpClient.post("//localhost:5000/register", {
               email,
               password
             })
@@ -179,15 +178,19 @@ class AuthForm extends React.Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         {showLogo && this.isSignup ? (
-          <div className="text-center pb-4">
-            <img
-              src={logo200Image}
-              className="rounded"
-              style={{ width: 60, height: 60, cursor: 'pointer' }}
-              alt="logo"
+          <div>
+            <a href="/config"> <i className="fas fa-arrow-left"></i></a>
+            <div className="text-center pb-4">
 
-              onClick={goHome}
-            />
+              <img
+                src={logo200Image}
+                className="rounded"
+                style={{ width: 60, height: 60, cursor: 'pointer' }}
+                alt="logo"
+
+                onClick={goHome}
+              />
+            </div>
           </div>
         ) : (
           <div className="text-center pb-4">

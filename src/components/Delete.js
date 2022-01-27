@@ -1,5 +1,4 @@
 import React from 'react';
-import httpClient from '../httpClient';
 import Swal from "sweetalert2"
 
 class Delete extends React.Component {
