@@ -12,7 +12,7 @@ class UsersListPage extends React.Component {
             <Row
                 style={{
                     weight:'125h',
-                    height: '55vh',
+                    height: '75vh',
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>

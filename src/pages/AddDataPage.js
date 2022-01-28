@@ -11,7 +11,7 @@ class AddDataPage extends React.Component {
         return (
             <Row
                 style={{
-                    height: '100vh',
+                    height: '90vh',
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>

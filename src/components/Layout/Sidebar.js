@@ -6,7 +6,7 @@ import React from 'react';
 import {
   MdAccountCircle,
   MdDashboard,
-  MdInsertChart,
+ // MdInsertChart,
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import {
@@ -26,7 +26,7 @@ const sidebarBackground = {
 
 const navItems = [
   { to: '/home', name: 'dashboard', exact: true, Icon: MdDashboard },
-  { to: '/charts', name: 'charts', exact: false, Icon: MdInsertChart },
+  //{ to: '/charts', name: 'charts', exact: false, Icon: MdInsertChart },
 ];
 
 const bem = bn.create('sidebar');

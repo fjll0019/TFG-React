@@ -20,7 +20,6 @@ import {
   Nav,
   Navbar,
   NavItem,
-  NavLink,
   Popover,
   PopoverBody,
 } from 'reactstrap';
@@ -135,47 +134,25 @@ class Header extends React.Component {
           {sessionStorage.getItem("rol") === "ADMIN" &&(
             <NavItem>
 
-              <Button outline color="link" href="/userList">
-                Lista de usuarios
+              <Button outline color="link"  className="navbar-brand d-flex" href="/userList">
+              <span id="" className="text-dark">   Lista de usuarios</span> 
               </Button>
 
             </NavItem>
           )}
+           {sessionStorage.getItem("UserName") !== null &&(
           <NavItem id="Popover2">
 
             <Button outline color="link" className="navbar-brand d-flex">
-
               <span id="UserName" className="text-dark"> {sessionStorage.getItem("UserName")}  </span>
             </Button>
+            
           </NavItem>
+              )}
 
-
-          {sessionStorage.getItem("jwt") === null && (
-            <NavItem>
-
-              <Button outline color="link" href="/signup">
-                Registrarse
-              </Button>
-
-            </NavItem>
-          )}
           {sessionStorage.getItem("jwt") != null && (
 
             <NavItem>
-
-
-              <NavLink id="Popover2">
-                {/*
-                  sessionStorage.getItem("avatar") !== null && (
-                    <Avatar
-                      onClick={this.toggleUserCardPopover}
-                      className="can-click"
-                      img={sessionStorage.getItem("avatar")}
-                    />
-                  )*/
-                }
-
-              </NavLink>
               <Popover
                 placement="bottom-end"
                 isOpen={this.state.isOpenUserCardPopover}

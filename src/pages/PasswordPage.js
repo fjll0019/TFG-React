@@ -11,7 +11,7 @@ class PasswordPage extends React.Component {
         return (
             <Row
                 style={{
-                    height: '100vh',
+                    height: '85vh',
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>

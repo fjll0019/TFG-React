@@ -3,7 +3,6 @@ import React from 'react';
 import logo200Image from 'assets/img/logo/icono.png';
 import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
 import { Button, Form, } from 'reactstrap';
-import $ from 'jquery'
 import httpClient from '../httpClient';
 
 const tableTypes = ['striped'];
@@ -28,15 +27,12 @@ class AddData extends React.Component {
     try {
       var data = []
       const resp = await httpClient.get("//localhost:5000/@me")
-      console.log(resp.data["nombre"])
 
-      $('#nombre').attr("placeholder", resp.data["nombre"]);
-      $('#email').attr("placeholder", resp.data["email"]);
+      sessionStorage.setItem("email",resp.data["email"])
       console.log(resp.data["data"]);
       sessionStorage.setItem("data", resp.data["data"])
       data= resp.data["data"]
       return data
-      //window.location.href = "/"
     } catch (error) {
 
     }
@@ -60,8 +56,10 @@ class AddData extends React.Component {
   };
   async DeleteData(filename){
     try {
+     let email = sessionStorage.getItem("email")
       await httpClient.post("//localhost:5000/deleteData", {
         filename,
+        email
       })
       window.location.reload(true)
 

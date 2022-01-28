@@ -11,7 +11,7 @@ class ConfigPage extends React.Component {
         return (
             <Row
                 style={{
-                    height: '45vh',
+                    height: '75vh',
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>

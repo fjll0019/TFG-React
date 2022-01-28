@@ -40,15 +40,16 @@ class UserLists extends React.Component {
 
   toggle = modalType => () => {
     if (modalType != null) {
-      console.log(`${this.state.modalList[modalType]}` + " " + this.state.booleanList[modalType])
+      // eslint-disable-next-line
+      this.state.booleanList[modalType] = !this.state.booleanList[modalType]
       return this.setState({
-        modal: !this.state.booleanList[modalType],
+   
       });
     }
+
+    this.setState({
     
-  this.setState({
-    [`${this.state.modalList[modalType]}`] : !this.state.booleanList[modalType]
-  });
+    });
   };
 
   deleteUser(email) {
@@ -66,15 +67,17 @@ class UserLists extends React.Component {
 
   }
   cargaModalList(users) {
+    // eslint-disable-next-line
     this.state.modalList = []
-    this.state.booleanList = []
     if (users !== undefined) {
       var cont = 0
       // eslint-disable-next-line
       for (let user of users) {
         this.state.modalList.push(cont);
         cont++;
-        this.state.booleanList.push(false);
+        if (users.length !== this.state.booleanList.length) {
+          this.state.booleanList.push(false);
+        }
       }
     }
 
@@ -91,7 +94,6 @@ class UserLists extends React.Component {
       this.existe = true
     })
 
-    //console.log(usuarios)
     return usuarios
   }
 
@@ -169,10 +171,6 @@ class UserLists extends React.Component {
                                           <td>{user.email}</td>
                                           <td>
                                             <div>
-
-                                              {user.datos}
-                                              <p>{user.name} Modal state: {`${this.state.booleanList[i]}`}</p>
-
                                               <button onClick={this.toggle(this.state.modalList[i])} className="btn btn-primary active"> <i className="fas fa-eye"></i> </button>
                                               <Modal
                                                 isOpen={this.state.booleanList[i]}
@@ -180,7 +178,7 @@ class UserLists extends React.Component {
                                               >
                                                 <ModalHeader toggle={this.toggle(this.state.modalList[i])}> Lista de Ficheros</ModalHeader>
                                                 <ModalBody>
-                                                  <UserData datos={user.datos} />
+                                                  <UserData email={user.email} datos={user.datos} />
                                                 </ModalBody>
                                               </Modal>
 

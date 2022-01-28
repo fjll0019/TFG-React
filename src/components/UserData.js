@@ -36,9 +36,8 @@ class UserData extends React.Component {
             }
         );
     }
-    async DeleteData(filename) {
+    async DeleteData(filename,email) {
         try {
-            let email = sessionStorage.getItem("email")
             await httpClient.post("//localhost:5000/deleteData", {
                 filename,
                 email
@@ -89,7 +88,7 @@ class UserData extends React.Component {
                                                                 <th scope="row">{i}</th>
                                                                 <td>{fichero}</td>
 
-                                                                <td><button onClick={() => this.DeleteData(fichero)} className="btn btn-primary active"><i className="fas fa-trash-alt"></i></button></td>
+                                                                <td><button onClick={() => this.DeleteData(fichero,this.props.email)} className="btn btn-primary active"><i className="fas fa-trash-alt"></i></button></td>
 
                                                             </tr>
 
