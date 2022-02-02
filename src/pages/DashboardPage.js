@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import Page from 'components/Page';
 import { NumberWidget } from 'components/Widget';
 import { getStackLineChart, stackLineChartOptions } from 'demos/chartjs';
@@ -25,26 +24,11 @@ import {
   Row,
 } from 'reactstrap';
 import { getColor } from 'utils/colors';
-import httpClient from '../httpClient';
 
 
 class DashboardPage extends React.Component {
 
-  async checkLoginStatus() {
-    try {
-      const resp = await httpClient.get("//localhost:5000/@me")
 
-      $('#nombre').attr("placeholder", resp.data["nombre"]);
-      $('#email').attr("placeholder", resp.data["email"]);
-
-    } catch (error) {
-
-    }
-  }
-
-  UNSAFE_componentWillMount() {
-    this.checkLoginStatus();
-  }
   render() {
     
     const primaryColor = getColor('primary');

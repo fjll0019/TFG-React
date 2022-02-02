@@ -25,17 +25,21 @@ class UserLists extends React.Component {
     open: true,
     lista: [],
   }
-  modalDelete = () => {
+
+  modalBorrar = (email) => {
     Swal.fire({
-      title: "Eliminado",
-      text: 'El usuario se ha eliminado correctamente',
-      showDenyButton: false,
-      icon: 'success',
-      confirmButtonText: "volver",
-      confirmButtonColor: "green",
-    }).then(function () {
-      window.location.reload();
-    })
+      title: "Vas a eliminar un usuario ¿Estás seguro?",
+      showDenyButton: true,
+      denyButtonText: "Cancelar",
+      denyButtonColor: "grey",
+      confirmButtonText: "Eliminar",
+      confirmButtonColor: "red",
+    }).then((res) => {
+      if (res.isConfirmed) {
+        this.deleteUser(email)
+        window.location.reload();
+      }
+    });
   };
 
   toggle = modalType => () => {
@@ -53,19 +57,15 @@ class UserLists extends React.Component {
   };
 
   deleteUser(email) {
-    console.log(email)
     try {
       httpClient.post("//localhost:5000/deleteUser", {
         email
       })
-      this.modalDelete();
     } catch (error) {
-      console.log("No ha sido posible eliminar la cuenta")
       alert("No ha sido posible eliminar la cuenta")
     }
-
-
   }
+
   cargaModalList(users) {
     // eslint-disable-next-line
     this.state.modalList = []
@@ -122,10 +122,8 @@ class UserLists extends React.Component {
     if (this.state.lista) {
       var users = [];
       users = this.state.lista.usuarios;
-      // console.log(users)
       this.cargaModalList(users);
-      console.log(this.state.modalList)
-      console.log(this.state.booleanList)
+
 
       return (
         <>
@@ -186,7 +184,7 @@ class UserLists extends React.Component {
                                           </td>
 
                                           <td>
-                                            <button className="btn btn-primary active" onClick={() => this.deleteUser(user.email)}> <i className="fas fa-trash-alt"></i> </button></td>
+                                            <button className="btn btn-primary active" onClick={() => this.modalBorrar(user.email)}> <i className="fas fa-trash-alt"></i> </button></td>
                                         </tr>
 
                                       )
@@ -211,7 +209,6 @@ class UserLists extends React.Component {
         </>
       )
     } else {
-      console.log(this.state.lista)
 
       return (
         <>

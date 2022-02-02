@@ -3,7 +3,6 @@ import SourceLink from 'components/SourceLink';
 import { UserCard } from 'components/Card';
 import httpClient from '../../httpClient';
 import SearchInput from 'components/SearchInput';
-import $ from 'jquery'
 
 import React from 'react';
 
@@ -34,22 +33,8 @@ class Header extends React.Component {
     isOpenUserCardPopover: false,
   };
 
-  async checkLoginStatus() {
-    try {
-      const resp = await httpClient.get("//localhost:5000/@me")
-      sessionStorage.setItem("UserName", resp.data["nombre"])
-      sessionStorage.setItem("rol", resp.data["rol"])
-      sessionStorage.setItem("Email", resp.data["email"])
-      $('#UserName').text(resp.data["nombre"]);
-
-    } catch (error) {
-      if (error.response.status === 401) {
-        console.log("Error: 401")
-      }
-    }
-  }
   componentDidMount() {
-    this.checkLoginStatus();
+
 
   }
 

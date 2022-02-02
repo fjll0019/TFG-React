@@ -2,7 +2,6 @@ import logo200Image from 'assets/img/logo/icono.png';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
-import $ from 'jquery'
 import httpClient from '../httpClient';
 
 
@@ -15,27 +14,7 @@ class Perfil extends React.Component {
     };
 
 
-    async checkLoginStatus() {
-        try {
-            const resp = await httpClient.get("//localhost:5000/@me")
-            console.log(resp.data["nombre"])
-
-            console.log(resp.data["data"]);
-            console.log(resp.data);
-
-            $('#nombre').attr("placeholder", resp.data["nombre"]);
-            $('#email').attr("placeholder", resp.data["email"]);
-
-            //window.location.href = "/"
-        } catch (error) {
-
-        }
-    }
-
-    componentDidMount() {
-        this.checkLoginStatus();
-    }
-
+   
     state = {
 
         // Initially, no file is selected

@@ -9,16 +9,12 @@ const getUsers = async () => {
         const { datos, name, email } = user
         return { datos, name, email }
       })
-      //console.log(users)
       return users
     }
 
   } catch (error) {
-    console.log(error)
     if(error==="Network Error"){
-      console.log("Error: 500")
     }else if (error.response.status === 401) {
-      console.log("Error: 401")
     }
   }
 }
@@ -38,6 +34,5 @@ export const useUsers = async() => {
         usuarios=users2
       }
     })
-  //console.log(usuarios)
   return {usuarios}
 }

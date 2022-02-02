@@ -2,7 +2,6 @@ import logo200Image from 'assets/img/logo/icono.png';
 import PropTypes from 'prop-types';
 import React from 'react';
 import httpClient from '../httpClient';
-import $ from 'jquery'
 import bn from 'utils/bemnames';
 import Swal from "sweetalert2"
 import { Card } from 'reactstrap';
@@ -15,15 +14,14 @@ import {
 import {
   MdAccountCircle,
   MdPeople,
-  MdAdd
+  MdInsertDriveFile
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import CardBody from 'reactstrap/lib/CardBody';
 const navItems = [
-  { to: '/perfil', name: 'Información de la cuenta', exact: false, Icon: MdAccountCircle },
+  { to: '/perfil', name: 'Perfil', exact: false, Icon: MdAccountCircle },
   { to: '/password', name: 'Cambiar Contraseña', exact: true, Icon: MdPeople },
-  { to: '/addData', name: 'Añadir datos', exact: false, Icon: MdAdd },
-  { to: '/signup', name: 'Crear Nuevo Usuario', exact: false, Icon: MdAccountCircle }
+  { to: '/addData', name: 'Datos', exact: false, Icon: MdInsertDriveFile },
 
 ];
 class Config extends React.Component {
@@ -58,30 +56,10 @@ class Config extends React.Component {
 
       window.location.href = "/"
     } catch (error) {
-      console.log("No ha sido posible eliminar la cuenta")
       alert("No ha sido posible eliminar la cuenta")
     }
   }
 
-  async checkLoginStatus() {
-
-
-    try {
-      const resp = await httpClient.get("//localhost:5000/@me")
-      $('#nombre').attr("placeholder", resp.data["nombre"]);
-      $('#email').attr("placeholder", resp.data["email"]);
-
-
-      //window.location.href = "/"
-    } catch (error) {
-
-
-    }
-  }
-
-  componentDidMount() {
-    this.checkLoginStatus();
-  }
 
 
   render() {
@@ -124,6 +102,22 @@ class Config extends React.Component {
               </NavItem>
 
             ))}
+             {
+              sessionStorage.getItem("rol") === "ADMIN" && (
+                <NavItem key="Register" className={bem.e('nav-item')}>
+                  <BSNavLink
+                    id={`navItem-Register}`}
+                    className="text-uppercase"
+                    tag={NavLink}
+                    to='/signup'
+                    activeClassName="active"
+                    exact={false}
+                  >
+                    <MdAccountCircle className={bem.e('nav-item-icon')} />
+                    <span className="">Nuevo Usuario</span>
+                  </BSNavLink>
+                </NavItem >
+              )}
             <button className="btn btn-primary active" onClick={this.modalBorrar}><i className="fas fa-trash-alt"></i> Eliminar cuenta</button>
           </Nav>
         </CardBody>

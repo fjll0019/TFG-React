@@ -36,7 +36,7 @@ class AuthForm extends React.Component {
     }
 
     if (!buttonText && this.isSignup) {
-      return 'Registrarte';
+      return 'Registrar Nuevo Usuario';
     }
 
     return buttonText;
@@ -116,7 +116,6 @@ class AuthForm extends React.Component {
       if (this.renderButtonText() === 'Iniciar Sesión') {
         email = document.getElementById('email').value
         password = document.getElementById('password').value
-        //console.log("email: " + email + " , " + "password:" + password)
 
         try {
           const resp = await httpClient.post("//localhost:5000/login", {

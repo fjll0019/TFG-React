@@ -4,6 +4,7 @@ import logo200Image from 'assets/img/logo/icono.png';
 import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
 import { Button, Form, } from 'reactstrap';
 import httpClient from '../httpClient';
+import Swal from "sweetalert2"
 
 const tableTypes = ['striped'];
 
@@ -29,7 +30,6 @@ class AddData extends React.Component {
       const resp = await httpClient.get("//localhost:5000/@me")
 
       sessionStorage.setItem("email",resp.data["email"])
-      console.log(resp.data["data"]);
       sessionStorage.setItem("data", resp.data["data"])
       data= resp.data["data"]
       return data
@@ -68,6 +68,20 @@ class AddData extends React.Component {
       alert("No ha sido posible eliminar el fichero")
     }
   }
+  modalBorrar = (fichero) => {
+    Swal.fire({
+      title: "Vas a eliminar un fichero de datos ¿Estás seguro?",
+      showDenyButton: true,
+      denyButtonText: "Cancelar",
+      denyButtonColor: "grey",
+      confirmButtonText: "Eliminar",
+      confirmButtonColor: "red",
+    }).then((res) => {
+      if (res.isConfirmed) {
+        this.DeleteData(fichero);
+      }
+    });
+  };
 
   render() {
 
@@ -91,7 +105,6 @@ class AddData extends React.Component {
             this.state.selectedFile.name
           );
           const resp = await httpClient.post("//localhost:5000/uploadData", formData);
-          console.log(resp.data["data"])
           sessionStorage.setItem("data", resp.data["data"])
           window.location.reload(true)
 
@@ -121,7 +134,6 @@ class AddData extends React.Component {
     if (this.state.lista) {
       let datos = []
       datos = this.state.lista;
-      console.log(datos)
     return (
       
       <Form onSubmit={this.handleSubmit}>
@@ -137,14 +149,15 @@ class AddData extends React.Component {
             />
           </div>
         )}
-        <Row
+        <Row className="mx-auto my-2"
           style={{
             justifyContent: 'center',
             alignItems: 'center',
+            
           }}>
 
           <Col>
-            <input className="form-control form-control-sm" id="inputFile" type="file" onChange={this.onFileChange} />
+            <input className="" id="inputFile" type="file" onChange={this.onFileChange} />
           </Col>
           <Col>
             <Button
@@ -183,9 +196,7 @@ class AddData extends React.Component {
                                   <th scope="row">{i}</th>
                                   <td>{fichero}</td>
                                   <td>
-                                  {console.log(fichero)}
-
-                                  <button onClick={() => this.DeleteData(fichero)} className="btn btn-primary active" ><i className="fas fa-trash-alt"></i></button>
+                                  <button onClick={() => this.modalBorrar(fichero)} className="btn btn-primary active" ><i className="fas fa-trash-alt"></i></button>
 
                                   </td>
                                 </tr>

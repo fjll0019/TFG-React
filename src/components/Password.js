@@ -2,8 +2,8 @@ import logo200Image from 'assets/img/logo/icono.png';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
-import $ from 'jquery'
 import httpClient from '../httpClient';
+import Swal from "sweetalert2"
 
 
 class Perfil extends React.Component {
@@ -12,20 +12,41 @@ class Perfil extends React.Component {
         event.preventDefault();
     };
 
-    async checkLoginStatus() {
-        try {
-            $('#pass').attr("placeholder", "Nueva contraseña");
-            $('#confPass').attr("placeholder", "Confirmar contraseña");
-            $('#lastPass').attr("placeholder", "Contraseña Actual");
 
-            //window.location.href = "/"
-        } catch (error) {
-        }
-    }
+    modalBadPassword = () => {
+        Swal.fire({
+            title: "Error",
+            text: 'La contraseña actual no es correcta',
+            showDenyButton: false,
+            icon: 'error',
+            confirmButtonText: "volver",
+            confirmButtonColor: "grey",
+        })
+    };
 
-    componentDidMount() {
-        this.checkLoginStatus();
-    }
+    modalBadNewPassword = () => {
+        Swal.fire({
+            title: "Error",
+            text: 'Las nuevas contraseñas no coinciden ',
+            showDenyButton: false,
+            icon: 'error',
+            confirmButtonText: "volver",
+            confirmButtonColor: "grey",
+        })
+    };
+
+    modalSamePassword = () => {
+        Swal.fire({
+            title: "Error",
+            text: 'La nueva contraseña no puede ser la misma que la contraseña actual ',
+            showDenyButton: false,
+            icon: 'error',
+            confirmButtonText: "volver",
+            confirmButtonColor: "grey",
+        })
+    };
+
+
 
     render() {
 
@@ -50,36 +71,28 @@ class Perfil extends React.Component {
             lastPass = document.getElementById('lastPass').value
             if (password === confPassword) {
                 try {
-                    const resp = await httpClient.post("//localhost:5000/password", {
+                    await httpClient.post("//localhost:5000/password", {
                         password,
                         lastPass
                     })
-                    console.log(resp.data)
-                   // window.location.href = "/"
+
                 } catch (error) {
-                    console.log(error)
-                    if (error.response.status === 401) {
-                        console.log("Invalid Credentials")
-                        alert("Invalid Credentials")
-                    }
                     if (error.response.status === 400) {
-                        console.log("Same Password")
-                        alert("La contraseña a la que se quiere cambiar es la misma que la anterior")
+                        this.modalSamePassword();
                     }
                     if (error.response.status === 403) {
-                        console.log("La contraseña actual no es correcta")
-                        alert("La contraseña actual no es correcta")
+                        this.modalBadPassword();
                     }
                 }
             } else {
-                alert("Las contraseñas no coinciden")
+                this.modalBadNewPassword();
             }
         }
 
 
         return (
             <Form onSubmit={this.handleSubmit}>
-                  <a href="/config"> <i className="fas fa-arrow-left"></i></a>
+                <a href="/config"> <i className="fas fa-arrow-left"></i></a>
                 {showLogo && (
                     <div className="text-center pb-4">
                         <img
@@ -91,18 +104,7 @@ class Perfil extends React.Component {
                         />
                     </div>
                 )}
-               
-                {
-                /*
-                <div className="text-center pb-4">
-                    <Avatar
-                        size="100px"
-                        img={sessionStorage.getItem("avatar")}
-                        className="can-click"
-                    />
-                </div>
-                */
-                }
+
                 <FormGroup>
                     <Label for={LastPassLabel}>{LastPassLabel}</Label>
                     <Input id="lastPass" {...LastPassInputProps} />

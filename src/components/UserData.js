@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Col, Row, Table } from 'reactstrap';
 import httpClient from '../httpClient';
+import Swal from "sweetalert2"
 
 const tableTypes = ['striped'];
 
@@ -36,6 +37,21 @@ class UserData extends React.Component {
             }
         );
     }
+
+    modalBorrar = (fichero,email) => {
+        Swal.fire({
+          title: "Vas a eliminar un fichero de datos ¿Estás seguro?",
+          showDenyButton: true,
+          denyButtonText: "Cancelar",
+          denyButtonColor: "grey",
+          confirmButtonText: "Eliminar",
+          confirmButtonColor: "red",
+        }).then((res) => {
+          if (res.isConfirmed) {
+            this.DeleteData(fichero,email);
+          }
+        });
+      };
     async DeleteData(filename,email) {
         try {
             await httpClient.post("//localhost:5000/deleteData", {
@@ -52,7 +68,6 @@ class UserData extends React.Component {
 
 
     render() {
-        console.log(this.state.lista)
         if (this.state.lista) {
             let ficheros = []
             ficheros = this.state.lista;
@@ -88,7 +103,7 @@ class UserData extends React.Component {
                                                                 <th scope="row">{i}</th>
                                                                 <td>{fichero}</td>
 
-                                                                <td><button onClick={() => this.DeleteData(fichero,this.props.email)} className="btn btn-primary active"><i className="fas fa-trash-alt"></i></button></td>
+                                                                <td><button onClick={() => this.modalBorrar(fichero,this.props.email)} className="btn btn-primary active"><i className="fas fa-trash-alt"></i></button></td>
 
                                                             </tr>
 
@@ -110,7 +125,6 @@ class UserData extends React.Component {
                 </Row>
             );
         } else {
-            console.log(this.state.lista)
             return (
                 <>
                     <div>
