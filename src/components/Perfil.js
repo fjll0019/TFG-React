@@ -3,16 +3,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import httpClient from '../httpClient';
-
-
-
+import Swal from "sweetalert2"
 
 class Perfil extends React.Component {
 
     handleSubmit = event => {
         event.preventDefault();
     };
-
 
    
     state = {
@@ -28,6 +25,27 @@ class Perfil extends React.Component {
         this.setState({ selectedFile: event.target.files[0] });
 
     };
+    modalFallo = () => {
+        Swal.fire({
+          title: "Error",
+          text: 'No se ha rellenado ningún cambio',
+          showDenyButton: false,
+          icon: 'info',
+          confirmButtonText: "volver",
+          confirmButtonColor: "grey",
+    
+        })
+      };
+      modalEmailRegistrado = () => {
+        Swal.fire({
+          title: "Error",
+          text: 'El email introducido ya está en uso',
+          showDenyButton: false,
+          icon: 'error',
+          confirmButtonText: "volver",
+          confirmButtonColor: "grey",
+        })
+      };
 
     render() {
 
@@ -57,6 +75,13 @@ class Perfil extends React.Component {
 
                 window.location.href = "/home"
             } catch (error) {
+                if (error.response.status === 409){
+                    this.modalFallo();
+
+                }
+                if (error.response.status === 409){
+                    this.modalEmailRegistrado();
+                }
                 if (error.response.status === 401)
                     alert("Invalid Credentials")
             }

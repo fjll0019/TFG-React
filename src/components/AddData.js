@@ -83,6 +83,42 @@ class AddData extends React.Component {
     });
   };
 
+  modalNoData = () => {
+    Swal.fire({
+      title: "Error",
+      text: 'Necesita seleccionar un archivo.',
+      showDenyButton: false,
+      icon: 'info',
+      confirmButtonText: "volver",
+      confirmButtonColor: "grey",
+
+    })
+  };
+
+  modalRepetido = () => {
+    Swal.fire({
+      title: "Error",
+      text: 'El archivo seleccionado ya está añadido',
+      showDenyButton: false,
+      icon: 'error',
+      confirmButtonText: "volver",
+      confirmButtonColor: "grey",
+
+    })
+  };
+
+  modalFallo = () => {
+    Swal.fire({
+      title: "Error",
+      text: 'El formato del archivo no es válido',
+      showDenyButton: false,
+      icon: 'error',
+      confirmButtonText: "volver",
+      confirmButtonColor: "grey",
+
+    })
+  };
+
   render() {
 
     const {
@@ -97,7 +133,7 @@ class AddData extends React.Component {
       const formData = new FormData();
       try {
         if (this.state.selectedFile === null) {
-          alert("Error, No se ha seleccionado ningun fichero de datos")
+         this.modalNoData();
         } else {
           formData.append(
             "file",
@@ -117,11 +153,11 @@ class AddData extends React.Component {
 
         }
         if (error.response.status === 500) {
-          alert("Error, Fallo al subir el archivo")
+         this.modalFallo();
 
         }
         if (error.response.status === 409) {
-          alert("Error, el archivo está repetido")
+         this.modalRepetido();
 
         }
       }

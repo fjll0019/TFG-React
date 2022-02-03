@@ -75,7 +75,7 @@ class Perfil extends React.Component {
                         password,
                         lastPass
                     })
-
+                    window.location.href = "/home"
                 } catch (error) {
                     if (error.response.status === 400) {
                         this.modalSamePassword();
