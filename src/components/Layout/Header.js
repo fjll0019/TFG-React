@@ -33,11 +33,6 @@ class Header extends React.Component {
     isOpenUserCardPopover: false,
   };
 
-  componentDidMount() {
-
-
-  }
-
   toggleNotificationPopover = () => {
     this.setState({
       isOpenNotificationPopover: !this.state.isOpenNotificationPopover,
@@ -89,8 +84,7 @@ class Header extends React.Component {
 
     return (
 
-      <Navbar light expand className={bem.b('bg-white')}>
-        <Navbar>
+      <Navbar light expand className={bem.b('bg-white fixed-top')} >
           <SourceLink className="navbar-brand d-flex">
             <img
               src={logo200Image}
@@ -103,16 +97,16 @@ class Header extends React.Component {
               EnerHome
             </span>
           </SourceLink>
-        </Navbar>
-        <Nav navbar className="mr-2">
+        <Nav  className="mr-2">
           <Button outline onClick={this.handleSidebarControlButton}>
             <MdClearAll size={25} />
           </Button>
         </Nav>
-        <Nav navbar>
+        <div className='col-6 d-flex justify-content-center'>
+        <Nav navbar className={bem.e('nav-center')} >
           <SearchInput />
-
         </Nav>
+        </div>
 
         <Nav navbar className={bem.e('nav-right')}>
 

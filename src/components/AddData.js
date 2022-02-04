@@ -6,8 +6,8 @@ import { Button, Form, } from 'reactstrap';
 import httpClient from '../httpClient';
 import Swal from "sweetalert2"
 
-const tableTypes = ['striped'];
 
+const tableTypes = ['striped'];
 class AddData extends React.Component {
 
   handleSubmit = event => {
@@ -16,22 +16,22 @@ class AddData extends React.Component {
   state = {
     selectedFile: null,
     options: [
-        { text: 'doNothing', value: 'doNothing' },
-        { text: 'openModal', value: 'openModal' }
+      { text: 'doNothing', value: 'doNothing' },
+      { text: 'openModal', value: 'openModal' }
     ],
     open: true,
     lista: [],
 
-};
+  };
 
   async checkLoginStatus() {
     try {
       var data = []
       const resp = await httpClient.get("//localhost:5000/@me")
 
-      sessionStorage.setItem("email",resp.data["email"])
+      sessionStorage.setItem("email", resp.data["email"])
       sessionStorage.setItem("data", resp.data["data"])
-      data= resp.data["data"]
+      data = resp.data["data"]
       return data
     } catch (error) {
 
@@ -54,9 +54,9 @@ class AddData extends React.Component {
     this.setState({ selectedFile: event.target.files[0] });
 
   };
-  async DeleteData(filename){
+  async DeleteData(filename) {
     try {
-     let email = sessionStorage.getItem("email")
+      let email = sessionStorage.getItem("email")
       await httpClient.post("//localhost:5000/deleteData", {
         filename,
         email
@@ -133,7 +133,7 @@ class AddData extends React.Component {
       const formData = new FormData();
       try {
         if (this.state.selectedFile === null) {
-         this.modalNoData();
+          this.modalNoData();
         } else {
           formData.append(
             "file",
@@ -142,8 +142,8 @@ class AddData extends React.Component {
           );
           const resp = await httpClient.post("//localhost:5000/uploadData", formData);
           sessionStorage.setItem("data", resp.data["data"])
-          window.location.reload(true)
 
+          window.location.reload(true)
           //window.location.href = "/"
         }
       } catch (error) {
@@ -153,115 +153,146 @@ class AddData extends React.Component {
 
         }
         if (error.response.status === 500) {
-         this.modalFallo();
+          this.modalFallo();
 
         }
         if (error.response.status === 409) {
-         this.modalRepetido();
+          this.modalRepetido();
 
         }
       }
-
-
     };
 
-  
-
-    if (this.state.lista) {
+    if (this.state.lista.length !== 0) {
       let datos = []
       datos = this.state.lista;
-    return (
-      
-      <Form onSubmit={this.handleSubmit}>
-        <a href="/config"> <i className="fas fa-arrow-left"></i></a>
-        {showLogo && (
-          <div className="text-center pb-4">
-            <img
-              src={logo200Image}
-              className="rounded"
-              style={{ width: 60, height: 60, cursor: 'pointer' }}
-              alt="logo"
-              onClick={onLogoClick}
-            />
-          </div>
-        )}
-        <Row className="mx-auto my-2"
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            
-          }}>
+      return (
+        <Form onSubmit={this.handleSubmit}>
+          <a href="/config"> <i className="fas fa-arrow-left"></i></a>
+          {showLogo && (
+            <div className="text-center pb-4">
+              <img
+                src={logo200Image}
+                className="rounded"
+                style={{ width: 60, height: 60, cursor: 'pointer' }}
+                alt="logo"
+                onClick={onLogoClick}
+              />
+            </div>
+          )}
+          <Row className="mx-auto my-2"
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
 
-          <Col>
-            <input className="" id="inputFile" type="file" onChange={this.onFileChange} />
-          </Col>
-          <Col>
-            <Button
-              size="sm"
-              className="bg-gradient-theme-left border-0"
-              block
-              onClick={onFileUpload}>
-              Subir fichero
-            </Button>
-          </Col>
+            }}>
 
-
-        </Row>
-        {tableTypes.map((tableType, index) => (
-          <Row key={index}>
             <Col>
-              <Card className="mb-3">
-                <CardHeader>Datos</CardHeader>
-                <CardBody>
-                  <Row>
-                    <Col>
-                      <Card body>
-                      <div className="table-responsive">
-                        <Table {...{ [tableType || 'default']: true }}>
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Nombre</th>
-                              <th>Eliminar</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {
-                              datos && datos.map((fichero, i) =>
-                                <tr key={fichero}>
-                                  <th scope="row">{i}</th>
-                                  <td>{fichero}</td>
-                                  <td>
-                                  <button onClick={() => this.modalBorrar(fichero)} className="btn btn-primary active" ><i className="fas fa-trash-alt"></i></button>
-
-                                  </td>
-                                </tr>
-
-                              )
-                            }
-
-                          </tbody>
-                        </Table>
-                        </div>
-                      </Card>
-                    </Col>
-                  </Row>
-                </CardBody>
-              </Card>
+              <input className="" id="inputFile" type="file" onChange={this.onFileChange} />
             </Col>
+            <Col>
+              <Button
+                size="sm"
+                className="bg-gradient-theme-left border-0"
+                block
+                onClick={onFileUpload}>
+                Subir fichero
+              </Button>
+            </Col>
+
+
           </Row>
-        ))}
+          {tableTypes.map((tableType, index) => (
+            <Row key={index}>
+              <Col>
+                <Card className="mb-3">
+                  <CardHeader>Datos</CardHeader>
+                  <CardBody>
+                    <Row>
+                      <Col>
+                        <Card body>
+                          <div className="table-responsive">
+                            <Table {...{ [tableType || 'default']: true }}>
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>Nombre</th>
+                                  <th>Eliminar</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {
+                                  datos && datos.map((fichero, i) =>
+                                    <tr key={fichero}>
+                                      <th scope="row">{i}</th>
+                                      <td>{fichero}</td>
+                                      <td>
+                                        <button onClick={() => this.modalBorrar(fichero)} className="btn btn-primary active" ><i className="fas fa-trash-alt"></i></button>
 
-        {children}
-      </Form>
-    );
-  }else{
-    return(
-    <div>No hay datos</div>
-    )
+                                      </td>
+                                    </tr>
+
+                                  )
+                                }
+
+                              </tbody>
+                            </Table>
+                          </div>
+                        </Card>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          ))}
+
+          {children}
+        </Form>
+      );
+    } else {
+      return (
+        <Form onSubmit={this.handleSubmit}>
+          <a href="/config"> <i className="fas fa-arrow-left"></i></a>
+
+          {showLogo && (
+            <div className="text-center pb-4">
+              <img
+                src={logo200Image}
+                className="rounded"
+                style={{ width: 60, height: 60, cursor: 'pointer' }}
+                alt="logo"
+                onClick={onLogoClick}
+              />
+            </div>
+          )}
+          <Row className="mx-auto my-2"
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+
+            }}>
+
+            <Col>
+              <input className="" id="inputFile" type="file" onChange={this.onFileChange} />
+            </Col>
+            <Col>
+              <Button
+                size="sm"
+                className="bg-gradient-theme-left border-0"
+                block
+                onClick={onFileUpload}>
+                Subir fichero
+              </Button>
+            </Col>
+
+          </Row>
+          <div className='text-center'>No se han añadido datos</div>
+        </Form>
+      )
+    }
+
   }
-
-}
 }
 
 

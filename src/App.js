@@ -19,7 +19,7 @@ import UsersListPage from './pages/UsersListPage';
 
 
 
-const DashboardPage = React.lazy(() => import('pages/DashboardPage'));
+const HomePage = React.lazy(() => import('pages/HomePage'));
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
@@ -122,7 +122,7 @@ class App extends React.Component {
              <React.Suspense fallback={<PageSpinner />}>
               <MainLayout breakpoint={this.props.breakpoint}>
                 {<Route
-                  path="/home" component={props => <DashboardPage {...props} />} />}
+                  path="/home" component={props => <HomePage {...props} />} />}
 
               </MainLayout>
             </React.Suspense>
