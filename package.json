@@ -16,6 +16,7 @@
     "react-chartjs-2": "^2.7.4",
     "react-component-queries": "^2.3.0",
     "react-d3-map": "^0.8.3",
+    "react-datepicker": "^4.6.0",
     "react-dom": "^16.8.4",
     "react-ga": "^2.5.7",
     "react-icons": "^3.5.0",
