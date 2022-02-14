@@ -11,11 +11,119 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Button } from 'reactstrap';
 import Swal from "sweetalert2"
+import { Line } from 'react-chartjs-2';
+import httpClient from '../httpClient';
 
 export default function Home({ datos }) {
 
-    const [startDate, setStartDate] = useState(new Date());
+    function modalFechaIncorrecta() {
+        Swal.fire({
+            title: "Error",
+            text: 'La fecha final no puede ser anterior a la fecha de Inicio',
+            showDenyButton: false,
+            icon: 'info',
+            confirmButtonText: "volver",
+            confirmButtonColor: "grey",
+
+        })
+    };
+    function getData() {
+        var diff = finishDate.getTime() - startDate.getTime()
+        if (diff > 0) {
+            console.log("Hola")
+            let config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                params: {
+                    startDate: startDate,
+                    finishDate: finishDate,
+                    addedDevices: addedDevices
+                }
+            }
+            try {
+                // var data = []
+                httpClient.get("//localhost:5000/getData",config)
+
+            } catch (error) {
+
+            }
+        } else {
+            modalFechaIncorrecta();
+        }
+    }
+
+    const chartjs = {
+        line: {
+            data: {
+                labels: ['Enero', 'Febrero', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [
+                    {
+                        label: 'Revenue for this year',
+                        borderColor: '#6a82fb',
+                        backgroundColor: '#6a82fb',
+                        data: [0, 1300, 2200, 3400, 4600, 3500, 3000],
+                    },
+
+                    {
+                        label: 'Revenue for last year',
+                        borderColor: '#fc5c7d',
+                        backgroundColor: '#fc5c7d',
+                        data: [0, 1300, 2200, 3400, 4600, 3500, 3000],
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: false,
+                    text: 'Chart.js Line Chart - Stacked Area',
+                },
+                tooltips: {
+                    intersect: false,
+                    mode: 'nearest',
+                },
+                hover: {
+                    mode: 'index',
+                },
+                scales: {
+                    xAxes: [
+                        {
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'Month',
+                            },
+                            gridLines: {
+                                display: false,
+                            },
+                        },
+                    ],
+                    yAxes: [
+                        {
+                            stacked: true,
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'Value',
+                            },
+                            gridLines: {
+                                display: false,
+                            },
+                        },
+                    ],
+                },
+            },
+        },
+    };
+    var date = new Date();
+    date.setDate(date.getDate() - 5);
+    const [startDate, setStartDate] = useState(date);
+
     const [finishDate, setFinishtDate] = useState(new Date());
+
     const [addedDevices, setDevices] = useState([]);
     const [selectValue, setSelectValue] = useState("default");
 
@@ -65,11 +173,10 @@ export default function Home({ datos }) {
         })
     };
 
-
     return (
 
         <>
-            {console.log(addedDevices)}
+            {getData()}
             <Row>
                 <Col>
                     <h5>Dispositivos disponibles</h5>
@@ -140,7 +247,117 @@ export default function Home({ datos }) {
                         </Card>
                     </Col>
                 </Row>}
+            <Row>
+                <Col className="d-flex justify-content-center">
+                    <Card className="w-75">
+                        <CardHeader>
+                            Energia(Wh)
+                        </CardHeader>
+                        <CardBody className="tab-content">
 
+                            <Line data={chartjs.line.data} options={chartjs.line.options} />
+
+                        </CardBody>
+
+                    </Card>
+
+                </Col>
+            </Row>
+            <Row>
+                <Col className="d-flex justify-content-center">
+                    <Card className="w-75">
+                        <CardHeader>
+                            Active power(W)
+                        </CardHeader>
+                        <CardBody className="tab-content">
+
+                            <Line data={chartjs.line.data} options={chartjs.line.options} />
+
+                        </CardBody>
+
+                    </Card>
+
+                </Col>
+            </Row><Row>
+                <Col className="d-flex justify-content-center">
+                    <Card className="w-75">
+                        <CardHeader>
+                            Voltage(V)
+                        </CardHeader>
+                        <CardBody className="tab-content">
+
+                            <Line data={chartjs.line.data} options={chartjs.line.options} />
+
+                        </CardBody>
+
+                    </Card>
+
+                </Col>
+            </Row>
+            <Row>
+                <Col className="d-flex justify-content-center">
+                    <Card className="w-75">
+                        <CardHeader>
+                            Power factor(pu)
+                        </CardHeader>
+                        <CardBody className="tab-content">
+
+                            <Line data={chartjs.line.data} options={chartjs.line.options} />
+
+                        </CardBody>
+
+                    </Card>
+
+                </Col>
+            </Row>
+            <Row>
+                <Col className="d-flex justify-content-center">
+                    <Card className="w-75">
+                        <CardHeader>
+                            Apparent power(VA)
+                        </CardHeader>
+                        <CardBody className="tab-content">
+
+                            <Line data={chartjs.line.data} options={chartjs.line.options} />
+
+                        </CardBody>
+
+                    </Card>
+
+                </Col>
+            </Row>
+            <Row>
+                <Col className="d-flex justify-content-center">
+                    <Card className="w-75">
+                        <CardHeader>
+                            Current(A)
+                        </CardHeader>
+                        <CardBody className="tab-content">
+
+                            <Line data={chartjs.line.data} options={chartjs.line.options} />
+
+                        </CardBody>
+
+                    </Card>
+
+                </Col>
+            </Row>
+            <Row>
+                <Col className="d-flex justify-content-center">
+                    <Card className="w-75">
+                        <CardHeader>
+                            ReactivePower(VA)
+                        </CardHeader>
+                        <CardBody className="tab-content">
+
+                            <Line data={chartjs.line.data} options={chartjs.line.options} />
+
+                        </CardBody>
+
+                    </Card>
+
+                </Col>
+            </Row>
         </>
     );
 }
