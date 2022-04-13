@@ -109,8 +109,7 @@ class Header extends React.Component {
         </div>
 
         <Nav navbar className={bem.e('nav-right')}>
-
-          {sessionStorage.getItem("rol") === "ADMIN" &&(
+          {this.props.rol === "ADMIN" &&(
             <NavItem>
 
               <Button outline color="link"  className="navbar-brand d-flex" href="/userList">
@@ -119,17 +118,17 @@ class Header extends React.Component {
 
             </NavItem>
           )}
-           {sessionStorage.getItem("UserName") !== null &&(
+           {this.props.nombre !== null &&(
           <NavItem id="Popover2">
 
             <Button outline color="link" className="navbar-brand d-flex">
-              <span id="UserName" className="text-dark"> {sessionStorage.getItem("UserName")}  </span>
+              <span id="UserName" className="text-dark"> {this.props.nombre}  </span>
             </Button>
             
           </NavItem>
               )}
 
-          {sessionStorage.getItem("jwt") != null && (
+          {this.props.id != null && (
 
             <NavItem>
               <Popover
@@ -143,9 +142,9 @@ class Header extends React.Component {
                 <PopoverBody className="p-0 border-light">
                   <UserCard
                     id="userCard"
-                    avatar={sessionStorage.getItem("avatar")}
-                    title={sessionStorage.getItem("UserName")}
-                    subtitle={sessionStorage.getItem("Email")}
+                    avatar={this.props.avatar}
+                    title={this.props.nombre}
+                    subtitle={this.props.email}
                     text="Welcome"
                     className="border-light"
                   >

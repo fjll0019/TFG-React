@@ -1,5 +1,4 @@
 import Page from 'components/Page';
-import httpClient from '../httpClient';
 import Home from 'components/Home'
 import React, { } from 'react';
 import 'react-tabs/style/react-tabs.css';
@@ -7,42 +6,30 @@ import 'react-tabs/style/react-tabs.css';
 class HomePage extends React.Component {
     state = {
         lista: [],
+        nombre:"",
     };
 
-    async checkLoginStatus() {
-        try {
-            var data = []
-            const resp = await httpClient.get("//localhost:5000/@me")
-
-            sessionStorage.setItem("email", resp.data["email"])
-            sessionStorage.setItem("data", resp.data["data"])
-            data = resp.data["data"]
-            return data
-        } catch (error) {
-
-        }
-    }
-
-    componentDidMount() {
-        this._isMounted = true;
-        this._asyncRequest = this.checkLoginStatus().then(
-            lista => {
-                this._asyncRequest = null;
-                this.setState({ lista });
-            }
-        );
+    media={
+        energia:this.props.mediaEnergia,
+        activePower:this.props.mediaActivePower,
+        voltage:this.props.mediaVoltage,
+        powerFactor:this.props.mediaPowerFactor,
+        apparentPower:this.props.mediaApparentPower,
+        current:this.props.mediaCurrent
     }
 
     render() {
-        if (this.state.lista.length !== 0) {
-            let datos = []
-            datos = this.state.lista;
+        if (this.props.data.length !== 0) {
+            let indices = []
+            let nombre =this.state.nombre;
+            indices = this.props.indices;
             return (
                 <Page
                     className="DashboardPage"
                     title="Home"
                     breadcrumbs={[{ name: 'Home', active: true }]}>
-                    <Home datos={datos} />
+                    <Home labels={this.props.labels} rol={this.props.rol} media={this.media}  indices={indices} nombre={nombre}
+                     />
                 </Page >
             );
         } else {

@@ -24,6 +24,7 @@ class AuthPage extends React.Component {
           alignItems: 'center',
         }}>
         <Col md={6} lg={4}>
+          {console.log("Hola")}
           <Card body>
             <AuthForm
               authState={this.props.authState}

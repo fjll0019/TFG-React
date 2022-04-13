@@ -24,28 +24,6 @@ class AddData extends React.Component {
 
   };
 
-  async checkLoginStatus() {
-    try {
-      var data = []
-      const resp = await httpClient.get("//localhost:5000/@me")
-
-      sessionStorage.setItem("email", resp.data["email"])
-      sessionStorage.setItem("data", resp.data["data"])
-      data = resp.data["data"]
-      return data
-    } catch (error) {
-
-    }
-  }
-
-  componentDidMount() {
-    this._asyncRequest = this.checkLoginStatus().then(
-      lista => {
-        this._asyncRequest = null;
-        this.setState({ lista });
-      }
-    );
-  }
 
   // On file select (from the pop up)
   onFileChange = event => {
@@ -56,7 +34,9 @@ class AddData extends React.Component {
   };
   async DeleteData(filename) {
     try {
-      let email = sessionStorage.getItem("email")
+      let email = this.props.email
+      console.log(email)
+      console.log(filename)
       await httpClient.post("//localhost:5000/deleteData", {
         filename,
         email
@@ -140,8 +120,7 @@ class AddData extends React.Component {
             this.state.selectedFile,
             this.state.selectedFile.name
           );
-          const resp = await httpClient.post("//localhost:5000/uploadData", formData);
-          sessionStorage.setItem("data", resp.data["data"])
+         await httpClient.post("//localhost:5000/uploadData", formData);
 
           window.location.reload(true)
           //window.location.href = "/"
@@ -163,9 +142,9 @@ class AddData extends React.Component {
       }
     };
 
-    if (this.state.lista.length !== 0) {
+    if (this.props.data.length !== 0) {
       let datos = []
-      datos = this.state.lista;
+      datos = this.props.data;
       return (
         <Form onSubmit={this.handleSubmit}>
           <a href="/config"> <i className="fas fa-arrow-left"></i></a>

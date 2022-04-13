@@ -118,12 +118,11 @@ class AuthForm extends React.Component {
         password = document.getElementById('password').value
 
         try {
-          const resp = await httpClient.post("//localhost:5000/login", {
+         await httpClient.post("//localhost:5000/login", {
             email,
             password,
           })
 
-          sessionStorage.setItem("jwt", JSON.stringify(resp.data))
           window.location.href = "/home"
         } catch (error) {
           if (error.response.status === 401) {

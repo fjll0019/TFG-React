@@ -103,7 +103,7 @@ class Config extends React.Component {
 
             ))}
              {
-              sessionStorage.getItem("rol") === "ADMIN" && (
+              this.props.rol=== "ADMIN" && (
                 <NavItem key="Register" className={bem.e('nav-item')}>
                   <BSNavLink
                     id={`navItem-Register}`}

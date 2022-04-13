@@ -17,7 +17,7 @@ class AddDataPage extends React.Component {
                 }}>
                 <Col md={4} lg={6}>
                     <Card body>
-                        <AddData
+                        <AddData {...this.props}
                             onLogoClick={this.handleLogoClick}
                         />
                     </Card>

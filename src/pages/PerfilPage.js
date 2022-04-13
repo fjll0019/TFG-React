@@ -17,7 +17,7 @@ class PerfilPage extends React.Component {
                 }}>
                 <Col md={6} lg={4}>
                     <Card body>
-                        <Perfil
+                        <Perfil {...this.props}
                             onLogoClick={this.handleLogoClick}
                         />
                     </Card>

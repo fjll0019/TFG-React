@@ -3,7 +3,7 @@ import GAListener from 'components/GAListener';
 import { EmptyLayout, LayoutRoute, MainLayout } from 'components/Layout';
 import PageSpinner from 'components/PageSpinner';
 import AuthPage from 'pages/AuthPage';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import componentQueries from 'react-component-queries';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
@@ -16,9 +16,6 @@ import $ from 'jquery'
 import AddDataPage from './pages/AddDataPage';
 import UsersListPage from './pages/UsersListPage';
 
-
-
-
 const HomePage = React.lazy(() => import('pages/HomePage'));
 
 const getBasename = () => {
@@ -26,113 +23,117 @@ const getBasename = () => {
 };
 console.warn = () => { }
 
-class App extends React.Component {
+function App() {
 
-  async checkLoginStatus() {
+  const [isLoading, setLoading] = useState(true);
+  const [datos, setDatos] = useState();
+
+  useEffect(() => {
+    getData();
+
+  }, []);
+
+  const getData = () => {
     try {
-
-      const resp = await httpClient.get("//localhost:5000/@me")
-      sessionStorage.setItem("UserName", resp.data["nombre"])
-      sessionStorage.setItem("avatar", resp.data["avatar"])
-      sessionStorage.setItem("rol", resp.data["rol"])
-      sessionStorage.setItem("Email", resp.data["email"])
-      $('#UserName').text(resp.data["nombre"]);
-      $('#nombre').attr("placeholder", resp.data["nombre"]);
-      $('#email').attr("placeholder", resp.data["email"]);
+      httpClient.get("//localhost:5000/@me").then((response) => {
+        const resp = response.data
+        setDatos(resp)
+        $('#nombre').attr("placeholder", resp["nombre"]);
+        $('#email').attr("placeholder", resp["email"]);
+        setLoading(false);
+      });
 
       //window.location.href = "/"
     } catch (error) {
 
     }
   }
-
-  UNSAFE_componentWillMount() {
-    this.checkLoginStatus();
+  if (isLoading) {
+    return <div className="App">Loading...</div>;
   }
-  render() {
+  return (
 
-    return (
-      <BrowserRouter basename={getBasename()}>
-        <GAListener>
-          <Switch>
-            <LayoutRoute
-              exact
-              path="/"
-              layout={EmptyLayout}
-              component={props => (
-                <AuthPage {...props} authState={STATE_LOGIN} />
-              )}
-            />
-            <LayoutRoute
-              exact
-              path="/signup"
-              layout={EmptyLayout}
-              component={props => (
-                <AuthPage {...props} authState={STATE_SIGNUP} />
-              )}
-            />
-            <LayoutRoute
-              exact
-              path="/perfil"
-              layout={EmptyLayout}
-              component={props => (
-                <PerfilPage />
-              )}
-            />
-            <LayoutRoute
-              exact
-              path="/config"
-              layout={EmptyLayout}
-              component={props => (
-                <ConfigPage />
-              )}
-            />
-            <LayoutRoute
-              exact
-              path="/delete"
-              layout={EmptyLayout}
-              component={props => (
-                <Delete />
-              )}
-            />
-            <LayoutRoute
-              exact
-              path="/password"
-              layout={EmptyLayout}
-              component={props => (
-                <PasswordPage />
-              )}
-            />
-            <LayoutRoute
-              exact
-              path="/addData"
-              layout={EmptyLayout}
-              component={props => (
-                <AddDataPage />
-              )}
-            />
-            <LayoutRoute
-              exact
-              path="/userList"
-              layout={EmptyLayout}
-              component={props => (
-                <UsersListPage />
-              )}
-            />             
-             <React.Suspense fallback={<PageSpinner />}>
-              <MainLayout breakpoint={this.props.breakpoint}>
-                {<Route
-                  path="/home" component={props => <HomePage {...props} />} />}
+    <BrowserRouter basename={getBasename()}>
+      <GAListener>
+        <Switch>
+          <LayoutRoute
+            exact
+            path="/"
+            layout={EmptyLayout}
+            component={props => (
+              <AuthPage {...props} authState={STATE_LOGIN} />
+            )}
+          />
+          <LayoutRoute
+            exact
+            path="/signup"
+            layout={EmptyLayout}
+            component={props => (
+              <AuthPage {...props} authState={STATE_SIGNUP} />
+            )}
+          />
+          <LayoutRoute
+            exact
+            path="/perfil"
+            layout={EmptyLayout}
+            component={props => (
+              <PerfilPage {...datos} />
+            )}
+          />
+          <LayoutRoute
+            exact
+            path="/config"
+            layout={EmptyLayout}
+            component={props => (
+              <ConfigPage {...datos} />
+            )}
+          />
+          <LayoutRoute
+            exact
+            path="/delete"
+            layout={EmptyLayout}
+            component={props => (
+              <Delete />
+            )}
+          />
+          <LayoutRoute
+            exact
+            path="/password"
+            layout={EmptyLayout}
+            component={props => (
+              <PasswordPage />
+            )}
+          />
+          <LayoutRoute
+            exact
+            path="/addData"
+            layout={EmptyLayout}
+            component={props => (
+              <AddDataPage {...datos} />
+            )}
+          />
+          <LayoutRoute
+            exact
+            path="/userList"
+            layout={EmptyLayout}
+            component={props => (
+              <UsersListPage />
+            )}
+          />
+          <React.Suspense fallback={<PageSpinner />}>
+            <MainLayout {...datos}>
+              {<Route
+                path="/home" component={props => <HomePage {...datos} />} />}
 
-              </MainLayout>
-            </React.Suspense>
+            </MainLayout>
+          </React.Suspense>
 
-          </Switch>
-        </GAListener>
-      </BrowserRouter>
-    );
-  }
+        </Switch>
+      </GAListener>
+    </BrowserRouter>
+  );
 }
+
 
 const query = ({ width }) => {
   if (width < 575) {

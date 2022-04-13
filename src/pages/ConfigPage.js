@@ -18,7 +18,7 @@ class ConfigPage extends React.Component {
                 <Col md={1} lg={3}>
                         <>
                         <main className="cr-app bg-light">
-                            <Config onLogoClick={this.handleLogoClick} />
+                            <Config {...this.props} onLogoClick={this.handleLogoClick} />
                             
                         </main>
                         </>

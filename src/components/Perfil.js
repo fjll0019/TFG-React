@@ -102,13 +102,14 @@ class Perfil extends React.Component {
                         />
                     </div>
                 )}
+                {console.log(this.props)}
                 <FormGroup>
                     <Label for={NombreLabel}>{NombreLabel}</Label>
-                    <Input id="nombre" {...NombreInputProps} />
+                    <Input id="nombre" placeholder={this.props.nombre} {...NombreInputProps} />
                 </FormGroup>
                 <FormGroup>
                     <Label for={Emailabel}>{Emailabel}</Label>
-                    <Input id="email" {...EmailInputProps} />
+                    <Input id="email" placeholder={this.props.email} {...EmailInputProps} />
                 </FormGroup>
 
                 <hr />

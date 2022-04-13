@@ -6,7 +6,7 @@ import httpClient from '../httpClient';
 import Swal from "sweetalert2"
 
 
-class Perfil extends React.Component {
+class Password extends React.Component {
 
     handleSubmit = event => {
         event.preventDefault();
@@ -64,7 +64,7 @@ class Perfil extends React.Component {
             children,
             onLogoClick,
         } = this.props;
-
+        console.log(this.props)
         const ChangePassword = async () => {
             password = document.getElementById('pass').value
             confPassword = document.getElementById('confPass').value
@@ -91,6 +91,7 @@ class Perfil extends React.Component {
 
 
         return (
+            
             <Form onSubmit={this.handleSubmit}>
                 <a href="/config"> <i className="fas fa-arrow-left"></i></a>
                 {showLogo && (
@@ -107,15 +108,15 @@ class Perfil extends React.Component {
 
                 <FormGroup>
                     <Label for={LastPassLabel}>{LastPassLabel}</Label>
-                    <Input id="lastPass" {...LastPassInputProps} />
+                    <Input id="lastPass" placeholder="Contraseña Actual" {...LastPassInputProps} />
                 </FormGroup>
                 <FormGroup>
                     <Label for={PassLabel}>{PassLabel}</Label>
-                    <Input id="pass" {...PassInputProps} />
+                    <Input id="pass" placeholder="Nueva Contraseña" {...PassInputProps} />
                 </FormGroup>
                 <FormGroup>
                     <Label for={ConfPassLabel}>{ConfPassLabel}</Label>
-                    <Input id="confPass" {...ConfPassInputProps} />
+                    <Input id="confPass" placeholder="Confirmar Contraseña" {...ConfPassInputProps} />
                 </FormGroup>
 
                 <hr />
@@ -134,7 +135,7 @@ class Perfil extends React.Component {
 }
 
 
-Perfil.propTypes = {
+Password.propTypes = {
     showLogo: PropTypes.bool,
     LastPassLabel: PropTypes.string,
     LastPassInputProps: PropTypes.object,
@@ -145,7 +146,7 @@ Perfil.propTypes = {
     onLogoClick: PropTypes.func,
 };
 
-Perfil.defaultProps = {
+Password.defaultProps = {
     showLogo: true,
     LastPassLabel: 'Contraseña Actual',
     LastPassInputProps: {
@@ -162,4 +163,4 @@ Perfil.defaultProps = {
 
 };
 
-export default Perfil;
+export default Password;
