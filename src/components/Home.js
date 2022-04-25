@@ -79,6 +79,16 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
     }, []);
 
     useEffect(() => {
+        console.log("updateDateInicial")
+        getData();
+    }, [startDate]);
+
+    useEffect(() => {
+        console.log("updateDateFinal")
+        getData();
+    }, [finishDate],[startDate]);
+
+    useEffect(() => {
         console.log("getDataUseEffect")
         getData()
     }, [addedDevices], [startDate], [finishDate], [datasetActivePower], [datasetApparentPower], [datasetCurrent], [datasetEnergia], [datasetPowerFactor], [datasetVoltage], [maxPowerFactor], [maxActivePower], [maxApparentPower], [maxCurrent], [maxEnergia], [maxVoltage]);
@@ -97,7 +107,17 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
     };
     const getData = () => {
         var parsedStartDate = startDate.toISOString().split('T')[0]
+        var dd=  parsedStartDate.split('-')[2]
+        var mm =  parsedStartDate.split('-')[1]
+        var yyyy =  parsedStartDate.split('-')[0]
+
+        parsedStartDate = dd + '/' + mm + '/' + yyyy;
         var parsedFinishDate = finishDate.toISOString().split('T')[0]
+         dd=  parsedFinishDate.split('-')[2]
+         mm =  parsedFinishDate.split('-')[1]
+         yyyy =  parsedFinishDate.split('-')[0]
+
+         parsedFinishDate = dd + '/' + mm + '/' + yyyy;
         console.log(parsedStartDate)
         console.log(parsedFinishDate)
         if (parsedStartDate !== parsedFinishDate) {
@@ -241,9 +261,7 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
             console.log("menor")
         }
 
-
         getMaximos()
-
 
         setVoltage(arrayVoltage)
         setCurrent(arrayCurrent)
@@ -531,20 +549,22 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
         setmaxVoltage(auxMaxVoltage)
     }
 
-    // const colors = ["bg-primary","bg-secondary","bg-success","bg-danger","bg-info","bg-dark"];
     function handleChange(e) {
         setSelectValue({ selectValue: e.target.value });
         $("#selectDevice option[value=default]").attr('disabled', 'disabled')
         $('.id_100 option[value=val2]').attr('selected', 'selected');
     }
-    function handleStartDate(date) {
+    /*function handleStartDate(date) {
         setStartDate(date)
+        
+      //  getData()
 
     }
     function handlefinishDate(date) {
         setFinishtDate(date)
+      //  getData()
 
-    }
+    }*/
 
     function addDevice() {
         if (selectValue !== "default") {
@@ -575,6 +595,7 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
 
         })
     };
+    
     function modalEligeDispositivo() {
         Swal.fire({
             title: "Error",
@@ -660,12 +681,12 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
                 }
                 <Col>
                     <h5>Fecha Inicio</h5>
-                    <DatePicker selected={startDate} onChange={(date) => handleStartDate(date)} dateFormat="dd/MM/yyyy" />
+                    <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="dd/MM/yyyy" />
                 </Col>
                 <Col>
                     <h5>Fecha Fin</h5>
 
-                    <DatePicker selected={finishDate} onChange={(date) => handlefinishDate(date)} dateFormat="dd/MM/yyyy" />
+                    <DatePicker selected={finishDate} onChange={(date) => setFinishtDate(date)} dateFormat="dd/MM/yyyy" />
                 </Col>
                 <Col xs="2"></Col>
             </Row>
