@@ -15,17 +15,17 @@ import { Line } from 'react-chartjs-2';
 import httpClient from '../httpClient';
 import $ from 'jquery'
 
-export default function Home({ labels, rol, media, energia, indices, nombre }) {
+export default function Home({ labels, rol, media, indices, nombre }) {
     var date = new Date(2021, 6, 21);
     var dateFinish = new Date(2021, 7, 15)
- /*   var dateStr =
-        ("00" + date.getDate()).slice(-2) + "/" +
-        ("00" + (date.getMonth() + 1)).slice(-2) + "/" +
-        date.getFullYear() + ":" +
-        ("00" + date.getHours()).slice(-2) + ":" +
-        ("00" + date.getMinutes()).slice(-2) + ":" +
-        ("00" + date.getSeconds()).slice(-2);
-    console.log(dateStr);*/
+    /*   var dateStr =
+           ("00" + date.getDate()).slice(-2) + "/" +
+           ("00" + (date.getMonth() + 1)).slice(-2) + "/" +
+           date.getFullYear() + ":" +
+           ("00" + date.getHours()).slice(-2) + ":" +
+           ("00" + date.getMinutes()).slice(-2) + ":" +
+           ("00" + date.getSeconds()).slice(-2);
+       console.log(dateStr);*/
 
     const [startDate, setStartDate] = useState(date);
     const deviceList = []
@@ -51,7 +51,6 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
     const [datasetVoltage, setVoltage] = useState([])
     const [datasetEnergia, setEnergia] = useState([])
     const [datasetActivePower, setActivePower] = useState([])
-    //const [labels, setLabels] = useState([])
     //Máximos de cada gráfcia
     const [maxPowerFactor, setmaxPowerFactor] = useState(0)
     const [maxApparentPower, setmaxApparentPower] = useState(0)
@@ -79,17 +78,14 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
     }, []);
 
     useEffect(() => {
-        console.log("updateDateInicial")
         getData();
     }, [startDate]);
 
     useEffect(() => {
-        console.log("updateDateFinal")
         getData();
-    }, [finishDate],[startDate]);
+    }, [finishDate], [startDate]);
 
     useEffect(() => {
-        console.log("getDataUseEffect")
         getData()
     }, [addedDevices], [startDate], [finishDate], [datasetActivePower], [datasetApparentPower], [datasetCurrent], [datasetEnergia], [datasetPowerFactor], [datasetVoltage], [maxPowerFactor], [maxActivePower], [maxApparentPower], [maxCurrent], [maxEnergia], [maxVoltage]);
 
@@ -107,19 +103,21 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
     };
     const getData = () => {
         var parsedStartDate = startDate.toISOString().split('T')[0]
-        var dd=  parsedStartDate.split('-')[2]
-        var mm =  parsedStartDate.split('-')[1]
-        var yyyy =  parsedStartDate.split('-')[0]
+        var dd = parsedStartDate.split('-')[2]
+        var mm = parsedStartDate.split('-')[1]
+        var yyyy = parsedStartDate.split('-')[0]
 
         parsedStartDate = dd + '/' + mm + '/' + yyyy;
         var parsedFinishDate = finishDate.toISOString().split('T')[0]
-         dd=  parsedFinishDate.split('-')[2]
-         mm =  parsedFinishDate.split('-')[1]
-         yyyy =  parsedFinishDate.split('-')[0]
+        dd = parsedFinishDate.split('-')[2]
+        mm = parsedFinishDate.split('-')[1]
+        yyyy = parsedFinishDate.split('-')[0]
 
-         parsedFinishDate = dd + '/' + mm + '/' + yyyy;
-        console.log(parsedStartDate)
-        console.log(parsedFinishDate)
+        parsedFinishDate = dd + '/' + mm + '/' + yyyy;
+
+        if (startDate > finishDate) {
+            modalFechaIncorrecta();
+        }
         if (parsedStartDate !== parsedFinishDate) {
             addedDevices.map((fichero) =>
                 deviceList.push(fichero["selectValue"])
@@ -137,10 +135,8 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
                 }
             }
             try {
-                //   console.log("llama api")
                 httpClient.get("//localhost:5000/getData", config).then((response) => {
                     const resp = response.data
-                    console.log(response.data)
                     //    setLabels(resp.labels)
                     cargarDatos(resp.data)
                 });
@@ -154,111 +150,106 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
     }
 
     if (rol === "ADMIN") {
-        console.log(media.energia)
         arrayPowerFactor.push({
-            label: 'Media',
+            label: 'Media Dispositivos',
             borderColor: '#FFFF00',
-            backgroundColor: 'rgba(255, 10, 13, 0.1)',
+            backgroundColor: 'rgba(255,255,0,1)',
             data: media.powerFactor,
             fill: false
         })
         arrayApparentPower.push({
-            label: 'Media',
+            label: 'Media Dispositivos',
             borderColor: '#FFFF00',
-            backgroundColor: 'rgba(255, 10, 13, 0.1)',
+            backgroundColor: 'rgba(255,255,0,1)',
             data: media.apparentPower,
             fill: false
         })
         arrayCurrent.push({
-            label: 'Media',
+            label: 'Media Dispositivos',
             borderColor: '#FFFF00',
-            backgroundColor: 'rgba(255, 10, 13, 0.1)',
+            backgroundColor: 'rgba(255,255,0,1)',
             data: media.current,
             fill: false
         })
         arrayVoltage.push({
-            label: 'Media',
+            label: 'Media Dispositivos',
             borderColor: '#FFFF00',
-            backgroundColor: 'rgba(255, 10, 13, 0.1)',
+            backgroundColor: 'rgba(255,255,0,1)',
             data: media.voltage,
             fill: false
         })
         arrayEnergia.push({
-            label: 'Media',
+            label: 'Media Dispositivos',
             borderColor: '#FFFF00',
-            backgroundColor: 'rgba(255, 10, 13, 0.1)',
+            backgroundColor: 'rgba(255,255,0,1)',
             data: media.energia,
             fill: false
         })
         arrayActivePower.push({
-            label: 'Media',
+            label: 'Media Dispositivos',
             borderColor: '#FFFF00',
-            backgroundColor: 'rgba(255, 10, 13, 0.1)',
+            backgroundColor: 'rgba(255,255,0,1)',
             data: media.activePower,
             fill: false
         })
     }
 
     function cargarDatos(datos) {
-    var cont=0
+        var cont = 0
 
         for (let i = 0; i < datos.length; i++) {
-            if(cont<datos.length){
-           
-            arrayPowerFactor.push({
-                label: datos[i].name,
-                borderColor: colors[i],
-                backgroundColor: colors[i],
-                data: datos[i].powerFactor,
-                fill: false
-            })
+            if (cont < datos.length) {
 
-            arrayApparentPower.push({
-                label: datos[i].name,
-                borderColor: colors[i],
-                backgroundColor: colors[i],
-                data: datos[i].apPower,
-                fill: false
-            })
+                arrayPowerFactor.push({
+                    label: datos[i].name,
+                    borderColor: colors[i],
+                    backgroundColor: colors[i],
+                    data: datos[i].powerFactor,
+                    fill: false
+                })
 
-            arrayCurrent.push({
-                label: datos[i].name,
-                borderColor: colors[i],
-                backgroundColor: colors[i],
-                data: datos[i].current,
-                fill: false
-            })
+                arrayApparentPower.push({
+                    label: datos[i].name,
+                    borderColor: colors[i],
+                    backgroundColor: colors[i],
+                    data: datos[i].apPower,
+                    fill: false
+                })
 
-            arrayVoltage.push({
-                label: datos[i].name,
-                borderColor: colors[i],
-                backgroundColor: colors[i],
-                data: datos[i].voltage,
-                fill: false
-            })
+                arrayCurrent.push({
+                    label: datos[i].name,
+                    borderColor: colors[i],
+                    backgroundColor: colors[i],
+                    data: datos[i].current,
+                    fill: false
+                })
+
+                arrayVoltage.push({
+                    label: datos[i].name,
+                    borderColor: colors[i],
+                    backgroundColor: colors[i],
+                    data: datos[i].voltage,
+                    fill: false
+                })
 
 
-            arrayEnergia.push({
-                label: datos[i].name,
-                borderColor: colors[i],
-                backgroundColor: colors[i],
-                data: datos[i].energia,
-                fill: false
-            })
+                arrayEnergia.push({
+                    label: datos[i].name,
+                    borderColor: colors[i],
+                    backgroundColor: colors[i],
+                    data: datos[i].energia,
+                    fill: false
+                })
 
-            arrayActivePower.push({
-                label: datos[i].name,
-                borderColor: colors[i],
-                backgroundColor: colors[i],
-                data: datos[i].acPower,
-                fill: false
-            })
-            cont+=1;
-        }
-        }
-        
-        if(datos.length<labels.length){
-            console.log("menor")
+                arrayActivePower.push({
+                    label: datos[i].name,
+                    borderColor: colors[i],
+                    backgroundColor: colors[i],
+                    data: datos[i].acPower,
+                    fill: false
+                })
+                cont += 1;
+            }
         }
 
         getMaximos()
@@ -424,58 +415,6 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
         },
     };
 
-    const chartjs = {
-        line: {
-            data: {
-                labels: ['Enero', 'Febrero', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'october'],
-                datasets: [
-                    {
-                        label: 'Ev',
-                        borderColor: '#6a82fb',
-                        backgroundColor: '#6a82fb',
-                        data: energia,
-                        fill: false
-                    },
-
-                    {
-                        label: 'Casa',
-                        borderColor: '#fc5c7d',
-                        backgroundColor: '#fc5c7d',
-                        data: [0, 600, 1200, 860, 800, 2400, 1900],
-                        fill: false
-
-                    },
-                    {
-                        label: 'Media',
-                        borderColor: '#FFFF00',
-                        backgroundColor: '#FFFF00',
-                        data: [0, 750, 1150, 820, 1225, 1800, 1850],
-                        fill: false
-
-                    },
-
-
-                ],
-            },
-            options: {
-                responsive: true,
-                legend: {
-                    display: true,
-                },
-                title: {
-                    display: false,
-                    text: 'Chart.js Line Chart - Stacked Area',
-                },
-                tooltips: {
-                    intersect: false,
-                    mode: 'nearest',
-                },
-                hover: {
-                    mode: 'index',
-                },
-            },
-        },
-    };
 
     //Calcula los máximos de las gráficas
     function getMaximos() {
@@ -486,7 +425,7 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
         var auxMaxEnergia = 0
         var auxMaxVoltage = 0
         for (let i = 0; i < arrayApparentPower.length; i++) {
-            if (arrayApparentPower[i].label !== "Media") {
+            if (arrayApparentPower[i].label !== "Media Dispositivos") {
                 for (let j = 0; j < arrayPowerFactor[i].data.length; j++) {
                     if (arrayApparentPower[i].data[j] > auxMaxApparentPower) {
                         auxMaxApparentPower = arrayApparentPower[i].data[j]
@@ -496,7 +435,7 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
 
         }
         for (let i = 0; i < arrayPowerFactor.length; i++) {
-            if (arrayPowerFactor[i].label !== "Media") {
+            if (arrayPowerFactor[i].label !== "Media Dispositivos") {
                 for (let j = 0; j < arrayPowerFactor[i].data.length; j++) {
                     if (arrayPowerFactor[i].data[j] > auxMaxPowerFactor) {
                         auxMaxPowerFactor = arrayPowerFactor[i].data[j]
@@ -505,7 +444,7 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
             }
         }
         for (let i = 0; i < arrayCurrent.length; i++) {
-            if (arrayCurrent[i].label !== "Media") {
+            if (arrayCurrent[i].label !== "Media Dispositivos") {
                 for (let j = 0; j < arrayCurrent[i].data.length; j++) {
                     if (arrayCurrent[i].data[j] > auxMaxCurrent) {
                         auxMaxCurrent = arrayCurrent[i].data[j]
@@ -514,7 +453,7 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
             }
         }
         for (let i = 0; i < arrayEnergia.length; i++) {
-            if (arrayEnergia[i].label !== "Media") {
+            if (arrayEnergia[i].label !== "Media Dispositivos") {
                 for (let j = 0; j < arrayEnergia[i].data.length; j++) {
                     if (arrayEnergia[i].data[j] > auxMaxEnergia) {
                         auxMaxEnergia = arrayEnergia[i].data[j]
@@ -523,7 +462,7 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
             }
         }
         for (let i = 0; i < arrayVoltage.length; i++) {
-            if (arrayVoltage[i].label !== "Media") {
+            if (arrayVoltage[i].label !== "Media Dispositivos") {
                 for (let j = 0; j < arrayVoltage[i].data.length; j++) {
                     if (arrayVoltage[i].data[j] > auxMaxVoltage) {
                         auxMaxVoltage = arrayVoltage[i].data[j]
@@ -533,7 +472,7 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
         }
 
         for (let i = 0; i < arrayActivePower.length; i++) {
-            if (arrayActivePower[i].label !== "Media") {
+            if (arrayActivePower[i].label !== "Media Dispositivos") {
                 for (let j = 0; j < arrayActivePower[i].data.length; j++) {
                     if (arrayActivePower[i].data[j] > auxMaxActivePower) {
                         auxMaxActivePower = arrayActivePower[i].data[j]
@@ -578,6 +517,9 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
             modalEligeDispositivo()
         }
     }
+    function goToPerfil() {
+        window.location.href = "/perfil"
+    }
     function deleteDevice(device) {
         var index = addedDevices.indexOf(device);
         addedDevices.splice(index, 1);
@@ -595,7 +537,7 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
 
         })
     };
-    
+
     function modalEligeDispositivo() {
         Swal.fire({
             title: "Error",
@@ -609,35 +551,64 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
     };
 
     return (
-
         <>
-            <Row>
+
+            <Row >
                 <Col xs="1"></Col>
                 <Col xs="3">
-                    <h5>Dispositivos disponibles</h5>
-                    {indices.length !== 0 &&
-                        <select onChange={handleChange} id="selectDevice">
-                            <option key={"default"} id="default" value="default" >Elige un Dispositivo</option>
-                            {
-                                indices && indices.map((fichero, i) =>
-                                    <option key={i} value={fichero}>{fichero}</option>)
+                    <Card>
+                        <CardBody>
+                            {indices.length !== 0 &&
+                                <>   <h5>Dispositivos disponibles</h5>
+                                    <Row>
+                                        <Col lg={5}> <select className="col-12" onChange={handleChange} id="selectDevice">
+                                            {indices && indices.map((fichero, i) => <option key={i} value={fichero}>{fichero}</option>)}
+                                        </select></Col>
+                                        <Col lg={7}><Button
+                                            size="sm"
+                                            className="ml-3 bg-gradient-theme-left border-0"
+                                            onClick={addDevice}
+                                        >
+                                            Añadir Dispositivo
+                                        </Button></Col>
+                                    </Row></>
+
+
                             }
-                        </select>
-                    }
-                    <Button
-                        size="sm"
-                        className="ml-3 bg-gradient-theme-left border-0"
-                        onClick={addDevice}
-                    >
-                        Añadir Dispositivo
-                    </Button>
+                            {indices.length === 0 &&
+
+                                <>
+
+                                    <h5>No hay dispositivos disponibles</h5>
+                                    <p>Puedes añadir ficheros en el perfil</p>
+                                    <Row
+                                        style={{
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                        }}>
+                                        <Button
+                                            size="sm"
+                                            className="btn btn-primary"
+                                            onClick={goToPerfil}
+                                        >
+                                            Ir a perfil
+                                        </Button>    </Row>
+
+                                </>
+                            }
+                        </CardBody>
+                    </Card>
                 </Col>
 
                 {
 
                     <Col xs="4" >
                         <Card >
-                            <CardHeader>Dispositivos añadidos</CardHeader>
+                            <CardHeader>Dispositivos añadidos
+                                {rol === "ADMIN" &&
+                                    <p style={{ fontSize: "10px" }}> (Media disponible debido al rol ADMIN)  </p>
+                                }
+                            </CardHeader>
                             <CardBody>
                                 <Row>
                                     <Col>
@@ -657,15 +628,13 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
 
                                                         {
                                                             addedDevices && addedDevices.map((fichero, i) =>
+
                                                                 <tr key={fichero["selectValue"]}>
                                                                     <th scope="row">{i}</th>
                                                                     <td>{fichero["selectValue"]}</td>
-
                                                                     <td>
                                                                         <button onClick={() => deleteDevice(fichero)} className="btn btn-primary active" ><i className="fas fa-trash-alt"></i></button>
                                                                     </td>
-
-
                                                                 </tr>
                                                             )
                                                         }
@@ -719,7 +688,10 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
                                 <h4 > {nombre}</h4>
                             </div>
                             <span className="d-flex justify-content-center">{maxEnergia} Wh</span>
+                            {maxEnergia === 0 &&
+                                <p className="text-danger" style={{ fontSize: "11px" }}> (Necesario al menos un dispositivo)  </p>
 
+                            }
                         </CardBody>
 
                     </Card>
@@ -746,14 +718,17 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
 
                     <Card >
                         <CardHeader>
-                            Active Power(W)
+                            Máximo Active Power(W)
                         </CardHeader>
                         <CardBody className="tab-content">
                             <div className="d-flex justify-content-center">
                                 <h4 > {nombre}</h4>
                             </div>
                             <span className="d-flex justify-content-center">{maxActivePower} W</span>
+                            {maxActivePower === 0 &&
+                                <p className="text-danger" style={{ fontSize: "11px" }}> (Necesario al menos un dispositivo)  </p>
 
+                            }
                         </CardBody>
 
                     </Card>
@@ -780,14 +755,17 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
 
                     <Card >
                         <CardHeader>
-                            Voltage(V)
+                            Máximo  Voltage(V)
                         </CardHeader>
                         <CardBody className="tab-content">
                             <div className="d-flex justify-content-center">
                                 <h4 > {nombre}</h4>
                             </div>
                             <span className="d-flex justify-content-center">{maxVoltage} V</span>
+                            {maxVoltage === 0 &&
+                                <p className="text-danger" style={{ fontSize: "11px" }}> (Necesario al menos un dispositivo)  </p>
 
+                            }
                         </CardBody>
 
                     </Card>
@@ -816,14 +794,17 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
 
                     <Card >
                         <CardHeader>
-                            Power factor(pu)
+                            Máximo Power factor(pu)
                         </CardHeader>
                         <CardBody className="tab-content">
                             <div className="d-flex justify-content-center">
                                 <h4 > {nombre}</h4>
                             </div>
                             <span className="d-flex justify-content-center">{maxPowerFactor} pu</span>
+                            {maxPowerFactor === 0 &&
+                                <p className="text-danger" style={{ fontSize: "11px" }}> (Necesario al menos un dispositivo)  </p>
 
+                            }
                         </CardBody>
 
                     </Card>
@@ -851,14 +832,17 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
 
                     <Card >
                         <CardHeader>
-                            Apparent power (VA)
+                            Máximo Apparent power (VA)
                         </CardHeader>
                         <CardBody className="tab-content">
                             <div className="d-flex justify-content-center">
                                 <h4 > {nombre}</h4>
                             </div>
                             <span className="d-flex justify-content-center">{maxApparentPower} VA</span>
+                            {maxApparentPower === 0 &&
+                                <p className="text-danger" style={{ fontSize: "11px" }}> (Necesario al menos un dispositivo)  </p>
 
+                            }
                         </CardBody>
 
                     </Card>
@@ -886,49 +870,17 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
 
                     <Card >
                         <CardHeader>
-                            Current (A)
+                            Máximo Current (A)
                         </CardHeader>
                         <CardBody className="tab-content">
                             <div className="d-flex justify-content-center">
                                 <h4 > {nombre}</h4>
                             </div>
                             <span className="d-flex justify-content-center">{maxCurrent} A</span>
+                            {maxCurrent === 0 &&
+                                <p className="text-danger" style={{ fontSize: "11px" }}> (Necesario al menos un dispositivo)  </p>
 
-                        </CardBody>
-
-                    </Card>
-
-                </Col>
-            </Row>
-            <Row>
-                <Col xs="2"></Col>
-
-                <Col xs="6">
-                    <Card >
-                        <CardHeader>
-                            ReactivePower(VA)
-                        </CardHeader>
-                        <CardBody className="tab-content">
-
-                            <Line data={chartjs.line.data} options={chartjs.line.options} />
-
-                        </CardBody>
-
-                    </Card>
-
-                </Col>
-                <Col xs="2">
-
-                    <Card >
-                        <CardHeader>
-                            ReactivePower (VA)
-                        </CardHeader>
-                        <CardBody className="tab-content">
-                            <div className="d-flex justify-content-center">
-                                <h4 > {nombre}</h4>
-                            </div>
-                            <span className="d-flex justify-content-center">2400 VA</span>
-
+                            }
                         </CardBody>
 
                     </Card>
@@ -937,4 +889,5 @@ export default function Home({ labels, rol, media, energia, indices, nombre }) {
             </Row>
         </>
     );
+
 }

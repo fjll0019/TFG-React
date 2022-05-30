@@ -1,10 +1,9 @@
-import logo200Image from 'assets/img/logo/icono.png';
 import PropTypes from 'prop-types';
 import React from 'react';
 import httpClient from '../httpClient';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import Swal from "sweetalert2"
-
+import validator from 'validator'
 class AuthForm extends React.Component {
 
 
@@ -94,19 +93,26 @@ class AuthForm extends React.Component {
     })
   };
 
+  modalEmailNoValido = () => {
+    Swal.fire({
+      title: "Error",
+      text: 'El email introducido no es válido',
+      showDenyButton: false,
+      icon: 'error',
+      confirmButtonText: "volver",
+      confirmButtonColor: "grey",
+    })
+  };
+
   render() {
     var email = ""
     var password = ""
     const {
-      showLogo,
       Emailabel,
       EmailInputProps,
       passwordLabel,
       passwordInputProps,
-      confirmPasswordLabel,
-      confirmPasswordInputProps,
       children,
-      onLogoClick,
     } = this.props;
 
 
@@ -118,7 +124,7 @@ class AuthForm extends React.Component {
         password = document.getElementById('password').value
 
         try {
-         await httpClient.post("//localhost:5000/login", {
+          await httpClient.post("//localhost:5000/login", {
             email,
             password,
           })
@@ -132,20 +138,17 @@ class AuthForm extends React.Component {
         }
       } else {
         email = document.getElementById('email').value
-        password = document.getElementById('password').value
-        var conPassword = document.getElementById('conPassword').value
         var fallo = false
         try {
           if (email === "") {
             this.modalEmailVacio();
             fallo = true
           }
-          if (password !== conPassword) {
-            this.modalPassNotEqual();
-            fallo = true
+          if (!validator.isEmail(email)) {
+            this.modalEmailNoValido()
+            fallo = true;
 
           }
-
           if (fallo === false) {
             await httpClient.post("//localhost:5000/register", {
               email,
@@ -167,56 +170,19 @@ class AuthForm extends React.Component {
         }
       }
     }
-    const goHome = () => {
-      window.location.href = "/home"
-    };
-
-
 
     return (
+      <><div><h3>Registrar Nuevo Usuario</h3></div>
       <Form onSubmit={this.handleSubmit}>
-        {showLogo && this.isSignup ? (
-          <div>
-            <a href="/config"> <i className="fas fa-arrow-left"></i></a>
-            <div className="text-center pb-4">
-
-              <img
-                src={logo200Image}
-                className="rounded"
-                style={{ width: 60, height: 60, cursor: 'pointer' }}
-                alt="logo"
-
-                onClick={goHome}
-              />
-            </div>
-          </div>
-        ) : (
-          <div className="text-center pb-4">
-            <img
-              src={logo200Image}
-              className="rounded"
-              style={{ width: 60, height: 60, cursor: 'pointer' }}
-              alt="logo"
-
-              onClick={onLogoClick}
-            />
-          </div>
-        )
-        }
-
-
         <FormGroup>
           <Label for={Emailabel}>{Emailabel}</Label>
           <Input id="email" {...EmailInputProps} />
         </FormGroup>
-        <FormGroup>
-          <Label for={passwordLabel}>{passwordLabel}</Label>
-          <Input id="password" {...passwordInputProps} />
-        </FormGroup>
-        {this.isSignup && (
+
+        {!this.isSignup && (
           <FormGroup>
-            <Label for={confirmPasswordLabel}>{confirmPasswordLabel}</Label>
-            <Input id="conPassword" {...confirmPasswordInputProps} />
+            <Label for={passwordLabel}>{passwordLabel}</Label>
+            <Input id="password" {...passwordInputProps} />
           </FormGroup>
         )}
         <hr />
@@ -228,7 +194,7 @@ class AuthForm extends React.Component {
           {this.renderButtonText()}
         </Button>
         {children}
-      </Form>
+      </Form></>
     );
   }
 }

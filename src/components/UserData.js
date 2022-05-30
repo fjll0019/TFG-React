@@ -38,27 +38,30 @@ class UserData extends React.Component {
         );
     }
 
-    modalBorrar = (fichero,email) => {
+    async modalBorrar(fichero, email) {
         Swal.fire({
-          title: "Vas a eliminar un fichero de datos ¿Estás seguro?",
-          showDenyButton: true,
-          denyButtonText: "Cancelar",
-          denyButtonColor: "grey",
-          confirmButtonText: "Eliminar",
-          confirmButtonColor: "red",
+            title: "Vas a eliminar un fichero de datos ¿Estás seguro?",
+            showDenyButton: true,
+            denyButtonText: "Cancelar",
+            denyButtonColor: "grey",
+            confirmButtonText: "Eliminar",
+            confirmButtonColor: "red",
         }).then((res) => {
-          if (res.isConfirmed) {
-            this.DeleteData(fichero,email);
-          }
+            if (res.isConfirmed) {
+                this.DeleteData(fichero, email);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 500);
+            }
         });
-      };
-    async DeleteData(filename,email) {
+    };
+    async DeleteData(filename, email) {
         try {
-            await httpClient.post("//localhost:5000/deleteData", {
+            await httpClient.post("//localhost:5000/deleteDataUser", {
                 filename,
                 email
             })
-            window.location.reload(true)
+
 
         } catch (error) {
 
@@ -87,30 +90,30 @@ class UserData extends React.Component {
 
                                     <Row>
                                         <Col>
-                                        <div className="table-responsive">
-                                            <Table {...{ [tableType || 'default']: true }}>
-                                                <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Nombre del fichero</th>
-                                                        <th>Eliminar</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {
-                                                        ficheros && ficheros.map((fichero, i) =>
-                                                            <tr key={i}>
-                                                                <th scope="row">{i}</th>
-                                                                <td>{fichero}</td>
+                                            <div className="table-responsive">
+                                                <Table {...{ [tableType || 'default']: true }}>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Nombre del fichero</th>
+                                                            <th>Eliminar</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                            ficheros && ficheros.map((fichero, i) =>
+                                                                <tr key={i}>
+                                                                    <th scope="row">{i}</th>
+                                                                    <td>{fichero}</td>
 
-                                                                <td><button onClick={() => this.modalBorrar(fichero,this.props.email)} className="btn btn-primary active"><i className="fas fa-trash-alt"></i></button></td>
+                                                                    <td><button onClick={() => this.modalBorrar(fichero, this.props.email)} className="btn btn-primary active"><i className="fas fa-trash-alt"></i></button></td>
 
-                                                            </tr>
+                                                                </tr>
 
-                                                        )
-                                                    }
-                                                </tbody>
-                                            </Table>
+                                                            )
+                                                        }
+                                                    </tbody>
+                                                </Table>
                                             </div>
                                         </Col>
 

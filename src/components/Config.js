@@ -47,13 +47,6 @@ class Config extends React.Component {
     try {
 
       await httpClient.post("//localhost:5000/delete")
-      sessionStorage.removeItem("jwt")
-      sessionStorage.removeItem("UserName")
-      sessionStorage.removeItem("Email")
-      sessionStorage.removeItem("data")
-      sessionStorage.removeItem("rol")
-
-
       window.location.href = "/"
     } catch (error) {
       alert("No ha sido posible eliminar la cuenta")

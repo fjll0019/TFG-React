@@ -64,7 +64,6 @@ class Password extends React.Component {
             children,
             onLogoClick,
         } = this.props;
-        console.log(this.props)
         const ChangePassword = async () => {
             password = document.getElementById('pass').value
             confPassword = document.getElementById('confPass').value

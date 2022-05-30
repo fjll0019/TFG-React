@@ -2,15 +2,12 @@ import logo200Image from 'assets/img/logo/icono.png';
 import SourceLink from 'components/SourceLink';
 import { UserCard } from 'components/Card';
 import httpClient from '../../httpClient';
-import SearchInput from 'components/SearchInput';
-
 import React from 'react';
 
 import {
   MdClearAll,
   MdExitToApp,
   MdPersonPin,
-  MdSettingsApplications,
 } from 'react-icons/md';
 import {
   Button,
@@ -58,17 +55,12 @@ class Header extends React.Component {
   CerrarSesion = () => {
     try {
       httpClient.get("//localhost:5000/@logout")
-      sessionStorage.removeItem("jwt")
-      sessionStorage.removeItem("UserName")
-      sessionStorage.removeItem("Email")
-      sessionStorage.removeItem("data")
-      sessionStorage.removeItem("rol")
+      window.location.replace('/')
 
     } catch (error) {
 
     }
 
-    window.location.replace('/')
   }
 
   Configuracion = () => {
@@ -102,22 +94,8 @@ class Header extends React.Component {
             <MdClearAll size={25} />
           </Button>
         </Nav>
-        <div className='col-6 d-flex justify-content-center'>
-        <Nav navbar className={bem.e('nav-center')} >
-          <SearchInput />
-        </Nav>
-        </div>
-
         <Nav navbar className={bem.e('nav-right')}>
-          {this.props.rol === "ADMIN" &&(
-            <NavItem>
-
-              <Button outline color="link"  className="navbar-brand d-flex" href="/userList">
-              <span id="" className="text-dark">   Lista de usuarios</span> 
-              </Button>
-
-            </NavItem>
-          )}
+     
            {this.props.nombre !== null &&(
           <NavItem id="Popover2">
 
@@ -151,9 +129,6 @@ class Header extends React.Component {
                     <ListGroup flush>
                       <ListGroupItem tag="button" action onClick={this.Perfil} className="border-light">
                         <MdPersonPin /> Perfil
-                      </ListGroupItem>
-                      <ListGroupItem tag="button" action onClick={this.Configuracion} className="border-light">
-                        <MdSettingsApplications /> Configuración
                       </ListGroupItem>
                       <ListGroupItem tag="button" action onClick={this.CerrarSesion} className="border-light">
                         <MdExitToApp /> Cerrar Sesión

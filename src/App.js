@@ -12,7 +12,6 @@ import PerfilPage from '../src/pages/PerfilPage';
 import ConfigPage from '../src/pages/ConfigPage';
 import PasswordPage from './pages/PasswordPage';
 import httpClient from './httpClient';
-import $ from 'jquery'
 import AddDataPage from './pages/AddDataPage';
 import UsersListPage from './pages/UsersListPage';
 
@@ -29,6 +28,7 @@ function App() {
   const [datos, setDatos] = useState();
 
   useEffect(() => {
+
     getData();
 
   }, []);
@@ -38,8 +38,6 @@ function App() {
       httpClient.get("//localhost:5000/@me").then((response) => {
         const resp = response.data
         setDatos(resp)
-        $('#nombre').attr("placeholder", resp["nombre"]);
-        $('#email').attr("placeholder", resp["email"]);
         setLoading(false);
       });
 
@@ -66,16 +64,18 @@ function App() {
           />
           <LayoutRoute
             exact
+            props={datos}
             path="/signup"
-            layout={EmptyLayout}
+            layout={MainLayout}
             component={props => (
               <AuthPage {...props} authState={STATE_SIGNUP} />
             )}
           />
           <LayoutRoute
             exact
+            props={datos}
             path="/perfil"
-            layout={EmptyLayout}
+            layout={MainLayout}
             component={props => (
               <PerfilPage {...datos} />
             )}
@@ -106,18 +106,20 @@ function App() {
           />
           <LayoutRoute
             exact
+            props={datos}
             path="/addData"
-            layout={EmptyLayout}
+            layout={MainLayout}
             component={props => (
               <AddDataPage {...datos} />
             )}
           />
           <LayoutRoute
             exact
+            props={datos}
             path="/userList"
-            layout={EmptyLayout}
+            layout={MainLayout}
             component={props => (
-              <UsersListPage />
+              <UsersListPage {...datos} />
             )}
           />
           <React.Suspense fallback={<PageSpinner />}>
@@ -127,7 +129,6 @@ function App() {
 
             </MainLayout>
           </React.Suspense>
-
         </Switch>
       </GAListener>
     </BrowserRouter>

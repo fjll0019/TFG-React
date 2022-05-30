@@ -4,9 +4,8 @@ import SourceLink from 'components/SourceLink';
 import React from 'react';
 
 import {
-  MdAccountCircle,
   MdDashboard,
- // MdInsertChart,
+  MdList
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import {
@@ -69,23 +68,7 @@ class Sidebar extends React.Component {
           </Navbar>
 
           <Nav vertical>
-            {
-              this.props.rol === "ADMIN" && (
-                <NavItem key="Register" className={bem.e('nav-item')}>
-                  <BSNavLink
-                    id={`navItem-Register}`}
-                    className="text-uppercase"
-                    tag={NavLink}
-                    to='/signup'
-                    activeClassName="active"
-                    exact={false}
-                  >
-                    <MdAccountCircle className={bem.e('nav-item-icon')} />
-                    <span className="">Nuevo Usuario</span>
-                  </BSNavLink>
-                </NavItem >
-              )}
-            {navItems.map(({ to, name, exact, Icon }, index) => (
+          {navItems.map(({ to, name, exact, Icon }, index) => (
               <NavItem key={index} className={bem.e('nav-item')}>
                 <BSNavLink
                   id={`navItem-${name}-${index}`}
@@ -100,6 +83,23 @@ class Sidebar extends React.Component {
                 </BSNavLink>
               </NavItem>
             ))}
+               {
+              this.props.rol === "ADMIN" && (
+                <NavItem key="userList" className={bem.e('nav-item')}>
+                  <BSNavLink
+                    id={`navItem-userList}`}
+                    className="text-uppercase"
+                    tag={NavLink}
+                    to='/userList'
+                    activeClassName="active"
+                    exact={false}
+                  >
+                    <MdList className={bem.e('nav-item-icon')} />
+                    <span className="">Lista de Usuarios</span>
+                  </BSNavLink>
+                </NavItem >
+              )}
+           
           </Nav>
         </div>
       </aside>

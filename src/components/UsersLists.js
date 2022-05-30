@@ -25,8 +25,10 @@ class UserLists extends React.Component {
     open: true,
     lista: [],
   }
-
-  modalBorrar = (email) => {
+  delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+  }
+  async modalBorrar(email) {
     Swal.fire({
       title: "Vas a eliminar un usuario ¿Estás seguro?",
       showDenyButton: true,
@@ -35,9 +37,13 @@ class UserLists extends React.Component {
       confirmButtonText: "Eliminar",
       confirmButtonColor: "red",
     }).then((res) => {
+
       if (res.isConfirmed) {
         this.deleteUser(email)
-        window.location.reload();
+        setTimeout(function () {
+          window.location.reload();
+
+        }, 500);
       }
     });
   };
@@ -47,17 +53,22 @@ class UserLists extends React.Component {
       // eslint-disable-next-line
       this.state.booleanList[modalType] = !this.state.booleanList[modalType]
       return this.setState({
-   
+
       });
     }
 
     this.setState({
-    
+
     });
   };
 
+  goTonuevoUsuario(){
+    window.location.href='/signup'
+  }
+
   deleteUser(email) {
     try {
+      console.log(email)
       httpClient.post("//localhost:5000/deleteUser", {
         email
       })
@@ -206,6 +217,8 @@ class UserLists extends React.Component {
             </>
 
           </div>
+          <button className="btn btn-primary active" onClick={() => this.goTonuevoUsuario()}><i className="fas fa-user"></i> <span>Registrar Nuevo Usuario</span>  </button>
+
         </>
       )
     } else {

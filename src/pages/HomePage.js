@@ -19,7 +19,6 @@ class HomePage extends React.Component {
     }
 
     render() {
-        if (this.props.data.length !== 0) {
             let indices = []
             let nombre =this.state.nombre;
             indices = this.props.indices;
@@ -32,16 +31,7 @@ class HomePage extends React.Component {
                      />
                 </Page >
             );
-        } else {
-            return (
-                <Page
-                    className="DashboardPage"
-                    title="Home"
-                    breadcrumbs={[{ name: 'Home', active: true }]}>
-                    <div></div>
-                </Page>
-            )
-        }
+       
     }
 }
 export default HomePage;

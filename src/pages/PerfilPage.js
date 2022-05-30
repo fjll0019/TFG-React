@@ -9,13 +9,12 @@ class PerfilPage extends React.Component {
     };
     render() {
         return (
-            <Row
-                style={{
-                    height: '75vh',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}>
-                <Col md={6} lg={4}>
+            <Row  style={{
+                height: '95vh',
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}>
+                <Col md={2} lg={12}>
                     <Card body>
                         <Perfil {...this.props}
                             onLogoClick={this.handleLogoClick}
