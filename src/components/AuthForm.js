@@ -172,29 +172,36 @@ class AuthForm extends React.Component {
     }
 
     return (
-      <><div><h3>Registrar Nuevo Usuario</h3></div>
-      <Form onSubmit={this.handleSubmit}>
-        <FormGroup>
-          <Label for={Emailabel}>{Emailabel}</Label>
-          <Input id="email" {...EmailInputProps} />
-        </FormGroup>
-
+      <>
         {!this.isSignup && (
-          <FormGroup>
-            <Label for={passwordLabel}>{passwordLabel}</Label>
-            <Input id="password" {...passwordInputProps} />
-          </FormGroup>
+          <div><h3>Iniciar Sesión</h3></div>
+
+        )} {this.isSignup &&(
+          <div><h3>Registrar Nuevo Usuario</h3></div>
+
         )}
-        <hr />
-        <Button
-          size="lg"
-          className="bg-gradient-theme-left border-0"
-          block
-          onClick={LogSignUser}>
-          {this.renderButtonText()}
-        </Button>
-        {children}
-      </Form></>
+        <Form onSubmit={this.handleSubmit}>
+          <FormGroup>
+            <Label for={Emailabel}>{Emailabel}</Label>
+            <Input id="email" {...EmailInputProps} />
+          </FormGroup>
+
+          {!this.isSignup && (
+            <FormGroup>
+              <Label for={passwordLabel}>{passwordLabel}</Label>
+              <Input id="password" {...passwordInputProps} />
+            </FormGroup>
+          )}
+          <hr />
+          <Button
+            size="lg"
+            className="bg-gradient-theme-left border-0"
+            block
+            onClick={LogSignUser}>
+            {this.renderButtonText()}
+          </Button>
+          {children}
+        </Form></>
     );
   }
 }

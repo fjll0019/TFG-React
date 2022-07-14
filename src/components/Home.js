@@ -493,17 +493,6 @@ export default function Home({ labels, rol, media, indices, nombre }) {
         $("#selectDevice option[value=default]").attr('disabled', 'disabled')
         $('.id_100 option[value=val2]').attr('selected', 'selected');
     }
-    /*function handleStartDate(date) {
-        setStartDate(date)
-        
-      //  getData()
-
-    }
-    function handlefinishDate(date) {
-        setFinishtDate(date)
-      //  getData()
-
-    }*/
 
     function addDevice() {
         if (selectValue !== "default") {
@@ -561,7 +550,8 @@ export default function Home({ labels, rol, media, indices, nombre }) {
                             {indices.length !== 0 &&
                                 <>   <h5>Dispositivos disponibles</h5>
                                     <Row>
-                                        <Col lg={5}> <select className="col-12" onChange={handleChange} id="selectDevice">
+                                        <Col lg={5}> <select defaultValue="default" className="col-12" onChange={handleChange} id="selectDevice">
+                                        <option key="default" value="default" disabled >Selecciona un dispositivo</option>
                                             {indices && indices.map((fichero, i) => <option key={i} value={fichero}>{fichero}</option>)}
                                         </select></Col>
                                         <Col lg={7}><Button
