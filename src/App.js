@@ -7,12 +7,9 @@ import React, { useEffect, useState } from 'react';
 import componentQueries from 'react-component-queries';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
-import Delete from './components/Delete';
 import PerfilPage from '../src/pages/PerfilPage';
-import ConfigPage from '../src/pages/ConfigPage';
-import PasswordPage from './pages/PasswordPage';
+
 import httpClient from './httpClient';
-import AddDataPage from './pages/AddDataPage';
 import UsersListPage from './pages/UsersListPage';
 
 const HomePage = React.lazy(() => import('pages/HomePage'));
@@ -79,40 +76,7 @@ function App() {
             component={props => (
               <PerfilPage {...datos} />
             )}
-          />
-          <LayoutRoute
-            exact
-            path="/config"
-            layout={EmptyLayout}
-            component={props => (
-              <ConfigPage {...datos} />
-            )}
-          />
-          <LayoutRoute
-            exact
-            path="/delete"
-            layout={EmptyLayout}
-            component={props => (
-              <Delete />
-            )}
-          />
-          <LayoutRoute
-            exact
-            path="/password"
-            layout={EmptyLayout}
-            component={props => (
-              <PasswordPage />
-            )}
-          />
-          <LayoutRoute
-            exact
-            props={datos}
-            path="/addData"
-            layout={MainLayout}
-            component={props => (
-              <AddDataPage {...datos} />
-            )}
-          />
+          />   
           <LayoutRoute
             exact
             props={datos}
